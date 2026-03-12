@@ -736,7 +736,8 @@ function getData() {
   else if (ns) { const r = (_cache['FacultyDB']?.rows || [])[parseInt(ns)]; if (r) name = r[1]; }
   return {
     date: fmtDate(date), dateNum: dateNum(date),
-    moyr: "'" + String(document.getElementById('f-moyr')?.value || ''),
+    //moyr: "'" + String(document.getElementById('f-moyr')?.value || ''),
+    moyr: String(document.getElementById('f-moyr')?.value || ''),
     //moyr: document.getElementById('f-moyr')?.value,
     col: document.getElementById('f-col')?.value,
     dept: document.getElementById('f-dept')?.value,
@@ -1204,4 +1205,5 @@ function delFac(idx) {
 </script>
 </body>
 </html>
+
 
