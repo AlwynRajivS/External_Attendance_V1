@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Admin — KCET Attendance System</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -12,88 +12,103 @@
   --gold:#b8891a;--gold-l:#f0c84a;--gold-pale:#fef9ee;
   --g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g300:#cbd5e1;--g400:#94a3b8;--g500:#64748b;--g600:#475569;--g700:#334155;--g800:#1e293b;
   --success:#059669;--danger:#dc2626;--warn:#d97706;--ext:#7c3aed;
-  --r:14px;--rs:8px;--sidebar-w:248px;--topbar-h:64px;
+  --r:14px;--rs:8px;--sidebar-w:252px;--topbar-h:60px;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes loginIn{from{opacity:0;transform:scale(.95) translateY(18px)}to{opacity:1;transform:none}}
+
+html{-webkit-tap-highlight-color:transparent}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(--g800);min-height:100vh;overflow-x:hidden}
 
-/* LOGIN */
+/* ─── LOGIN ─────────────────────────────────────────────────── */
 #login-screen{min-height:100vh;display:flex;background:#fff}
 .ll{width:55%;background:linear-gradient(145deg,#040e1e 0%,#071d45 40%,#0d2d6b 75%,#1040a0 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;position:relative;overflow:hidden}
 .ll-orb1{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(46,128,216,.25) 0%,transparent 65%);top:-200px;right:-200px;pointer-events:none}
 .ll-orb2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(184,137,26,.12) 0%,transparent 65%);bottom:-120px;left:-100px;pointer-events:none}
 .ll-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
 .ll-inner{position:relative;z-index:2;text-align:center;max-width:440px;animation:loginIn .8s ease}
-.ll-seal{width:96px;height:96px;background:linear-gradient(135deg,#b8891a,#e8b830,#f0c84a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;margin:0 auto 28px;box-shadow:0 0 0 12px rgba(184,137,26,.12),0 0 0 24px rgba(184,137,26,.06),0 16px 48px rgba(184,137,26,.4)}
+.ll-seal{width:92px;height:92px;background:linear-gradient(135deg,#b8891a,#e8b830,#f0c84a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;margin:0 auto 26px;box-shadow:0 0 0 12px rgba(184,137,26,.12),0 0 0 24px rgba(184,137,26,.06),0 16px 48px rgba(184,137,26,.4)}
 .ll-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px;font-weight:600}
-.ll-h1{font-family:'Playfair Display',serif;font-size:42px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.ll-h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
 .ll-h1 em{color:var(--gold-l);font-style:normal}
-.ll-p{font-size:14px;color:rgba(255,255,255,.38);line-height:1.7;max-width:340px;margin:0 auto 40px}
-.ll-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;width:100%}
-.ll-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 16px;text-align:center;backdrop-filter:blur(10px)}
-.ll-cn{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold-l);margin-bottom:4px}
-.ll-cl{font-size:11px;color:rgba(255,255,255,.3);font-weight:500;text-transform:uppercase;letter-spacing:.8px}
-.lr{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 56px;background:#fff;position:relative}
+.ll-p{font-size:14px;color:rgba(255,255,255,.38);line-height:1.7;max-width:340px;margin:0 auto 36px}
+.ll-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;width:100%}
+.ll-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;text-align:center;backdrop-filter:blur(10px)}
+.ll-cn{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--gold-l);margin-bottom:4px}
+.ll-cl{font-size:10px;color:rgba(255,255,255,.3);font-weight:500;text-transform:uppercase;letter-spacing:.8px}
+.lr{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 50px;background:#fff;position:relative}
 .lr-inner{width:100%;max-width:380px;position:relative;z-index:1;animation:loginIn .6s .1s both}
-.lr-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(184,137,26,.08),rgba(240,200,74,.06));border:1px solid rgba(184,137,26,.2);color:var(--gold);border-radius:30px;padding:6px 16px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:28px}
-.lr-title{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.2}
-.lr-sub{font-size:13px;color:var(--g400);margin-bottom:36px;line-height:1.6}
-.fg{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.lr-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(184,137,26,.08),rgba(240,200,74,.06));border:1px solid rgba(184,137,26,.2);color:var(--gold);border-radius:30px;padding:6px 16px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:26px}
+.lr-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.2}
+.lr-sub{font-size:13px;color:var(--g400);margin-bottom:32px;line-height:1.6}
+.fg{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
 .fl{font-size:11.5px;font-weight:700;color:var(--g600);letter-spacing:.5px;text-transform:uppercase}
 .fi-wrap{position:relative}
-.fi-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
-.fi{padding:12px 14px 12px 42px;border:1.5px solid var(--g200);border-radius:10px;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--g800);background:var(--g50);outline:none;transition:all .2s;width:100%}
+.fi-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none}
+.fi{padding:12px 14px 12px 42px;border:1.5px solid var(--g200);border-radius:10px;font-size:16px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--g800);background:var(--g50);outline:none;transition:all .2s;width:100%;-webkit-appearance:none}
 .fi:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(26,79,186,.08)}
-.btn-login{width:100%;padding:14px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--royal) 50%,var(--blue));border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;letter-spacing:.3px}
+.btn-login{width:100%;padding:14px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--royal) 50%,var(--blue));border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;-webkit-tap-highlight-color:transparent}
 .btn-login:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(13,45,107,.35)}
+.btn-login:active{transform:translateY(0)}
 .btn-login:disabled{opacity:.7;cursor:not-allowed;transform:none}
 .login-err{background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.2);border-radius:10px;padding:12px 16px;font-size:13px;color:#b91c1c;margin-top:14px;display:none;font-weight:500}
-.back-link{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--g400);font-size:13px;text-decoration:none;margin-top:28px;transition:color .2s;font-weight:500}
+.back-link{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--g400);font-size:13px;text-decoration:none;margin-top:24px;transition:color .2s;font-weight:500}
 .back-link:hover{color:var(--blue)}
 
-/* APP SHELL */
+/* ─── APP SHELL ─────────────────────────────────────────────── */
 #app{display:none;flex-direction:column;min-height:100vh}
-.topbar{height:var(--topbar-h);background:#fff;border-bottom:1px solid var(--g200);display:flex;align-items:center;padding:0 16px;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 1px 8px rgba(10,31,68,.06)}
-.tb-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--royal));display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0}
+
+/* ─── TOPBAR ─────────────────────────────────────────────────── */
+.topbar{height:var(--topbar-h);background:#fff;border-bottom:1px solid var(--g200);display:flex;align-items:center;padding:0 14px;gap:10px;position:sticky;top:0;z-index:300;box-shadow:0 1px 8px rgba(10,31,68,.06)}
+.tb-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--royal));display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
 .tb-brand{flex:1;min-width:0}
-.tb-brand-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-brand-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tb-brand-name em{color:var(--sky);font-style:normal}
 .tb-brand-sub{font-size:10px;color:var(--g400);letter-spacing:.5px;text-transform:uppercase;font-weight:500}
-.tb-user{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--gold-pale);border:1px solid rgba(184,137,26,.15);border-radius:10px;flex-shrink:0}
-.tb-avatar{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-l));display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.tb-user{display:flex;align-items:center;gap:8px;padding:5px 10px;background:var(--gold-pale);border:1px solid rgba(184,137,26,.15);border-radius:10px;flex-shrink:0}
+.tb-avatar{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-l));display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
 .tb-uname{font-size:12px;font-weight:700;color:var(--navy)}
 .tb-urole{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
-.hamburger{display:none;background:none;border:none;font-size:22px;cursor:pointer;padding:6px;border-radius:8px;color:var(--g700)}
-.hamburger:hover{background:var(--g100)}
-.btn-logout{padding:7px 12px;border-radius:8px;background:transparent;border:1.5px solid var(--g200);color:var(--g500);font-size:11px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s;letter-spacing:.3px;text-transform:uppercase;flex-shrink:0}
+/* Hamburger */
+.hamburger{display:none;background:none;border:1.5px solid var(--g200);border-radius:8px;padding:5px 7px;cursor:pointer;flex-direction:column;gap:4px;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.ham-line{width:17px;height:2px;background:var(--g600);border-radius:2px;display:block;transition:all .25s}
+.hamburger.open .ham-line:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.hamburger.open .ham-line:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open .ham-line:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.btn-logout{padding:6px 10px;border-radius:8px;background:transparent;border:1.5px solid var(--g200);color:var(--g500);font-size:11px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s;letter-spacing:.3px;text-transform:uppercase;flex-shrink:0;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .btn-logout:hover{border-color:var(--danger);color:var(--danger)}
 .app-body{display:flex;flex:1;position:relative}
 
-/* SIDEBAR */
-.sidebar{width:var(--sidebar-w);background:#fff;border-right:1px solid var(--g200);padding:12px 0 24px;flex-shrink:0;height:calc(100vh - var(--topbar-h));position:sticky;top:var(--topbar-h);overflow-y:auto;scrollbar-width:thin;transition:transform .3s ease}
+/* ─── SIDEBAR ─────────────────────────────────────────────────── */
+.sidebar{width:var(--sidebar-w);background:#fff;border-right:1px solid var(--g200);padding:10px 0 24px;flex-shrink:0;height:calc(100vh - var(--topbar-h));position:sticky;top:var(--topbar-h);overflow-y:auto;scrollbar-width:thin;transition:transform .3s cubic-bezier(.4,0,.2,1)}
 .sb-sec{padding:12px 20px 5px;font-size:9.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--g300);margin-top:6px}
-.sb-item{display:flex;align-items:center;gap:11px;padding:9px 18px 9px 20px;font-size:13px;font-weight:500;color:var(--g500);cursor:pointer;border-left:3px solid transparent;transition:all .15s;border-radius:0 8px 8px 0;margin-right:8px}
+.sb-item{display:flex;align-items:center;gap:11px;padding:9px 18px 9px 20px;font-size:13px;font-weight:500;color:var(--g500);cursor:pointer;border-left:3px solid transparent;transition:all .15s;border-radius:0 8px 8px 0;margin-right:8px;-webkit-tap-highlight-color:transparent}
 .sb-item:hover{background:var(--g50);color:var(--g800)}
 .sb-item.active{background:linear-gradient(90deg,var(--ghost),rgba(240,247,255,.3));color:var(--blue);border-left-color:var(--blue);font-weight:700}
 .sb-icon{font-size:15px;width:22px;text-align:center;flex-shrink:0}
-.content{flex:1;padding:24px 28px 60px;overflow-y:auto;background:var(--g50);min-height:calc(100vh - var(--topbar-h));min-width:0}
-.pg-h{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
+/* Sidebar overlay */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250;backdrop-filter:blur(2px)}
+.sidebar-overlay.open{display:block}
+
+/* ─── CONTENT ─────────────────────────────────────────────────── */
+.content{flex:1;padding:22px 24px 60px;overflow-y:auto;background:var(--g50);min-height:calc(100vh - var(--topbar-h));min-width:0}
+.pg-h{margin-bottom:20px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .pg-hL{flex:1;min-width:0}
-.pg-t{font-family:'Playfair Display',serif;font-size:26px;color:var(--navy);font-weight:700;line-height:1.2}
+.pg-t{font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);font-weight:700;line-height:1.2}
 .pg-s{font-size:13px;color:var(--g400);margin-top:4px}
 
-/* CARDS */
-.card{background:#fff;border-radius:var(--r);box-shadow:0 1px 4px rgba(10,31,68,.07),0 4px 12px rgba(10,31,68,.04);border:1px solid var(--g200);overflow:hidden;margin-bottom:16px}
-.ch{padding:14px 20px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* ─── CARDS ─────────────────────────────────────────────────── */
+.card{background:#fff;border-radius:var(--r);box-shadow:0 1px 4px rgba(10,31,68,.07),0 4px 12px rgba(10,31,68,.04);border:1px solid var(--g200);overflow:hidden;margin-bottom:14px}
+.ch{padding:13px 18px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .ct{font-size:14px;font-weight:700;color:var(--g800);display:flex;align-items:center;gap:8px}
-.cb{padding:20px}
+.cb{padding:18px}
 
-/* STATS */
-.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
-.stat-card{background:#fff;border-radius:var(--r);padding:18px 20px;box-shadow:0 1px 4px rgba(10,31,68,.07);border:1px solid var(--g200);position:relative;overflow:hidden;transition:transform .2s}
+/* ─── STATS ─────────────────────────────────────────────────── */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.stat-card{background:#fff;border-radius:var(--r);padding:16px 18px;box-shadow:0 1px 4px rgba(10,31,68,.07);border:1px solid var(--g200);position:relative;overflow:hidden;transition:transform .2s}
 .stat-card:hover{transform:translateY(-2px)}
 .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .sc-blue::before{background:linear-gradient(90deg,var(--blue),var(--ice))}
@@ -101,13 +116,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(
 .sc-green::before{background:linear-gradient(90deg,var(--success),#34d399)}
 .sc-purple::before{background:linear-gradient(90deg,var(--ext),#a78bfa)}
 .sc-navy::before{background:linear-gradient(90deg,var(--navy),var(--royal))}
-.stat-icon{font-size:26px;margin-bottom:8px;display:block}
-.stat-n{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--navy);line-height:1}
+.stat-icon{font-size:24px;margin-bottom:8px;display:block}
+.stat-n{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--navy);line-height:1}
 .stat-l{font-size:12px;color:var(--g400);margin-top:5px;font-weight:500}
 .stat-sub{font-size:11px;color:var(--g300);margin-top:2px}
 
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:none;transition:all .2s;letter-spacing:.2px;white-space:nowrap}
+/* ─── BUTTONS ─────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--rs);font-size:13px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:none;transition:all .2s;letter-spacing:.2px;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:scale(.97)}
 .btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--royal)}
 .btn-success{background:var(--success);color:#fff}.btn-success:hover{background:#047857}
 .btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#b91c1c}
@@ -115,28 +131,28 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(
 .btn-outline{background:transparent;border:1.5px solid var(--g200);color:var(--g600)}.btn-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--ghost)}
 .btn-gold{background:linear-gradient(135deg,var(--gold),#d4a020);color:#fff}.btn-gold:hover{box-shadow:0 6px 20px rgba(184,137,26,.4)}
 .btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:var(--royal)}
-.btn-sm{padding:7px 13px;font-size:12px}.btn-xs{padding:4px 9px;font-size:11px}
-.btn-group{display:flex;gap:8px;flex-wrap:wrap}
+.btn-sm{padding:7px 12px;font-size:12px}.btn-xs{padding:4px 9px;font-size:11px}
+.btn-group{display:flex;gap:6px;flex-wrap:wrap}
 
-/* FORM */
-.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+/* ─── FORM ─────────────────────────────────────────────────── */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
 .form-g{display:flex;flex-direction:column;gap:6px}
-.form-l{font-size:11.5px;font-weight:700;color:var(--g600);letter-spacing:.4px;text-transform:uppercase}
-.form-c{padding:10px 12px;border:1.5px solid var(--g200);border-radius:var(--rs);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--g800);background:#fff;outline:none;transition:all .2s;width:100%}
+.form-l{font-size:11px;font-weight:700;color:var(--g600);letter-spacing:.4px;text-transform:uppercase}
+.form-c{padding:10px 12px;border:1.5px solid var(--g200);border-radius:var(--rs);font-size:16px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--g800);background:#fff;outline:none;transition:all .2s;width:100%;-webkit-appearance:none}
 .form-c:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(46,128,216,.1)}
 textarea.form-c{resize:vertical;min-height:80px}
 
-/* TABLE */
+/* ─── TABLE ─────────────────────────────────────────────────── */
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px}
 thead tr{background:linear-gradient(90deg,var(--ghost),#fff)}
-th{padding:10px 12px;text-align:left;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--royal);border-bottom:2px solid var(--pale);white-space:nowrap}
+th{padding:10px 11px;text-align:left;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.9px;color:var(--royal);border-bottom:2px solid var(--pale);white-space:nowrap}
 tbody tr{border-bottom:1px solid var(--g100);transition:background .1s}
 tbody tr:hover{background:var(--g50)}
-td{padding:9px 12px;color:var(--g700);vertical-align:middle}
-.no-data{text-align:center;padding:40px;color:var(--g400);font-style:italic;font-size:14px}
+td{padding:9px 11px;color:var(--g700);vertical-align:middle}
+.no-data{text-align:center;padding:36px;color:var(--g400);font-style:italic;font-size:14px}
 
-/* BADGES */
+/* ─── BADGES ─────────────────────────────────────────────────── */
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
 .b-blue{background:var(--pale);color:var(--royal)}
 .b-green{background:rgba(5,150,105,.1);color:var(--success)}
@@ -147,82 +163,121 @@ td{padding:9px 12px;color:var(--g700);vertical-align:middle}
 .b-navy{background:rgba(6,20,41,.08);color:var(--navy)}
 .b-warn{background:rgba(217,119,6,.1);color:var(--warn)}
 
-/* CHARTS */
+/* ─── CHARTS ─────────────────────────────────────────────────── */
 .bar-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--g100)}
 .bar-row:last-child{border:none}
-.bar-label{font-size:12px;color:var(--g700);width:140px;flex-shrink:0;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar-track{flex:1;height:9px;background:var(--g100);border-radius:6px;overflow:hidden}
+.bar-label{font-size:12px;color:var(--g700);width:130px;flex-shrink:0;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;height:8px;background:var(--g100);border-radius:6px;overflow:hidden}
 .bar-fill{height:100%;border-radius:6px;transition:width .8s cubic-bezier(.34,1.56,.64,1)}
-.bar-count{font-size:12px;font-weight:700;color:var(--g600);width:36px;text-align:right;flex-shrink:0}
+.bar-count{font-size:12px;font-weight:700;color:var(--g600);width:32px;text-align:right;flex-shrink:0}
 
-/* MODAL */
-.mo{position:fixed;inset:0;background:rgba(6,20,41,.55);backdrop-filter:blur(6px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s}
+/* ─── MODAL ─────────────────────────────────────────────────── */
+.mo{position:fixed;inset:0;background:rgba(6,20,41,.55);backdrop-filter:blur(6px);z-index:400;display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;pointer-events:none;transition:opacity .25s}
 .mo.open{opacity:1;pointer-events:all}
-.modal{background:#fff;border-radius:20px;box-shadow:0 40px 100px rgba(10,31,68,.25);width:100%;max-width:560px;transform:translateY(20px) scale(.97);transition:transform .25s;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
-.mo.open .modal{transform:none}
-.modal-lg{max-width:820px}
-.mh{padding:18px 22px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.mt-m{font-size:15px;font-weight:700;color:var(--g800);display:flex;align-items:center;gap:8px}
+.modal{background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -8px 50px rgba(10,31,68,.2);width:100%;max-width:620px;transform:translateY(30px);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:92vh;overflow:hidden;display:flex;flex-direction:column}
+.mo.open .modal{transform:translateY(0)}
+.modal-lg{max-width:100%}
+.mh{padding:16px 20px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.mt-m{font-size:14px;font-weight:700;color:var(--g800);display:flex;align-items:center;gap:8px}
 .mc{width:30px;height:30px;border-radius:8px;border:none;background:var(--g100);color:var(--g600);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
 .mc:hover{background:var(--g200)}
-#mb{padding:22px;overflow-y:auto;flex:1}
-#mf{padding:14px 22px;border-top:1px solid var(--g100);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0;flex-wrap:wrap}
+#mb{padding:20px;overflow-y:auto;flex:1}
+#mf{padding:12px 20px;border-top:1px solid var(--g100);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;flex-wrap:wrap;background:#fff}
 
-/* VERIFY BUTTON */
-.verify-btn{padding:4px 11px;border-radius:20px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s;white-space:nowrap}
+/* ─── VERIFY BUTTON ─────────────────────────────────────────── */
+.verify-btn{padding:4px 10px;border-radius:20px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .v-yes{background:#d1fae5;color:#065f46}.v-yes:hover{background:#a7f3d0}
 .v-no{background:#fef3c7;color:#92400e}.v-no:hover{background:#fde68a}
 
-/* SEARCH BAR */
+/* ─── SEARCH BAR ─────────────────────────────────────────────── */
 .search-bar{display:flex;align-items:center;gap:8px;background:var(--g50);border:1.5px solid var(--g200);border-radius:var(--rs);padding:0 12px;transition:border-color .2s}
 .search-bar:focus-within{border-color:var(--sky)}
-.search-bar input{background:none;border:none;outline:none;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--g800);padding:8px 0;flex:1;min-width:0}
+.search-bar input{background:none;border:none;outline:none;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--g800);padding:8px 0;flex:1;min-width:0}
 .search-bar input::placeholder{color:var(--g400)}
 
 .req{color:var(--danger);margin-left:2px}
 .dup-warn{background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.3);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--warn);margin-top:8px;font-weight:600}
 
-/* TOAST */
-#tc{position:fixed;top:76px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.toast{background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(10,31,68,.18);padding:11px 16px;display:flex;align-items:center;gap:10px;min-width:250px;max-width:360px;font-size:13px;font-weight:500;animation:slideIn .3s ease;pointer-events:all}
+/* ─── TOAST ─────────────────────────────────────────────────── */
+#tc{position:fixed;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;top:70px;right:12px;left:auto}
+.toast{background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(10,31,68,.18);padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;animation:slideIn .3s ease;pointer-events:all;max-width:340px;min-width:220px}
 
-/* UTILS */
+/* ─── UTILS ─────────────────────────────────────────────────── */
 .spin{width:20px;height:20px;border:2.5px solid var(--g200);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;flex-shrink:0}
 .spin-lg{width:40px;height:40px;border-width:3.5px}
 .spin-w{border-color:rgba(255,255,255,.2);border-top-color:#fff}
 .hidden{display:none!important}
-.divider{height:1px;background:var(--g100);margin:14px 0}
+.divider{height:1px;background:var(--g100);margin:12px 0}
 
-/* SIDEBAR OVERLAY */
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:199;backdrop-filter:blur(2px)}
+/* ─── MOBILE BREAKPOINTS ─────────────────────────────────────── */
+@media(max-width:900px){
+  .ll{display:none}
+  .lr{padding:40px 24px}
+}
 
-/* MOBILE */
-@media(max-width:900px){.ll{display:none}.lr{padding:40px 24px}}
 @media(max-width:768px){
-  .sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;z-index:200;transform:translateX(-100%);height:calc(100vh - var(--topbar-h))}
-  .sidebar.open{transform:translateX(0)}
-  .sidebar-overlay{display:block}
-  .sidebar-overlay.open{display:block}
-  .content{padding:16px 14px 60px}
+  :root{--topbar-h:58px;--sidebar-w:270px}
+
+  /* Topbar */
   .hamburger{display:flex}
   .tb-user .tb-uname,.tb-user .tb-urole{display:none}
-  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .tb-brand-sub{display:none}
+
+  /* Sidebar as drawer */
+  .sidebar{
+    position:fixed;top:var(--topbar-h);left:0;bottom:0;
+    height:calc(100vh - var(--topbar-h));
+    transform:translateX(-100%);z-index:260;
+    box-shadow:4px 0 24px rgba(10,31,68,.15)
+  }
+  .sidebar.open{transform:translateX(0)}
+
+  /* Content */
+  .content{padding:14px 12px 60px}
   .pg-t{font-size:20px}
+
+  /* Stats 2-col on mobile */
+  .stat-row{grid-template-columns:1fr 1fr}
+  .stat-n{font-size:26px}
+
+  /* Toasts bottom on mobile */
+  #tc{top:auto;bottom:16px;right:10px;left:10px}
+  .toast{max-width:100%;min-width:unset}
+
+  /* Tables */
   table{font-size:12px}
-  th,td{padding:8px 10px}
-  .fgrid{grid-template-columns:1fr 1fr}
+  th{font-size:9px;padding:8px 8px}
+  td{padding:8px 8px}
+
+  /* Form grids stack */
+  .fgrid{grid-template-columns:1fr}
+
+  /* Buttons */
+  .btn-group{gap:6px}
+  .pg-h{flex-direction:column;align-items:flex-start}
+  .pg-h .btn-group{width:100%}
+  .pg-h .btn-group .btn{flex:1;justify-content:center}
+
+  /* Dashboard two-col grid → single col */
+  .dash-grid-2{grid-template-columns:1fr!important}
+  .dash-grid-halves{grid-template-columns:1fr!important}
 }
+
 @media(max-width:480px){
+  :root{--topbar-h:56px}
   .stat-row{grid-template-columns:1fr 1fr}
   .fgrid{grid-template-columns:1fr}
-  .btn-group{flex-direction:column}
-  .pg-h{flex-direction:column;align-items:flex-start}
+  .mf-grid{grid-template-columns:1fr!important}
+  .tb-user{display:none}
+  .ll-cards{grid-template-columns:1fr 1fr}
+  .ch{gap:8px}
+  .btn-xs{padding:3px 7px;font-size:10px}
 }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ═══ LOGIN ════════════════════════════════════════════════════ -->
 <div id="login-screen">
   <div class="ll">
     <div class="ll-orb1"></div><div class="ll-orb2"></div><div class="ll-grid"></div>
@@ -263,10 +318,14 @@ td{padding:9px 12px;color:var(--g700);vertical-align:middle}
   </div>
 </div>
 
-<!-- APP -->
+<!-- ═══ APP ═════════════════════════════════════════════════════ -->
 <div id="app">
   <div class="topbar">
-    <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+    <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
     <div class="tb-logo">👑</div>
     <div class="tb-brand">
       <div class="tb-brand-name">KCET <em>Admin</em></div>
@@ -339,18 +398,31 @@ const setSession   = u  => sessionStorage.setItem(SES_KEY, JSON.stringify(u));
 const clearSession = () => sessionStorage.removeItem(SES_KEY);
 
 // ══════════════════════════════════════════════════════════════
+// SIDEBAR TOGGLE
+// ══════════════════════════════════════════════════════════════
+function toggleSidebar(force){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('sb-overlay');
+  const ham=document.getElementById('hamburger');
+  const open=force!==undefined ? force : !sb.classList.contains('open');
+  sb.classList.toggle('open',open);
+  ov.classList.toggle('open',open);
+  if(ham) ham.classList.toggle('open',open);
+}
+
+// ══════════════════════════════════════════════════════════════
 // GAS HELPERS
 // ══════════════════════════════════════════════════════════════
-const _cache = {};
+const _cache={};
 async function gasPost(params){
-  const res = await fetch(GAS_URL, { method:'POST', body:JSON.stringify(params) });
+  const res=await fetch(GAS_URL,{method:'POST',body:JSON.stringify(params)});
   if(!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
-async function loadSheet(sheet, force=false){
-  if(!force && _cache[sheet]) return _cache[sheet];
-  const res = await gasPost({ action:'getAll', sheet });
-  if(res.success) _cache[sheet] = res;
+async function loadSheet(sheet,force=false){
+  if(!force&&_cache[sheet]) return _cache[sheet];
+  const res=await gasPost({action:'getAll',sheet});
+  if(res.success) _cache[sheet]=res;
   return res;
 }
 function clearCache(sheet){ if(sheet) delete _cache[sheet]; else Object.keys(_cache).forEach(k=>delete _cache[k]); }
@@ -358,76 +430,65 @@ function clearCache(sheet){ if(sheet) delete _cache[sheet]; else Object.keys(_ca
 // ══════════════════════════════════════════════════════════════
 // TOAST & MODAL
 // ══════════════════════════════════════════════════════════════
-function showToast(msg, type='info'){
-  const COLS = {success:'#059669',error:'#dc2626',info:'#1a4fba',warning:'#d97706'};
-  const ICON = {success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'};
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.style.borderLeft = `4px solid ${COLS[type]}`;
-  t.innerHTML = `<span>${ICON[type]}</span><span style="flex:1">${msg}</span>`;
+function showToast(msg,type='info'){
+  const COLS={success:'#059669',error:'#dc2626',info:'#1a4fba',warning:'#d97706'};
+  const ICON={success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'};
+  const t=document.createElement('div');
+  t.className='toast';
+  t.style.borderLeft=`4px solid ${COLS[type]}`;
+  t.innerHTML=`<span>${ICON[type]}</span><span style="flex:1">${msg}</span>`;
   document.getElementById('tc').appendChild(t);
-  setTimeout(()=>{ t.style.transition='opacity .4s'; t.style.opacity='0'; }, 3400);
-  setTimeout(()=>t.remove(), 3900);
+  setTimeout(()=>{ t.style.transition='opacity .4s'; t.style.opacity='0'; },3400);
+  setTimeout(()=>t.remove(),3900);
 }
-function openMo(title, body, footer, large=false){
-  document.getElementById('mt').innerHTML = title;
-  document.getElementById('mb').innerHTML = body;
-  document.getElementById('mf').innerHTML = footer || '';
-  document.getElementById('modal-inner').className = large ? 'modal modal-lg' : 'modal';
+function openMo(title,body,footer,large=false){
+  document.getElementById('mt').innerHTML=title;
+  document.getElementById('mb').innerHTML=body;
+  document.getElementById('mf').innerHTML=footer||'';
+  document.getElementById('modal-inner').className=large?'modal modal-lg':'modal';
   document.getElementById('mo').classList.add('open');
 }
 function closeMo(){ document.getElementById('mo').classList.remove('open'); }
-document.getElementById('mo').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeMo(); });
+document.getElementById('mo').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeMo(); });
 
 // ══════════════════════════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════════════════════════
 async function doLogin(){
-  const u = document.getElementById('l-u').value.trim();
-  const p = document.getElementById('l-p').value.trim();
+  const u=document.getElementById('l-u').value.trim();
+  const p=document.getElementById('l-p').value.trim();
   if(!u||!p){ showLoginErr('Please enter username and password'); return; }
-  const btn = document.getElementById('login-btn');
-  document.getElementById('lbt').innerHTML = '<span class="spin spin-w" style="display:inline-block;margin-right:6px"></span>Authenticating…';
-  btn.disabled = true;
-  try {
-    const res = await gasPost({ action:'authenticate', username:u, password:p, role:'Admin' });
-    if(res.success && res.user){ setSession(res.user); showApp(res.user); }
-    else showLoginErr(res.message || 'Invalid credentials or insufficient privileges');
-  } catch(e){ showLoginErr('Connection error: ' + e.message); }
-  document.getElementById('lbt').textContent = 'Sign In to Admin Panel →';
-  btn.disabled = false;
+  const btn=document.getElementById('login-btn');
+  document.getElementById('lbt').innerHTML='<span class="spin spin-w" style="display:inline-block;margin-right:6px"></span>Authenticating…';
+  btn.disabled=true;
+  try{
+    const res=await gasPost({action:'authenticate',username:u,password:p,role:'Admin'});
+    if(res.success&&res.user){ setSession(res.user); showApp(res.user); }
+    else showLoginErr(res.message||'Invalid credentials or insufficient privileges');
+  } catch(e){ showLoginErr('Connection error: '+e.message); }
+  document.getElementById('lbt').textContent='Sign In to Admin Panel →';
+  btn.disabled=false;
 }
 function showLoginErr(msg){ const el=document.getElementById('lerr'); el.textContent='⛔ '+msg; el.style.display='block'; }
 function showApp(user){
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.cssText = 'display:flex;flex-direction:column;min-height:100vh';
-  document.getElementById('tb-n').textContent = user.username || 'Admin';
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.cssText='display:flex;flex-direction:column;min-height:100vh';
+  document.getElementById('tb-n').textContent=user.username||'Admin';
   nav('dashboard');
 }
 function doLogout(){ clearSession(); window.location.reload(); }
-window.addEventListener('DOMContentLoaded', ()=>{ const s=getSession(); if(s&&String(s.role||'').toLowerCase()==='admin') showApp(s); });
-
-// ══════════════════════════════════════════════════════════════
-// SIDEBAR TOGGLE
-// ══════════════════════════════════════════════════════════════
-function toggleSidebar(force){
-  const sb = document.getElementById('sidebar');
-  const ov = document.getElementById('sb-overlay');
-  const open = force !== undefined ? force : !sb.classList.contains('open');
-  sb.classList.toggle('open', open);
-  ov.classList.toggle('open', open);
-}
+window.addEventListener('DOMContentLoaded',()=>{ const s=getSession(); if(s&&String(s.role||'').toLowerCase()==='admin') showApp(s); });
 
 // ══════════════════════════════════════════════════════════════
 // NAVIGATION
 // ══════════════════════════════════════════════════════════════
-let _currentView = '';
+let _currentView='';
 function nav(view){
-  _currentView = view;
-  document.querySelectorAll('.sb-item').forEach(el=>el.classList.toggle('active', el.dataset.v===view));
-  if(window.innerWidth <= 768) toggleSidebar(false);
-  const c = document.getElementById('content');
-  c.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;padding:80px;flex-direction:column;gap:16px">
+  _currentView=view;
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.toggle('active',el.dataset.v===view));
+  toggleSidebar(false);
+  const c=document.getElementById('content');
+  c.innerHTML=`<div style="display:flex;justify-content:center;align-items:center;padding:80px;flex-direction:column;gap:16px">
     <div class="spin spin-lg"></div><div style="font-size:13px;color:var(--g400)">Loading…</div></div>`;
   setTimeout(async()=>{
     if(view==='dashboard')       await renderDashboard();
@@ -439,19 +500,17 @@ function nav(view){
     else if(view==='add-ext')    await renderAddExternal();
     else if(view==='certs')      await renderCerts();
     else if(view.startsWith('db-')) await renderDB(view.slice(3));
-  }, 60);
+  },60);
 }
 
 // ══════════════════════════════════════════════════════════════
 // DASHBOARD
 // ══════════════════════════════════════════════════════════════
 async function renderDashboard(){
-  const c = document.getElementById('content');
-  try {
-    const [intD, extD, facD] = await Promise.all([
-      loadSheet('DataEntryDB'), loadSheet('ExternalEntryDB'), loadSheet('FacultyDB')
-    ]);
-    const intR=intD.rows||[], extR=extD.rows||[], facR=facD.rows||[];
+  const c=document.getElementById('content');
+  try{
+    const [intD,extD,facD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB'),loadSheet('FacultyDB')]);
+    const intR=intD.rows||[],extR=extD.rows||[],facR=facD.rows||[];
     const total=intR.length+extR.length;
     const intVer=intR.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
     const extVer=extR.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
@@ -461,16 +520,18 @@ async function renderDashboard(){
     const combined=[...intR.map(r=>({...r,_src:'Internal'})),...extR.map(r=>({...r,_src:'External'}))].sort((a,b)=>String(b[2]||'').localeCompare(String(a[2]||'')));
     const recent=combined.slice(0,8);
 
-    c.innerHTML = `
+    c.innerHTML=`
     <div class="pg-h"><div class="pg-hL">
       <div class="pg-t">📊 Dashboard</div>
       <div class="pg-s">System overview — all databases at a glance</div>
     </div>
-    <button class="btn btn-outline btn-sm" onclick="clearCache();nav('dashboard')">🔄 Refresh</button></div>
+    <div class="btn-group">
+      <button class="btn btn-outline btn-sm" onclick="clearCache();nav('dashboard')">🔄 Refresh</button>
+    </div></div>
     <div class="stat-row">
       <div class="stat-card sc-blue"><span class="stat-icon">📝</span>
         <div class="stat-n">${total}</div><div class="stat-l">Total Entries</div>
-        <div class="stat-sub">${intR.length} Internal · ${extR.length} External</div></div>
+        <div class="stat-sub">${intR.length} Int · ${extR.length} Ext</div></div>
       <div class="stat-card sc-green"><span class="stat-icon">✅</span>
         <div class="stat-n">${totalVer}</div><div class="stat-l">Verified</div>
         <div class="stat-sub">${total>0?Math.round(totalVer/total*100):0}% done</div></div>
@@ -479,9 +540,9 @@ async function renderDashboard(){
         <div class="stat-sub">In Faculty DB</div></div>
       <div class="stat-card sc-navy"><span class="stat-icon">🎓</span>
         <div class="stat-n">${allColleges.size}</div><div class="stat-l">Colleges</div>
-        <div class="stat-sub">${allMoyr.size} exam period${allMoyr.size!==1?'s':''}</div></div>
+        <div class="stat-sub">${allMoyr.size} period${allMoyr.size!==1?'s':''}</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;margin-bottom:16px">
+    <div style="display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px;margin-bottom:14px" class="dash-grid-2">
       <div class="card">
         <div class="ch"><div class="ct">🕐 Recent Entries</div>
           <div class="btn-group">
@@ -489,38 +550,38 @@ async function renderDashboard(){
             <button class="btn btn-outline btn-xs" onclick="nav('entries-ext')">External</button>
           </div></div>
         <div class="tw"><table>
-          <thead><tr><th>Src</th><th>Name</th><th>Date</th><th>Dept</th><th>Session</th><th>Status</th></tr></thead>
+          <thead><tr><th>Src</th><th>Name</th><th>Date</th><th>Dept</th><th>Sess.</th><th>St.</th></tr></thead>
           <tbody>${!recent.length?'<tr><td colspan="6" class="no-data">No entries</td></tr>':recent.map(r=>{
             const ver=String(r[11]||'').toLowerCase()==='verified';
             return `<tr>
-              <td><span class="badge ${r._src==='External'?'b-purple':'b-navy'}" style="font-size:10px">${r._src}</span></td>
+              <td><span class="badge ${r._src==='External'?'b-purple':'b-navy'}" style="font-size:9px">${r._src==='External'?'Ext':'Int'}</span></td>
               <td><strong style="font-size:12px">${r[6]||'—'}</strong></td>
-              <td style="font-size:11px;color:var(--g500)">${r[2]||'—'}</td>
+              <td style="font-size:11px;color:var(--g500);white-space:nowrap">${r[2]||'—'}</td>
               <td style="font-size:11px">${r[8]||'—'}</td>
-              <td><span class="badge b-blue" style="font-size:10px">${r[4]||'—'}</span></td>
-              <td><span class="badge ${ver?'b-green':'b-warn'}" style="font-size:10px">${ver?'✅':'⏳'}</span></td>
+              <td><span class="badge b-blue" style="font-size:9px">${r[4]||'—'}</span></td>
+              <td><span class="badge ${ver?'b-green':'b-warn'}" style="font-size:9px">${ver?'✅':'⏳'}</span></td>
             </tr>`;
           }).join('')}</tbody></table></div></div>
       <div class="card">
         <div class="ch"><div class="ct">📊 Quick Stats</div></div>
-        <div class="cb" style="padding:14px 18px">
+        <div class="cb" style="padding:12px 16px">
           ${[['DataEntryDB','📝 Internal','b-navy',intR.length],['ExternalEntryDB','🎓 External','b-purple',extR.length],
              ['FacultyDB','👩‍🏫 Faculty','b-gold',facR.length]].map(([sh,lbl,badge,cnt])=>`
             <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--g100)">
               <span style="font-size:13px;font-weight:500;color:var(--g700)">${lbl}</span>
               <span class="badge ${badge}">${cnt}</span>
             </div>`).join('')}
-          <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
-            <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="nav('certs')">📜 Generate Certificates</button>
-            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="window.location.href='External.html'">➕ Add External Entry</button>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="nav('certs')">📜 Certificates</button>
+            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="window.location.href='External.html'">➕ Add External</button>
           </div>
         </div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="dash-grid-halves">
       <div class="card">
         <div class="ch"><div class="ct">📅 Exam Periods</div></div>
-        <div class="cb" style="padding:12px 18px">
+        <div class="cb" style="padding:10px 16px">
           ${[...allMoyr].slice(0,6).map(m=>`
             <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--g100)">
               <span style="font-size:13px;font-weight:600;color:var(--navy)">${m}</span>
@@ -529,7 +590,7 @@ async function renderDashboard(){
         </div>
       </div>
       <div class="card">
-        <div class="ch"><div class="ct">✅ Verification Progress</div></div>
+        <div class="ch"><div class="ct">✅ Verification</div></div>
         <div class="cb">
           ${[['Internal',intR.length,intVer,'var(--blue)'],['External',extR.length,extVer,'#7c3aed']].map(([lbl,tot,vf,color])=>{
             const pct=tot>0?Math.round(vf/tot*100):0;
@@ -554,9 +615,9 @@ async function renderDashboard(){
 // ══════════════════════════════════════════════════════════════
 async function renderAnalytics(){
   const c=document.getElementById('content');
-  try {
+  try{
     const [intD,extD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB')]);
-    const intR=intD.rows||[], extR=extD.rows||[];
+    const intR=intD.rows||[],extR=extD.rows||[];
     const all=[...intR.map(r=>({...r,_src:'I'})),...extR.map(r=>({...r,_src:'E'}))];
     const byDept=gc(all,r=>r[8]);
     const byCol=gc(extR,r=>r[9]);
@@ -574,15 +635,15 @@ async function renderAnalytics(){
       <div class="stat-card sc-green"><span class="stat-icon">✅</span><div class="stat-n">${intVer+extVer}</div><div class="stat-l">Verified</div></div>
       <div class="stat-card sc-gold"><span class="stat-icon">🎓</span><div class="stat-n">${new Set(extR.map(r=>r[9]).filter(Boolean)).size}</div><div class="stat-l">Colleges</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
       <div class="card"><div class="ch"><div class="ct">🏢 By Department</div></div><div class="cb">${rb(byDept,'#1a4fba')}</div></div>
-      <div class="card"><div class="ch"><div class="ct">📋 By Role / Duty</div></div><div class="cb">${rb(byRole,'#059669')}</div></div>
+      <div class="card"><div class="ch"><div class="ct">📋 By Role</div></div><div class="cb">${rb(byRole,'#059669')}</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
       <div class="card"><div class="ch"><div class="ct">📅 By Exam Period</div></div><div class="cb">${rb(byMoyr,'#b8891a')}</div></div>
       <div class="card"><div class="ch"><div class="ct">⏱️ By Session</div></div><div class="cb">${rb(bySes,'#7c3aed')}</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="dash-grid-halves">
       <div class="card"><div class="ch"><div class="ct">🎓 External Colleges</div></div><div class="cb">${rb(byCol,'#2e80d8',10)}</div></div>
       <div class="card"><div class="ch"><div class="ct">📆 By Date (Recent)</div></div><div class="cb">${rb(byDate.slice(0,8),'#059669',8)}</div></div>
     </div>`;
@@ -605,7 +666,7 @@ function rb(entries,color,max=10){
 async function renderEntries(sheetName){
   const c=document.getElementById('content');
   const isExt=sheetName==='ExternalEntryDB';
-  try {
+  try{
     const data=await loadSheet(sheetName);
     const rows=data.rows||[];
     window[`_${sheetName}`]=rows;
@@ -621,13 +682,13 @@ async function renderEntries(sheetName){
     </div>
     <div class="btn-group">
       <button class="btn btn-outline btn-sm" onclick="clearCache('${sheetName}');nav('${isExt?'entries-ext':'entries-int'}')">🔄 Refresh</button>
-      <button class="btn btn-gold btn-sm" onclick="nav('certs')">📜 Certificates</button>
-      ${isExt?'<button class="btn btn-primary btn-sm" onclick="window.location.href=\'External.html\'">➕ Add External</button>':''}
+      <button class="btn btn-gold btn-sm" onclick="nav('certs')">📜 Certs</button>
+      ${isExt?`<button class="btn btn-primary btn-sm" onclick="window.location.href='External.html'">➕ Add</button>`:''}
     </div></div>
 
     <div class="card">
       <div class="ch"><div class="ct">🔍 Filter</div></div>
-      <div class="cb"><div class="fgrid">
+      <div class="cb"><div class="fgrid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
         <div class="form-g"><label class="form-l">Search Name</label>
           <div class="search-bar"><span>🔍</span><input id="e-search" placeholder="Search name…" oninput="filterEntries('${sheetName}')"></div></div>
         <div class="form-g"><label class="form-l">Date</label>
@@ -652,17 +713,13 @@ async function renderEntries(sheetName){
           </select></div>`:''}
       </div></div>
     </div>
-
     <div class="card">
       <div class="ch">
         <div class="ct" id="e-count">${rows.length} Entries</div>
-        <div class="btn-group">
-          <button class="btn btn-outline btn-sm" onclick="exportCSV('${sheetName}')">⬇️ CSV</button>
-        </div>
+        <button class="btn btn-outline btn-sm" onclick="exportCSV('${sheetName}')">⬇️ CSV</button>
       </div>
       <div class="tw" id="e-tbl"></div>
     </div>`;
-
     filterEntries(sheetName);
   } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
 }
@@ -676,41 +733,40 @@ function filterEntries(sheetName){
   const col=document.getElementById('e-col')?.value||'';
   const isExt=sheetName==='ExternalEntryDB';
   let f=rows.filter(r=>{
-    if(search && !String(r[6]||'').toLowerCase().includes(search)) return false;
-    if(dateF && r[2]!==dateF) return false;
-    if(moyr  && r[1]!==moyr) return false;
-    if(dept  && r[8]!==dept) return false;
-    if(col   && r[9]!==col) return false;
+    if(search&&!String(r[6]||'').toLowerCase().includes(search)) return false;
+    if(dateF&&r[2]!==dateF) return false;
+    if(moyr&&r[1]!==moyr) return false;
+    if(dept&&r[8]!==dept) return false;
+    if(col&&r[9]!==col) return false;
     return true;
   });
   window._filteredEntries={rows:f,sheet:sheetName};
   document.getElementById('e-count').textContent=`${f.length} Entries`;
   const el=document.getElementById('e-tbl'); if(!el) return;
-  const cols=isExt?12:11;
   el.innerHTML=`<table>
-    <thead><tr><th>#</th><th>Ref ID</th><th>Date</th><th>M&Y</th><th>Name</th>
+    <thead><tr><th>#</th><th>ID</th><th>Date</th><th>M&Y</th><th>Name</th>
       <th>Desig.</th><th>Dept</th>${isExt?'<th>College</th>':''}
-      <th>Role</th><th>Session</th><th>Verified</th><th>Actions</th></tr></thead>
-    <tbody>${!f.length?`<tr><td colspan="${cols}" class="no-data">No matching entries</td></tr>`:
+      <th>Role</th><th>Sess.</th><th>Verified</th><th>Act.</th></tr></thead>
+    <tbody>${!f.length?`<tr><td colspan="${isExt?12:11}" class="no-data">No matching entries</td></tr>`:
       f.map((r,i)=>{
         const ver=String(r[11]||'').toLowerCase()==='verified';
         const ri=rows.indexOf(r);
         return `<tr>
           <td style="color:var(--g400);font-size:11px">${i+1}</td>
-          <td style="font-family:monospace;font-size:11px;color:var(--royal)">${r[10]||'—'}</td>
-          <td style="font-size:11px">${r[2]||'—'}</td>
-          <td style="font-size:11px">${r[1]||'—'}</td>
+          <td style="font-family:monospace;font-size:10px;color:var(--royal)">${r[10]||'—'}</td>
+          <td style="font-size:11px;white-space:nowrap">${r[2]||'—'}</td>
+          <td style="font-size:11px;white-space:nowrap">${r[1]||'—'}</td>
           <td><strong style="font-size:12px">${r[6]||'—'}</strong></td>
           <td style="font-size:11px">${r[7]||'—'}</td>
           <td style="font-size:11px">${r[8]||'—'}</td>
-          ${isExt?`<td style="font-size:10px;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[9]||''}">${r[9]||'—'}</td>`:''}
+          ${isExt?`<td style="font-size:10px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[9]||''}">${r[9]||'—'}</td>`:''}
           <td style="font-size:11px">${r[5]||'—'}</td>
           <td><span class="badge b-blue" style="font-size:10px">${r[4]||'—'}</span></td>
           <td><button class="verify-btn ${ver?'v-yes':'v-no'}" id="vbtn-${sheetName}-${ri}"
-            onclick="toggleVerify('${sheetName}',${ri},this)">${ver?'✅ Verified':'⏳ Pending'}</button></td>
+            onclick="toggleVerify('${sheetName}',${ri},this)">${ver?'✅':'⏳'}</button></td>
           <td><div style="display:flex;gap:4px">
-            <button class="btn btn-warn btn-xs" onclick="editEntry('${sheetName}',${ri})" title="Edit">✏️</button>
-            <button class="btn btn-danger btn-xs" onclick="delEntry('${sheetName}',${ri})" title="Delete">🗑️</button>
+            <button class="btn btn-warn btn-xs" onclick="editEntry('${sheetName}',${ri})">✏️</button>
+            <button class="btn btn-danger btn-xs" onclick="delEntry('${sheetName}',${ri})">🗑️</button>
           </div></td>
         </tr>`;
       }).join('')}
@@ -719,7 +775,7 @@ function filterEntries(sheetName){
 
 async function toggleVerify(sheet,idx,btn){
   const orig=btn.textContent; btn.textContent='…'; btn.disabled=true;
-  try {
+  try{
     const fresh=await loadSheet(sheet,true);
     const rawRow=(fresh.rows||[])[idx];
     if(!rawRow){ showToast('Row not found','error'); return; }
@@ -730,7 +786,7 @@ async function toggleVerify(sheet,idx,btn){
       _cache[sheet]=fresh; _cache[sheet].rows[idx]=[...rawRow]; _cache[sheet].rows[idx][11]=newVal;
       window[`_${sheet}`]=_cache[sheet].rows;
       const now=newVal==='Verified';
-      btn.textContent=now?'✅ Verified':'⏳ Pending';
+      btn.textContent=now?'✅':'⏳';
       btn.className=`verify-btn ${now?'v-yes':'v-no'}`;
       btn.disabled=false;
       showToast(now?'Marked as Verified':'Verification cleared','success');
@@ -747,7 +803,7 @@ async function editEntry(sheet,idx){
   ]);
   const opts=(d,cur)=>(d.rows||[]).map(x=>`<option ${x[0]===cur?'selected':''}>${x[0]}</option>`).join('');
   openMo(`✏️ Edit Entry`,`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="mf-grid">
       <div class="form-g"><label class="form-l">Date</label><input class="form-c" id="ef-date" type="date" value="${r[2]||''}"></div>
       <div class="form-g"><label class="form-l">Session</label><select class="form-c" id="ef-ses">${opts(sesD,r[4])}</select></div>
       <div class="form-g"><label class="form-l">Name</label><input class="form-c" id="ef-name" value="${r[6]||''}"></div>
@@ -794,7 +850,7 @@ function exportCSV(sheet){
 }
 
 // ══════════════════════════════════════════════════════════════
-// ADD EXTERNAL ENTRY — uses Faculty DB + duplicate check logic
+// ADD EXTERNAL ENTRY
 // ══════════════════════════════════════════════════════════════
 let _facCache=[];
 async function renderAddExternal(){
@@ -803,7 +859,7 @@ async function renderAddExternal(){
   <div class="card"><div class="ch"><div class="ct">📋 Entry Details</div></div><div class="cb" id="aef-wrap">
     <div style="display:flex;justify-content:center;padding:30px"><div class="spin spin-lg"></div></div>
   </div></div>`;
-  try {
+  try{
     const [moyrD,sesD,rollD,desigD,deptD,colD,facD]=await Promise.all([
       loadSheet('MOYREXDB'),loadSheet('SessionDB'),loadSheet('RollDB'),
       loadSheet('DesignationDB'),loadSheet('DepartmentDB'),loadSheet('CollegeDB'),
@@ -824,28 +880,37 @@ async function renderAddExternal(){
       <div class="divider"></div>
       <div style="margin-bottom:10px">
         <label class="form-l" style="margin-bottom:8px;display:block">Filter Faculty</label>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <select class="form-c" id="aef-filter-dept" style="flex:1;min-width:160px" onchange="aefRebuildFaculty()">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" class="mf-grid">
+          <select class="form-c" id="aef-filter-dept" onchange="aefRebuildFaculty()">
             <option value="">All Departments</option>
             ${(deptD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
           </select>
-          <select class="form-c" id="aef-filter-col" style="flex:1;min-width:160px" onchange="aefRebuildFaculty()">
+          <select class="form-c" id="aef-filter-col" onchange="aefRebuildFaculty()">
             <option value="">All Colleges</option>
             ${(colD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
           </select>
         </div>
       </div>
-      <div class="form-g" style="margin-bottom:14px">
-        <label class="form-l">Select Faculty from DB <span style="font-size:10px;color:var(--g400);text-transform:none;letter-spacing:0">(or fill manually below)</span></label>
+      <div class="form-g" style="margin-bottom:12px">
+        <label class="form-l">Select Faculty from DB</label>
         <select class="form-c" id="aef-faculty" onchange="aefFillFromFaculty()">
           <option value="">-- Select Faculty --</option>
         </select>
       </div>
       <div class="fgrid">
         <div class="form-g"><label class="form-l">Faculty Name <span class="req">*</span></label><input class="form-c" id="aef-name" placeholder="Full name" required oninput="aefDupCheck()"></div>
-        <div class="form-g"><label class="form-l">Designation <span class="req">*</span></label><select class="form-c" id="aef-desig">${sel('_desig_inner',desigD,'Designation').match(/<option[^>]*>[^<]*<\/option>/g).join('')||''}</select></div>
-        <div class="form-g"><label class="form-l">Department <span class="req">*</span></label><select class="form-c" id="aef-dept">${(deptD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}</select></div>
-        <div class="form-g"><label class="form-l">College <span class="req">*</span></label><select class="form-c" id="aef-col">${(colD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}</select></div>
+        <div class="form-g"><label class="form-l">Designation <span class="req">*</span></label>
+          <select class="form-c" id="aef-desig">
+            ${(desigD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
+          </select></div>
+        <div class="form-g"><label class="form-l">Department <span class="req">*</span></label>
+          <select class="form-c" id="aef-dept">
+            ${(deptD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
+          </select></div>
+        <div class="form-g"><label class="form-l">College <span class="req">*</span></label>
+          <select class="form-c" id="aef-col">
+            ${(colD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
+          </select></div>
       </div>
       <div id="aef-dup-warn" class="dup-warn hidden">⚠️ Possible duplicate: this person may already have an entry for this date/session.</div>
       <div class="divider"></div>
@@ -853,10 +918,8 @@ async function renderAddExternal(){
         <button class="btn btn-outline" onclick="nav('entries-ext')">Cancel</button>
         <button class="btn btn-success" id="aef-submit-btn" onclick="submitExtEntry()">✅ Submit Entry</button>
       </div>`;
-    // build initial faculty dropdown
     aefRebuildFaculty();
-    // wire session/role change for dup check
-    document.getElementById('aef-ses').addEventListener('change', aefDupCheck);
+    document.getElementById('aef-ses').addEventListener('change',aefDupCheck);
   } catch(e){ document.getElementById('aef-wrap').innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
 }
 
@@ -869,24 +932,22 @@ function aefRebuildFaculty(){
   const sel=document.getElementById('aef-faculty');
   if(!sel) return;
   sel.innerHTML='<option value="">-- Select Faculty --</option>'+
-    list.map((r,i)=>`<option value="${_facCache.indexOf(r)}">${r[1]||''}${r[3]?' — '+r[3]:''}</option>`).join('');
+    list.map(r=>`<option value="${_facCache.indexOf(r)}">${r[1]||''}${r[3]?' — '+r[3]:''}</option>`).join('');
 }
 
 function aefFillFromFaculty(){
   const sel=document.getElementById('aef-faculty');
   const idx=parseInt(sel.value);
   if(isNaN(idx)||idx<0) return;
-  const r=_facCache[idx];
-  if(!r) return;
+  const r=_facCache[idx]; if(!r) return;
   const nameEl=document.getElementById('aef-name');
   const desigEl=document.getElementById('aef-desig');
   const deptEl=document.getElementById('aef-dept');
   const colEl=document.getElementById('aef-col');
   if(nameEl) nameEl.value=r[1]||'';
-  // set select values
-  if(desigEl) { for(let o of desigEl.options) if(o.value===r[2]) { o.selected=true; break; } }
-  if(deptEl)  { for(let o of deptEl.options)  if(o.value===r[3]) { o.selected=true; break; } }
-  if(colEl)   { for(let o of colEl.options)   if(o.value===r[4]) { o.selected=true; break; } }
+  if(desigEl){ for(let o of desigEl.options) if(o.value===r[2]){o.selected=true;break;} }
+  if(deptEl){ for(let o of deptEl.options) if(o.value===r[3]){o.selected=true;break;} }
+  if(colEl){ for(let o of colEl.options) if(o.value===r[4]){o.selected=true;break;} }
   aefDupCheck();
 }
 
@@ -900,11 +961,7 @@ async function aefDupCheck(){
   try{
     const extData=await loadSheet('ExternalEntryDB');
     const rows=extData.rows||[];
-    const dup=rows.some(r=>
-      String(r[6]||'').toLowerCase()===name &&
-      String(r[2]||'')===date &&
-      (!ses||String(r[4]||'')===ses)
-    );
+    const dup=rows.some(r=>String(r[6]||'').toLowerCase()===name&&String(r[2]||'')===date&&(!ses||String(r[4]||'')===ses));
     warn.classList.toggle('hidden',!dup);
   } catch(e){ warn.classList.add('hidden'); }
 }
@@ -930,11 +987,8 @@ async function submitExtEntry(){
     const id=`KCET/EXT/${String(sno).padStart(4,'0')}`;
     const row=[sno,moyr,date,'',ses,role,name,desig,dept,col,id,''];
     const res=await gasPost({action:'addRow',sheet:'ExternalEntryDB',row});
-    if(res.success){
-      clearCache('ExternalEntryDB');
-      showToast('External entry added successfully!','success');
-      nav('entries-ext');
-    } else showToast(res.message||'Error adding entry','error');
+    if(res.success){ clearCache('ExternalEntryDB'); showToast('External entry added successfully!','success'); nav('entries-ext'); }
+    else showToast(res.message||'Error adding entry','error');
   } catch(e){ showToast('Error: '+e.message,'error'); }
   btn.disabled=false; btn.textContent='✅ Submit Entry';
 }
@@ -944,7 +998,7 @@ async function submitExtEntry(){
 // ══════════════════════════════════════════════════════════════
 async function renderCerts(){
   const c=document.getElementById('content');
-  try {
+  try{
     const [intD,extD,moyrD,colD,deptD,sesD]=await Promise.all([
       loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB'),
       loadSheet('MOYREXDB'),loadSheet('CollegeDB'),loadSheet('DepartmentDB'),loadSheet('SessionDB')
@@ -956,16 +1010,15 @@ async function renderCerts(){
     const uniqDates=[...new Set(all.map(r=>r[2]).filter(Boolean))].sort();
 
     c.innerHTML=`
-    <div class="pg-h"><div class="pg-hL"><div class="pg-t">📜 Attendance Certificates</div>
-      <div class="pg-s">2 certificates per page · Date filter required for Word export · Uses logo.png</div>
+    <div class="pg-h"><div class="pg-hL"><div class="pg-t">📜 Certificates</div>
+      <div class="pg-s">2 per page · Date filter required for Word export</div>
     </div></div>
-
     <div class="card">
-      <div class="ch"><div class="ct">🔍 Filter Entries</div><div style="font-size:12px;color:var(--g400)">⚠️ Date filter is mandatory for Word export</div></div>
-      <div class="cb"><div class="fgrid">
+      <div class="ch"><div class="ct">🔍 Filter</div><div style="font-size:11px;color:var(--warn)">⚠️ Date required for Word</div></div>
+      <div class="cb"><div class="fgrid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
         <div class="form-g"><label class="form-l">📅 Date <span class="req">*</span></label>
           <select class="form-c" id="cf-date" onchange="filterCerts()">
-            <option value="">-- All Dates (mandatory for Word) --</option>
+            <option value="">-- All Dates --</option>
             ${uniqDates.map(d=>`<option>${d}</option>`).join('')}
           </select></div>
         <div class="form-g"><label class="form-l">Exam Period</label>
@@ -996,18 +1049,16 @@ async function renderCerts(){
           </select></div>
       </div></div>
     </div>
-
     <div class="card">
       <div class="ch">
         <div class="ct" id="cert-count">All (${all.length})</div>
         <div class="btn-group">
-          <button class="btn btn-outline btn-sm" onclick="printAllCerts()">🖨️ Print Preview (2/page)</button>
-          <button class="btn btn-success btn-sm" id="word-btn" onclick="downloadWordCerts()">📄 Download Word (.docx)</button>
+          <button class="btn btn-outline btn-sm" onclick="printAllCerts()">🖨️ Print</button>
+          <button class="btn btn-success btn-sm" id="word-btn" onclick="downloadWordCerts()">📄 Word (.docx)</button>
         </div>
       </div>
       <div class="tw" id="cert-tbl"></div>
     </div>`;
-
     filterCerts();
   } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
 }
@@ -1021,31 +1072,31 @@ function filterCerts(){
   const src=document.getElementById('cf-src')?.value||'All';
   const all=window._allCertRows||[];
   let f=all.filter(r=>{
-    if(dateF && r[2]!==dateF) return false;
-    if(moyr  && r[1]!==moyr) return false;
-    if(dept  && r[8]!==dept) return false;
-    if(col   && r[9]!==col) return false;
-    if(ses   && r[4]!==ses) return false;
-    if(src==='Internal' && r._src!=='DataEntryDB') return false;
-    if(src==='External' && r._src!=='ExternalEntryDB') return false;
+    if(dateF&&r[2]!==dateF) return false;
+    if(moyr&&r[1]!==moyr) return false;
+    if(dept&&r[8]!==dept) return false;
+    if(col&&r[9]!==col) return false;
+    if(ses&&r[4]!==ses) return false;
+    if(src==='Internal'&&r._src!=='DataEntryDB') return false;
+    if(src==='External'&&r._src!=='ExternalEntryDB') return false;
     return true;
   });
   window._filtCerts=f;
   document.getElementById('cert-count').textContent=`${f.length} Entries (${Math.ceil(f.length/2)} pages)`;
   const el=document.getElementById('cert-tbl'); if(!el) return;
   el.innerHTML=`<table>
-    <thead><tr><th>#</th><th>Ref ID</th><th>Date</th><th>M&Y</th><th>Name</th>
-      <th>Desig.</th><th>Dept</th><th>College</th><th>Role</th><th>Session</th><th>Src</th><th>Actions</th></tr></thead>
+    <thead><tr><th>#</th><th>ID</th><th>Date</th><th>M&Y</th><th>Name</th>
+      <th>Desig.</th><th>Dept</th><th>College</th><th>Role</th><th>Sess.</th><th>Src</th><th>Act.</th></tr></thead>
     <tbody>${!f.length?'<tr><td colspan="12" class="no-data">No matching entries</td></tr>':
       f.map((r,i)=>`<tr>
         <td style="font-size:11px;color:var(--g400)">${i+1}</td>
         <td style="font-family:monospace;font-size:10px;color:var(--royal)">${r[10]||'—'}</td>
-        <td style="font-size:11px">${r[2]||'—'}</td>
-        <td style="font-size:11px">${r[1]||'—'}</td>
+        <td style="font-size:11px;white-space:nowrap">${r[2]||'—'}</td>
+        <td style="font-size:11px;white-space:nowrap">${r[1]||'—'}</td>
         <td><strong style="font-size:12px">${r[6]||'—'}</strong></td>
         <td style="font-size:11px">${r[7]||'—'}</td>
         <td style="font-size:11px">${r[8]||'—'}</td>
-        <td style="font-size:10px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[9]||''}">${r[9]||'—'}</td>
+        <td style="font-size:10px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[9]||''}">${r[9]||'—'}</td>
         <td style="font-size:11px">${r[5]||'—'}</td>
         <td><span class="badge b-blue" style="font-size:10px">${r[4]||'—'}</span></td>
         <td><span class="badge ${r._src==='ExternalEntryDB'?'b-purple':'b-navy'}" style="font-size:10px">${r._src==='ExternalEntryDB'?'Ext':'Int'}</span></td>
@@ -1061,21 +1112,20 @@ function printOneCert(idx){ doPrintCerts([(window._filtCerts||[])[idx]]); }
 function printAllCerts(){
   const rows=window._filtCerts||[];
   if(!rows.length){ showToast('No entries','error'); return; }
-  if(rows.length>100 && !confirm(`Print ${rows.length} certificates (${Math.ceil(rows.length/2)} pages)?`)) return;
+  if(rows.length>100&&!confirm(`Print ${rows.length} certificates (${Math.ceil(rows.length/2)} pages)?`)) return;
   doPrintCerts(rows);
 }
 
-// Print: 2 certificates per page
 function doPrintCerts(rows){
   if(!rows||!rows.length){ showToast('Nothing to print','error'); return; }
   const pages=[];
   for(let i=0;i<rows.length;i+=2){
-    const r1=rows[i], r2=rows[i+1]||null;
+    const r1=rows[i],r2=rows[i+1]||null;
     const isLast=(i+2>=rows.length);
     pages.push(`<div class="pg" ${isLast?'':'style="page-break-after:always"'}>
-      ${buildPrintCertHTML(r1, i+1)}
+      ${buildPrintCertHTML(r1,i+1)}
       <div class="cert-divider"></div>
-      ${r2?buildPrintCertHTML(r2, i+2):'<div class="cert-empty"></div>'}
+      ${r2?buildPrintCertHTML(r2,i+2):'<div class="cert-empty"></div>'}
     </div>`);
   }
   const w=window.open('','_blank');
@@ -1113,14 +1163,14 @@ function doPrintCerts(rows){
   w.document.close();
 }
 
-function buildPrintCertHTML(r, certNum){
+function buildPrintCertHTML(r,certNum){
   const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
   const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
   return `<div class="cert">
     <div class="stripe"></div>
-   <div class="hdr" style="justify-content:center">
-  <img src="logo.png" style="height:85px;object-fit:contain">
-</div>
+    <div class="hdr" style="justify-content:center">
+      <img src="logo.png" style="height:85px;object-fit:contain">
+    </div>
     <div class="ref-r"><div class="ref">Ref. No. : <strong>${id}</strong></div></div>
     <div class="ttl-r"><div class="ttl">Attendance Certificate</div></div>
     <div class="body">This is to certify that <strong>${name}</strong>, <strong>${desig}</strong>,
@@ -1132,7 +1182,7 @@ function buildPrintCertHTML(r, certNum){
 }
 
 // ══════════════════════════════════════════════════════════════
-// WORD DOCUMENT GENERATION — 2 certificates per page, logo.png
+// WORD DOCUMENT GENERATION
 // ══════════════════════════════════════════════════════════════
 function downloadOneWord(idx){ doDownloadWord([(window._filtCerts||[])[idx]]); }
 function downloadWordCerts(){
@@ -1147,10 +1197,8 @@ async function doDownloadWord(rows){
   if(!rows||!rows.length){ showToast('No entries','error'); return; }
   const btn=document.getElementById('word-btn');
   if(btn){ btn.disabled=true; btn.textContent='⏳ Generating…'; }
-  showToast(`Generating Word document for ${rows.length} certificate(s)…`,'info');
-
-  try {
-    // Load JSZip
+  showToast(`Generating Word for ${rows.length} certificate(s)…`,'info');
+  try{
     if(typeof JSZip==='undefined'){
       await new Promise((res,rej)=>{
         const s=document.createElement('script');
@@ -1159,9 +1207,7 @@ async function doDownloadWord(rows){
         document.head.appendChild(s);
       });
     }
-
-    // Try to load logo.png as base64
-    let logoB64='', logoExt='png';
+    let logoB64='';
     try{
       const imgRes=await fetch('logo.png');
       if(imgRes.ok){
@@ -1172,8 +1218,6 @@ async function doDownloadWord(rows){
     } catch(e){ logoB64=''; }
 
     const zip=new JSZip();
-
-    // Relationships & content types
     const hasLogo=!!logoB64;
     const logoRel=hasLogo?`<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/>`:'';
     const logoCT=hasLogo?`<Default Extension="png" ContentType="image/png"/>`:'';
@@ -1187,62 +1231,39 @@ async function doDownloadWord(rows){
   <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
   <Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/>
 </Types>`);
-
     zip.folder('_rels').file('.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
 </Relationships>`);
-
-    const wordFolder=zip.folder('word');
-    wordFolder.folder('_rels').file('document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    const wf=zip.folder('word');
+    wf.folder('_rels').file('document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
   <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/>
   ${logoRel}
 </Relationships>`);
-
     if(hasLogo){
-      const logoBytes=Uint8Array.from(atob(logoB64),c=>c.charCodeAt(0));
-      wordFolder.folder('media').file('logo.png',logoBytes,{binary:true});
+      const lb=Uint8Array.from(atob(logoB64),c=>c.charCodeAt(0));
+      wf.folder('media').file('logo.png',lb,{binary:true});
     }
+    wf.file('settings.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:defaultTabStop w:val="720"/></w:settings>`);
+    wf.file('styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:style w:type="paragraph" w:styleId="Normal" w:default="1"><w:name w:val="Normal"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:style></w:styles>`);
 
-    wordFolder.file('settings.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
-  <w:defaultTabStop w:val="720"/>
-</w:settings>`);
-
-    wordFolder.file('styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
-  <w:style w:type="paragraph" w:styleId="Normal" w:default="1">
-    <w:name w:val="Normal"/>
-    <w:rPr>
-      <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
-      <w:sz w:val="24"/><w:szCs w:val="24"/>
-    </w:rPr>
-  </w:style>
-</w:styles>`);
-
-    // Build body: 2 certs per page
-    const bodyParts=[];
+    const bp=[];
     for(let i=0;i<rows.length;i+=2){
-      const r1=rows[i], r2=rows[i+1]||null;
-      const isLastPage=(i+2>=rows.length);
-      bodyParts.push(buildCertXmlBlock(r1, hasLogo));
-      if(r2){
-        bodyParts.push(buildHorizontalRule());
-        bodyParts.push(buildCertXmlBlock(r2, hasLogo));
-      }
-      if(!isLastPage) bodyParts.push(`<w:p><w:r><w:br w:type="page"/></w:r></w:p>`);
+      const r1=rows[i],r2=rows[i+1]||null,isLast=(i+2>=rows.length);
+      bp.push(buildCertXmlBlock(r1,hasLogo));
+      if(r2){ bp.push(buildHorizontalRule()); bp.push(buildCertXmlBlock(r2,hasLogo)); }
+      if(!isLast) bp.push(`<w:p><w:r><w:br w:type="page"/></w:r></w:p>`);
     }
-
-    wordFolder.file('document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    wf.file('document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
   xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
   xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
   xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"
   xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
 <w:body>
-${bodyParts.join('\n')}
+${bp.join('\n')}
 <w:sectPr>
   <w:pgSz w:w="11906" w:h="16838"/>
   <w:pgMar w:top="720" w:right="900" w:bottom="720" w:left="900"/>
@@ -1256,31 +1277,25 @@ ${bodyParts.join('\n')}
     const dateTag=rows[0]?.[2]||new Date().toISOString().slice(0,10);
     a.href=url; a.download=`KCET_Certificates_${dateTag}.docx`; a.click();
     URL.revokeObjectURL(url);
-    showToast(`✅ Word downloaded! (${rows.length} certs, ${Math.ceil(rows.length/2)} pages)`,'success');
-  } catch(e){
-    console.error(e);
-    showToast('Error generating Word: '+e.message,'error');
-  }
-  if(btn){ btn.disabled=false; btn.textContent='📄 Download Word (.docx)'; }
+    showToast(`✅ Word downloaded! (${rows.length} certs)`,'success');
+  } catch(e){ console.error(e); showToast('Error generating Word: '+e.message,'error'); }
+  if(btn){ btn.disabled=false; btn.textContent='📄 Word (.docx)'; }
 }
 
 function xmlE(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;'); }
-
 function wRun(text,bold,sz,underline){
   sz=sz||24; const b=bold?'<w:b/><w:bCs/>':''; const u=underline?'<w:u w:val="single"/>':'';
   return `<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/>${b}${u}</w:rPr><w:t xml:space="preserve">${xmlE(text)}</w:t></w:r>`;
 }
-function wPara(content,jc,after){ jc=jc||'left'; after=after===undefined?160:after;
+function wPara(content,jc,after){
+  jc=jc||'left'; after=after===undefined?160:after;
   return `<w:p><w:pPr><w:jc w:val="${jc}"/><w:spacing w:after="${after}"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr></w:pPr>${content}</w:p>`;
 }
-
 function buildHorizontalRule(){
   return `<w:p><w:pPr><w:pBdr><w:bottom w:val="dashed" w:sz="6" w:space="1" w:color="AAAAAA"/></w:pBdr><w:spacing w:after="120"/></w:pPr></w:p>`;
 }
-
 function buildLogoXml(hasLogo){
   if(!hasLogo) return '';
-  // 44px height ≈ 558800 EMU (1px = 12700 EMU at 96dpi). Width proportional ~1270000 for typical college logo
   return `<w:r><w:rPr><w:noProof/></w:rPr><w:drawing>
   <wp:inline distT="0" distB="0" distL="0" distR="0">
     <wp:extent cx="1270000" cy="558800"/>
@@ -1300,75 +1315,34 @@ function buildLogoXml(hasLogo){
   </wp:inline>
 </w:drawing></w:r>`;
 }
-
-function buildCertXmlBlock(r, hasLogo){
+function buildCertXmlBlock(r,hasLogo){
   const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
   const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
-
-  // Header row: logo left, college info right — using a table for side-by-side layout
   const logoCell=hasLogo
-    ?`<w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:bottom w:val="single" w:sz="6" w:color="0d2d6b"/></w:tcBorders></w:tcPr>
-       <w:p><w:pPr><w:jc w:val="left"/><w:spacing w:after="60"/></w:pPr>${buildLogoXml(hasLogo)}</w:p></w:tc>`
-    :`<w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:bottom w:val="single" w:sz="6" w:color="0d2d6b"/></w:tcBorders></w:tcPr>
-       ${wPara(wRun('KCET',true,24),'left',60)}</w:tc>`;
-
+    ?`<w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:bottom w:val="single" w:sz="6" w:color="0d2d6b"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:after="60"/></w:pPr>${buildLogoXml(hasLogo)}</w:p></w:tc>`
+    :`<w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:bottom w:val="single" w:sz="6" w:color="0d2d6b"/></w:tcBorders></w:tcPr>${wPara(wRun('KCET',true,24),'left',60)}</w:tc>`;
   const colInfoCell=`<w:tc><w:tcPr><w:tcW w:w="8106" w:type="dxa"/><w:tcBorders><w:bottom w:val="single" w:sz="6" w:color="0d2d6b"/></w:tcBorders></w:tcPr>
-    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="40"/></w:pPr>
-      ${wRun('Kamaraj College of Engineering & Technology (Autonomous)',true,24)}
-    </w:p>
-    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="0"/></w:pPr>
-      ${wRun('An Autonomous Institution · Affiliated to Anna University, Chennai',false,18)}
-    </w:p>
-    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="60"/></w:pPr>
-      ${wRun('S.P.G.C. Nagar, K.Vellakulam – 625 701 (Near Virudhunagar)',false,18)}
-    </w:p>
+    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="40"/></w:pPr>${wRun('Kamaraj College of Engineering & Technology (Autonomous)',true,24)}</w:p>
+    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="0"/></w:pPr>${wRun('An Autonomous Institution · Affiliated to Anna University, Chennai',false,18)}</w:p>
+    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="60"/></w:pPr>${wRun('S.P.G.C. Nagar, K.Vellakulam – 625 701 (Near Virudhunagar)',false,18)}</w:p>
   </w:tc>`;
-
   const headerTable=`<w:tbl>
-  <w:tblPr>
-    <w:tblW w:w="9906" w:type="dxa"/>
-    <w:tblBorders><w:insideH w:val="none"/><w:insideV w:val="none"/><w:top w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tblBorders>
-    <w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="80" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar>
-  </w:tblPr>
+  <w:tblPr><w:tblW w:w="9906" w:type="dxa"/><w:tblBorders><w:insideH w:val="none"/><w:insideV w:val="none"/><w:top w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tblBorders>
+  <w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="80" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr>
   <w:tblGrid><w:gridCol w:w="1800"/><w:gridCol w:w="8106"/></w:tblGrid>
-  <w:tr>${logoCell}${colInfoCell}</w:tr>
-</w:tbl>`;
-
-  // Ref No
+  <w:tr>${logoCell}${colInfoCell}</w:tr></w:tbl>`;
   const refPara=wPara(wRun(`Ref. No. : ${id}`,false,22),'right',60);
-
-  // Title
   const titlePara=wPara(wRun('ATTENDANCE CERTIFICATE',true,28,true),'center',200);
-
-  // Body text
   const tab='\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
-  const bodyPara=`<w:p><w:pPr><w:jc w:val="both"/>
-    <w:spacing w:line="480" w:lineRule="auto" w:after="120"/>
-    <w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr>
-  </w:pPr>
-  ${wRun(tab+'This is to certify that ',false,24)}
-  ${wRun(name+', ',true,24)}
-  ${wRun(desig+', ',true,24)}
-  ${wRun(dept+', '+col+', ',false,24)}
-  ${wRun('has acted as ',false,24)}
-  ${wRun(roll+', ',true,24)}
+  const bodyPara=`<w:p><w:pPr><w:jc w:val="both"/><w:spacing w:line="480" w:lineRule="auto" w:after="120"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr></w:pPr>
+  ${wRun(tab+'This is to certify that ',false,24)}${wRun(name+', ',true,24)}${wRun(desig+', ',true,24)}
+  ${wRun(dept+', '+col+', ',false,24)}${wRun('has acted as ',false,24)}${wRun(roll+', ',true,24)}
   ${wRun(moyr+' at Kamaraj College of Engineering & Technology (Autonomous) on ',false,24)}
-  ${wRun(date+' ',true,24)}
-  ${wRun(ses+'.',true,24)}
-  </w:p>`;
-
-  // Spacing before signature
-  const sp1=wPara('','left',120);
-  const sp2=wPara('','left',120);
-
-  // Signature block
-  const sigLine=`<w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="40"/>
-    <w:pBdr><w:top w:val="single" w:sz="4" w:color="1e293b" w:space="4"/></w:pBdr>
-  </w:pPr><w:r><w:t xml:space="preserve">                                        </w:t></w:r></w:p>`;
+  ${wRun(date+' ',true,24)}${wRun(ses+'.',true,24)}</w:p>`;
+  const sp1=wPara('','left',120),sp2=wPara('','left',120);
   const sigName=wPara(wRun('Dr. S Gandhi',true,24),'right',40);
   const sigRole=wPara(wRun('Controller of Examinations',false,20),'right',0);
-
-  return [headerTable, refPara, titlePara, bodyPara, sp1, sp2, sigName, sigRole].join('\n');
+  return [headerTable,refPara,titlePara,bodyPara,sp1,sp2,sigName,sigRole].join('\n');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1552,21 +1526,21 @@ function renderGas(){
   const c=document.getElementById('content');
   c.innerHTML=`
     <div class="pg-h"><div class="pg-hL"><div class="pg-t">⚙️ GAS Configuration</div><div class="pg-s">Backend connection and sheet reference</div></div>
-    <button class="btn btn-gold btn-sm" onclick="testGas()">🔌 Test Connection</button></div>
+    <button class="btn btn-gold btn-sm" onclick="testGas()">🔌 Test</button></div>
 
-    <div style="background:linear-gradient(135deg,var(--navy),var(--royal));border-radius:var(--r);padding:20px 24px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <div style="background:linear-gradient(135deg,var(--navy),var(--royal));border-radius:var(--r);padding:16px 20px;margin-bottom:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
       <div style="width:10px;height:10px;border-radius:50%;background:#34d399;box-shadow:0 0 0 4px rgba(52,211,153,.2);flex-shrink:0"></div>
       <div style="flex:1;min-width:0">
-        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">Google Apps Script — Active</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.5);word-break:break-all;font-family:monospace">${GAS_URL.substring(0,60)}…</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:3px">Google Apps Script — Active</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.45);word-break:break-all;font-family:monospace">${GAS_URL.substring(0,55)}…</div>
       </div>
       <button class="btn btn-gold btn-sm" onclick="testGas()">🔌 Test</button>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="dash-grid-halves">
       <div class="card">
         <div class="ch"><div class="ct">📋 Sheet Reference</div></div>
-        <div class="cb" style="padding:12px 18px">
+        <div class="cb" style="padding:10px 16px">
           ${[
             ['DataEntryDB','S.No · M&Y · Date · Num · Session · Roll · Name · Desig · Dept · College · ID · Verified'],
             ['ExternalEntryDB','S.No · M&Y · Date · Num · Session · Roll · Name · Desig · Dept · College · ID · Verified'],
@@ -1579,8 +1553,8 @@ function renderGas(){
             ['CollegeDB','College Name'],
             ['SessionDB','Session'],
           ].map(([s,cols])=>`
-            <div style="padding:8px 0;border-bottom:1px solid var(--g100);display:flex;gap:10px;align-items:flex-start">
-              <span style="background:var(--pale);color:var(--royal);border-radius:6px;padding:2px 9px;font-size:10px;font-weight:700;flex-shrink:0;min-width:130px;text-align:center">${s}</span>
+            <div style="padding:7px 0;border-bottom:1px solid var(--g100);display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap">
+              <span style="background:var(--pale);color:var(--royal);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;white-space:nowrap">${s}</span>
               <span style="font-size:11px;color:var(--g500);line-height:1.5">${cols}</span>
             </div>`).join('')}
         </div>
@@ -1607,9 +1581,9 @@ async function testGas(){
     catch(e){ results.push({sh,ok:false,count:0,err:e.message}); }
   }
   const allOk=results.every(r=>r.ok);
-  showToast(allOk?`✅ All sheets connected!`:'⚠️ Some issues — check GAS Settings',allOk?'success':'warning');
+  showToast(allOk?'✅ All sheets connected!':'⚠️ Some issues — check GAS Settings',allOk?'success':'warning');
   if(panel) panel.innerHTML=`<div style="padding:4px 0">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px 14px;background:${allOk?'rgba(5,150,105,.06)':'rgba(217,119,6,.06)'};border-radius:10px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:${allOk?'rgba(5,150,105,.06)':'rgba(217,119,6,.06)'};border-radius:10px">
       <span>${allOk?'✅':'⚠️'}</span>
       <div><div style="font-size:13px;font-weight:700;color:${allOk?'var(--success)':'var(--warn)'}">${allOk?'All OK':'Issues detected'}</div>
       <div style="font-size:11px;color:var(--g400)">${results.filter(r=>r.ok).length}/${sheets.length} OK</div></div>
@@ -1617,7 +1591,7 @@ async function testGas(){
     ${results.map(r=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--g100)">
       <span>${r.ok?'✅':'❌'}</span>
       <span style="font-size:12px;font-weight:600;color:var(--g700);flex:1">${r.sh}</span>
-      <span class="badge ${r.ok?'b-green':'b-red'}">${r.ok?r.count+' rows':r.err.slice(0,25)}</span>
+      <span class="badge ${r.ok?'b-green':'b-red'}">${r.ok?r.count+' rows':r.err.slice(0,20)}</span>
     </div>`).join('')}
   </div>`;
 }
