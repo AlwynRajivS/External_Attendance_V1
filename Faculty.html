@@ -1,0 +1,1105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Entry — KCET Attendance</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#061429;--royal:#0d2d6b;--blue:#1a4fba;--sky:#2e80d8;--ice:#5ca8f5;
+  --pale:#dbeafe;--ghost:#f0f7ff;
+  --g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g400:#94a3b8;--g500:#64748b;
+  --g600:#475569;--g700:#334155;--g800:#1e293b;
+  --success:#059669;--danger:#dc2626;--warn:#d97706;
+  --ext:#7c3aed;--ext-l:#ede9fe;--ext-m:#c4b5fd;
+  --r:14px;--rs:8px
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes stepPop{0%{transform:scale(.8)}100%{transform:scale(1)}}
+@keyframes successIn{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes barGrow{from{width:0}to{width:var(--w)}}
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+body{font-family:'DM Sans',sans-serif;background:var(--g50);color:var(--g800);min-height:100vh;overflow-x:hidden}
+
+/* ─── LOGIN ─────────────────────────────────────────────── */
+#login{min-height:100vh;display:flex;align-items:stretch}
+.ll{flex:1;background:linear-gradient(145deg,#062050 0%,#0e3080 50%,#1648b0 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;position:relative;overflow:hidden}
+.ll::before{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(92,168,245,.25) 0%,transparent 70%);top:-100px;left:-100px}
+.ll::after{content:'';position:absolute;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(46,128,216,.2) 0%,transparent 70%);bottom:-80px;right:-80px}
+.ll-in{position:relative;z-index:1;text-align:center;max-width:340px}
+.ll-icon{width:80px;height:80px;background:linear-gradient(135deg,var(--sky),var(--ice));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 22px;box-shadow:0 0 0 8px rgba(92,168,245,.2),0 10px 30px rgba(46,128,216,.4)}
+.ll-tag{font-size:12px;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.ll-title{font-family:'Cormorant Garamond',serif;font-size:34px;color:#fff;font-weight:700;line-height:1.2;margin-bottom:8px}
+.ll-title span{color:var(--ice)}.ll-sub{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6}
+.ll-info{margin-top:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px}
+.ll-row{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.55);padding:4px 0}
+.lr{width:460px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 40px;background:#fff}
+.lr-badge{display:inline-flex;align-items:center;gap:6px;background:var(--ghost);border:1px solid var(--pale);color:var(--blue);border-radius:30px;padding:5px 14px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px}
+.lr-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:6px;text-align:center}
+.lr-sub{font-size:13px;color:var(--g400);text-align:center;margin-bottom:32px}
+.fg{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;width:100%}
+.fl{font-size:12px;font-weight:600;color:var(--g600);letter-spacing:.4px;text-transform:uppercase}
+.fi{padding:12px 16px;border:1.5px solid var(--g200);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--g800);background:var(--g50);outline:none;transition:all .2s;width:100%}
+.fi:focus{border-color:var(--sky);background:#fff;box-shadow:0 0 0 3px rgba(46,128,216,.1)}
+.fi::placeholder{color:var(--g400)}
+.btn-login{width:100%;padding:13px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--sky));border:none;color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(26,79,186,.35)}
+.lerr{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--danger);margin-top:12px;display:none}
+.back-link{display:flex;align-items:center;gap:6px;color:var(--g400);font-size:13px;text-decoration:none;margin-top:22px;transition:color .2s}
+.back-link:hover{color:var(--blue)}
+@media(max-width:768px){#login{flex-direction:column}.ll{padding:36px 24px;min-height:260px}.lr{width:100%;padding:32px 24px}}
+
+/* ─── APP ─────────────────────────────────────────────────── */
+#app{display:none;flex-direction:column;min-height:100vh}
+.topbar{height:62px;background:#fff;border-bottom:1px solid var(--g200);display:flex;align-items:center;padding:0 24px;gap:14px;position:sticky;top:0;z-index:200;box-shadow:0 1px 4px rgba(10,31,68,.07)}
+.tb-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--royal),var(--sky));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;flex-shrink:0}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--navy);flex:1}.tb-title span{color:var(--sky)}
+.tb-user{display:flex;align-items:center;gap:8px;background:var(--ghost);border:1px solid var(--pale);border-radius:10px;padding:6px 14px}
+.tb-name{font-size:13px;font-weight:600;color:var(--blue)}.tb-role{font-size:10px;color:var(--g400);text-transform:uppercase;letter-spacing:.5px}
+.btn-logout{padding:7px 16px;border-radius:8px;background:transparent;border:1.5px solid var(--g200);color:var(--g500);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-logout:hover{border-color:var(--danger);color:var(--danger)}
+
+.app-body{display:flex;flex:1}
+.sidebar{width:230px;background:#fff;border-right:1px solid var(--g200);padding:16px 0;flex-shrink:0;height:calc(100vh - 62px);position:sticky;top:62px;overflow-y:auto}
+.sb-sec{padding:10px 16px 4px;font-size:9.5px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--g400);margin-top:8px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 18px;font-size:13.5px;font-weight:500;color:var(--g600);cursor:pointer;border-left:3px solid transparent;transition:all .15s}
+.sb-item:hover{background:var(--g50);color:var(--blue)}
+.sb-item.active{background:var(--ghost);color:var(--blue);border-left-color:var(--sky);font-weight:600}
+.sb-item.ext-item.active{background:var(--ext-l);color:var(--ext);border-left-color:var(--ext)}
+.sb-item.ext-item:hover{background:var(--ext-l);color:var(--ext)}
+.sb-icon{font-size:15px;width:20px;text-align:center}
+
+.content{flex:1;padding:28px 32px;overflow-y:auto;background:var(--g50)}
+.pg-h{margin-bottom:24px}.pg-t{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--navy);margin-bottom:4px;font-weight:700}.pg-s{font-size:13px;color:var(--g400)}
+
+/* ─── FORM CARD ──────────────────────────────────────────── */
+.ec{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(10,31,68,.12);border:1px solid var(--g200);overflow:hidden}
+.ec-head{background:linear-gradient(135deg,var(--navy),var(--royal) 60%,var(--blue));padding:22px 28px;display:flex;align-items:center;gap:14px}
+.ec-icon{width:50px;height:50px;background:rgba(255,255,255,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.ec-title{font-family:'Cormorant Garamond',serif;font-size:21px;color:#fff;font-weight:700}
+.ec-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px}
+.ec-body{padding:28px}
+
+/* Steps */
+.steps{display:flex;align-items:center;margin-bottom:26px}
+.step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.sc{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;transition:all .3s;flex-shrink:0}
+.sl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;text-align:center;color:var(--g400);white-space:nowrap}
+.step.done .sc{background:var(--success);color:#fff}.step.done .sl{color:var(--success)}
+.step.active .sc{background:var(--blue);color:#fff;box-shadow:0 0 0 5px rgba(26,79,186,.18);animation:stepPop .3s}.step.active .sl{color:var(--blue)}
+.step.pending .sc{background:var(--g100);color:var(--g400)}
+.scon{height:2px;flex:1;background:var(--g200);border-radius:2px;transition:background .3s;margin-bottom:20px}
+.scon.done{background:var(--success)}
+
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.form-g{display:flex;flex-direction:column;gap:6px}
+.form-l{font-size:11.5px;font-weight:600;color:var(--g600);letter-spacing:.4px;text-transform:uppercase}
+.form-c{padding:10px 14px;border:1.5px solid var(--g200);border-radius:var(--rs);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--g800);background:#fff;outline:none;transition:all .2s;width:100%}
+.form-c:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(46,128,216,.1)}.form-c::placeholder{color:var(--g400)}
+.np{background:var(--g50);border:1.5px solid var(--g200);border-radius:var(--rs);padding:16px;margin-top:20px}
+.np.hl{background:var(--ghost);border-color:var(--pale)}
+.np-title{font-size:12px;font-weight:600;color:var(--royal);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--rs);font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--royal);box-shadow:0 4px 14px rgba(26,79,186,.3)}
+.btn-success{background:var(--success);color:#fff}.btn-success:hover{background:#047857}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#b91c1c}
+.btn-warn{background:var(--warn);color:#fff}
+.btn-outline{background:transparent;border:1.5px solid var(--g200);color:var(--g600)}.btn-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--ghost)}
+.btn-ext{background:var(--ext);color:#fff}.btn-ext:hover{background:#6d28d9}
+.btn-sm{padding:6px 12px;font-size:12px}.btn-xs{padding:4px 10px;font-size:11px}
+
+/* Success */
+.success-banner{background:linear-gradient(135deg,#065f46,#059669);border-radius:16px;padding:24px 28px;color:#fff;text-align:center;animation:successIn .4s ease;margin-top:20px}
+.sb-icon2{font-size:48px;margin-bottom:12px}.sb-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;margin-bottom:6px}
+.sb-id{font-family:monospace;font-size:18px;background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;margin:12px auto 0;display:inline-block}
+
+/* Cards/Tables */
+.card{background:#fff;border-radius:var(--r);box-shadow:0 1px 3px rgba(10,31,68,.08);border:1px solid var(--g200);overflow:hidden;margin-bottom:20px}
+.ch{padding:16px 22px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ct{font-size:14.5px;font-weight:600;color:var(--g800)}.cb{padding:22px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead tr{background:linear-gradient(90deg,var(--ghost),#fff)}
+th{padding:11px 14px;text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--royal);border-bottom:2px solid var(--pale);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--g100);transition:background .1s}
+tbody tr:hover{background:var(--g50)}
+td{padding:10px 14px;color:var(--g700);vertical-align:middle}
+.no-data{text-align:center;padding:40px;color:var(--g400);font-style:italic}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.b-blue{background:var(--pale);color:var(--royal)}
+.b-green{background:#d1fae5;color:#065f46}
+.b-warn{background:#fef3c7;color:#92400e}
+.b-ext{background:var(--ext-l);color:var(--ext)}
+.b-danger{background:#fee2e2;color:#7f1d1d}
+
+/* ─── ANALYTICS ───────────────────────────────────────────── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:22px}
+.stat-card{background:#fff;border-radius:14px;border:1px solid var(--g200);padding:18px 20px;box-shadow:0 1px 3px rgba(10,31,68,.06);animation:countUp .4s ease both}
+.stat-card:nth-child(2){animation-delay:.05s}.stat-card:nth-child(3){animation-delay:.1s}.stat-card:nth-child(4){animation-delay:.15s}.stat-card:nth-child(5){animation-delay:.2s}
+.stat-icon{font-size:22px;margin-bottom:8px}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--navy);line-height:1}
+.stat-lbl{font-size:11px;color:var(--g400);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.stat-card.s-blue .stat-num{color:var(--blue)}
+.stat-card.s-green .stat-num{color:var(--success)}
+.stat-card.s-ext .stat-num{color:var(--ext)}
+.stat-card.s-warn .stat-num{color:var(--warn)}
+
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.chart-box{background:#fff;border-radius:14px;border:1px solid var(--g200);padding:20px;box-shadow:0 1px 3px rgba(10,31,68,.06)}
+.chart-title{font-size:13px;font-weight:700;color:var(--g800);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-label{font-size:11px;color:var(--g600);width:90px;flex-shrink:0;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+.bar-track{flex:1;height:8px;background:var(--g100);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;width:var(--w);animation:barGrow .7s ease both}
+.bar-val{font-size:11px;font-weight:700;color:var(--g600);width:28px;text-align:right;flex-shrink:0}
+.bar-fill.f-blue{background:linear-gradient(90deg,var(--blue),var(--sky))}
+.bar-fill.f-ext{background:linear-gradient(90deg,var(--ext),#a78bfa)}
+.bar-fill.f-green{background:linear-gradient(90deg,var(--success),#34d399)}
+
+.pie-wrap{display:flex;align-items:center;gap:20px}
+.pie-svg{flex-shrink:0}
+.pie-legend{display:flex;flex-direction:column;gap:8px;flex:1}
+.pl-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--g600)}
+.pl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* ─── ROSTER ───────────────────────────────────────────────── */
+.roster-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.roster-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700}
+.rb-total{background:var(--ghost);color:var(--blue)}
+.rb-verified{background:#d1fae5;color:#065f46}
+.rb-pending{background:#fef3c7;color:#92400e}
+
+.verify-row td{background:rgba(5,150,105,.04)}
+.verify-row.unverified td{background:rgba(234,179,8,.04)}
+.verify-btn{padding:5px 12px;border-radius:6px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.verify-btn.verified{background:#d1fae5;color:#065f46}
+.verify-btn.unverified{background:#fef3c7;color:#92400e}
+.verify-btn:hover{filter:brightness(.95);transform:scale(1.04)}
+
+/* ─── EXT ENTRIES ─────────────────────────────────────────── */
+.ext-head{background:linear-gradient(135deg,#4c1d95,#7c3aed 60%,#a855f7);padding:22px 28px;display:flex;align-items:center;gap:14px}
+.ext-head .ec-icon{background:rgba(255,255,255,.15)}
+.dup-badge{display:inline-flex;align-items:center;gap:4px;background:#fee2e2;color:#7f1d1d;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700}
+
+/* ─── MODAL ───────────────────────────────────────────────── */
+.mo{position:fixed;inset:0;background:rgba(6,20,41,.5);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.mo.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(10,31,68,.2);width:100%;max-width:520px;transform:translateY(20px) scale(.97);transition:transform .25s}
+.mo.open .modal{transform:none}
+.mh{padding:20px 24px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between}
+.mt-m{font-size:16px;font-weight:700;color:var(--g800)}
+.mc{width:30px;height:30px;border-radius:8px;border:none;background:var(--g100);color:var(--g600);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}.mc:hover{background:var(--g200)}
+#mb{padding:24px}#mf{padding:14px 24px;border-top:1px solid var(--g100);display:flex;gap:10px;justify-content:flex-end}
+
+/* Confirm modal */
+.confirm-mo{position:fixed;inset:0;background:rgba(6,20,41,.6);backdrop-filter:blur(4px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.confirm-mo.open{opacity:1;pointer-events:all}
+.confirm-box{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(10,31,68,.3);width:100%;max-width:400px;padding:28px;transform:translateY(10px);transition:transform .25s;text-align:center}
+.confirm-mo.open .confirm-box{transform:none}
+.confirm-icon{font-size:44px;margin-bottom:12px}
+.confirm-title{font-size:17px;font-weight:700;color:var(--g800);margin-bottom:8px}
+.confirm-msg{font-size:13px;color:var(--g500);margin-bottom:20px;line-height:1.6}
+.confirm-btns{display:flex;gap:10px;justify-content:center}
+
+.spin{width:20px;height:20px;border:2.5px solid var(--g200);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+.spin-lg{width:36px;height:36px;border-width:3px}
+.hidden{display:none!important}
+#tc{position:fixed;top:76px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+@media(max-width:768px){.sidebar{display:none}.content{padding:16px}.chart-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ═════ LOGIN ═════ -->
+<div id="login">
+  <div class="ll">
+    <div class="ll-in">
+      <div class="ll-icon">👩‍🏫</div>
+      <div class="ll-tag">KCET Examination Office</div>
+      <div class="ll-title">Faculty<br><span>Duty Entry</span></div>
+      <div class="ll-sub">Login with your KCET faculty credentials</div>
+      <div class="ll-info">
+        <div class="ll-row">✅ Report duty attendance</div>
+        <div class="ll-row">📊 Analytics dashboard</div>
+        <div class="ll-row">🎓 Manage external faculty entries</div>
+        <div class="ll-row">👩‍🏫 Manage faculty records</div>
+      </div>
+    </div>
+  </div>
+  <div class="lr">
+    <div class="lr-badge">🔑 Faculty Login</div>
+    <div class="lr-title">Faculty Sign In</div>
+    <div class="lr-sub">Enter your KCET faculty credentials</div>
+    <div class="fg"><label class="fl">Username</label>
+      <input class="fi" id="l-u" placeholder="Username" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="fg"><label class="fl">Password</label>
+      <input class="fi" id="l-p" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn-login" id="lbtn" onclick="doLogin()"><span>Sign In</span></button>
+    <div class="lerr" id="lerr"></div>
+    <a class="back-link" href="index.html">← Back to Portal</a>
+  </div>
+</div>
+
+<!-- ═════ APP ═════ -->
+<div id="app">
+  <div class="topbar">
+    <div class="tb-logo">👩‍🏫</div>
+    <div class="tb-title">KCET <span>Faculty Entry</span></div>
+    <div class="tb-user"><div><div class="tb-name" id="tb-n">Faculty</div><div class="tb-role">Faculty</div></div></div>
+    <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+  </div>
+  <div class="app-body">
+    <div class="sidebar">
+      <div class="sb-sec">Attendance</div>
+      <div class="sb-item active" data-v="entry" onclick="nav('entry')"><span class="sb-icon">✍️</span>Report Duty</div>
+      <div class="sb-item" data-v="entries" onclick="nav('entries')"><span class="sb-icon">📋</span>My Entries</div>
+      <div class="sb-sec">Analytics</div>
+      <div class="sb-item" data-v="analytics" onclick="nav('analytics')"><span class="sb-icon">📊</span>Dashboard</div>
+      <div class="sb-item" data-v="roster" onclick="nav('roster')"><span class="sb-icon">📅</span>Date Roster</div>
+      <div class="sb-sec">External</div>
+      <div class="sb-item ext-item" data-v="ext-entries" onclick="nav('ext-entries')"><span class="sb-icon">🎓</span>Ext. Entries</div>
+      <div class="sb-sec">Manage</div>
+      <div class="sb-item" data-v="fdb" onclick="nav('fdb')"><span class="sb-icon">👩‍🏫</span>Faculty DB</div>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<!-- Main Modal -->
+<div class="mo" id="mo">
+  <div class="modal">
+    <div class="mh"><span class="mt-m" id="mt"></span><button class="mc" onclick="closeMo()">✕</button></div>
+    <div id="mb"></div><div id="mf"></div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="confirm-mo" id="cmo">
+  <div class="confirm-box">
+    <div class="confirm-icon" id="ci">⚠️</div>
+    <div class="confirm-title" id="ct2"></div>
+    <div class="confirm-msg" id="cm2"></div>
+    <div class="confirm-btns">
+      <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-danger" id="cok">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div id="tc"></div>
+
+<script>
+// ═══ CONFIG ══════════════════════════════════════════════════════
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyre2xIEOv-KstsCDmq0mq5ewSd8Da4TimKpQIs-eav50ygHXf0buPTFCo2xGd3Dq7ZHQ/exec';
+const SES_KEY = 'kcet_session';
+const INTERNAL_COLLEGE = 'Kamaraj College of Engineering and Technology';
+
+// ═══ UTILS ═══════════════════════════════════════════════════════
+const getSession = () => { try { return JSON.parse(sessionStorage.getItem(SES_KEY)) || null; } catch { return null; } };
+const setSession = u => sessionStorage.setItem(SES_KEY, JSON.stringify(u));
+const clearSession = () => sessionStorage.removeItem(SES_KEY);
+
+async function gasPost(p) {
+  if (!GAS_URL) throw new Error('GAS URL not configured');
+  const r = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify(p) });
+  return r.json();
+}
+
+const _cache = {};
+async function loadSheet(s, force = false) {
+  if (!force && _cache[s]) return _cache[s];
+  const r = await gasPost({ action: 'getAll', sheet: s });
+  if (r.success) _cache[s] = r;
+  return r;
+}
+function clearCache(s) { if (s) delete _cache[s]; else Object.keys(_cache).forEach(k => delete _cache[k]); }
+
+function showToast(msg, type = 'info') {
+  const col = { success: '#059669', error: '#dc2626', info: '#1e5cb3', warning: '#d97706' };
+  const ic  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+  const t = document.createElement('div');
+  t.style.cssText = `background:#fff;border-radius:10px;box-shadow:0 8px 30px rgba(10,31,68,.18);padding:13px 18px;display:flex;align-items:center;gap:10px;min-width:260px;max-width:360px;border-left:4px solid ${col[type]};font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;animation:slideIn .3s ease`;
+  t.innerHTML = `<span>${ic[type]}</span><span>${msg}</span>`;
+  document.getElementById('tc').appendChild(t);
+  setTimeout(() => { t.style.transition = 'opacity .4s'; t.style.opacity = '0'; }, 3200);
+  setTimeout(() => t.remove(), 3700);
+}
+function openMo(title, body, footer) {
+  document.getElementById('mt').textContent = title;
+  document.getElementById('mb').innerHTML = body;
+  document.getElementById('mf').innerHTML = footer || '';
+  document.getElementById('mo').classList.add('open');
+}
+function closeMo() { document.getElementById('mo').classList.remove('open'); }
+document.getElementById('mo').addEventListener('click', e => { if (e.target === e.currentTarget) closeMo(); });
+
+let _confirmCb = null;
+function showConfirm(icon, title, msg, btnLabel, cb) {
+  document.getElementById('ci').textContent = icon;
+  document.getElementById('ct2').textContent = title;
+  document.getElementById('cm2').textContent = msg;
+  const btn = document.getElementById('cok');
+  btn.textContent = btnLabel;
+  _confirmCb = cb;
+  btn.onclick = () => { closeConfirm(); if (_confirmCb) _confirmCb(); };
+  document.getElementById('cmo').classList.add('open');
+}
+function closeConfirm() { document.getElementById('cmo').classList.remove('open'); }
+document.getElementById('cmo').addEventListener('click', e => { if (e.target === e.currentTarget) closeConfirm(); });
+
+function fmtDate(d) { if (!d) return ''; const [y, m, day] = d.split('-'); return `${day}.${m}.${y}`; }
+function dateNum(d) { if (!d) return ''; const [y, m, day] = d.split('-'); return `${day}${m}${y}`; }
+function genId(c, d) { return `${c}${d.replace(/\./g, '')}`; }
+
+// ═══ AUTH ═════════════════════════════════════════════════════════
+async function doLogin() {
+  const u = document.getElementById('l-u').value.trim(), p = document.getElementById('l-p').value.trim();
+  if (!u || !p) { showErr('Enter username and password'); return; }
+  const btn = document.getElementById('lbtn');
+  btn.innerHTML = '<div class="spin"></div>'; btn.disabled = true;
+  try {
+    const r = await gasPost({ action: 'authenticate', username: u, password: p, role: 'Faculty' });
+    if (r.success && r.user) { setSession(r.user); showApp(r.user); }
+    else {
+      // Friendly message: if GAS returns "Access denied" it means role mismatch
+      const msg = r.message || 'Invalid username or password';
+      showErr(msg.includes('Access denied') ? 'This account does not have Faculty access.' : msg);
+    }
+  } catch (e) { showErr('Connection error: ' + e.message); }
+  btn.innerHTML = '<span>Sign In</span>'; btn.disabled = false;
+}
+function showErr(msg) { const e = document.getElementById('lerr'); e.textContent = '❌ ' + msg; e.style.display = 'block'; }
+function showApp(user) {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').style.cssText = 'display:flex;flex-direction:column;min-height:100vh';
+  document.getElementById('tb-n').textContent = user.username || 'Faculty';
+  nav('entry');
+}
+function doLogout() { clearSession(); window.location.href = 'index.html'; }
+window.addEventListener('DOMContentLoaded', () => {
+  const s = getSession();
+  if (s && (s.role?.toLowerCase() === 'faculty' || s.role?.toLowerCase() === 'admin')) showApp(s);
+});
+
+// ═══ NAV ══════════════════════════════════════════════════════════
+function nav(v) {
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.toggle('active', el.dataset.v === v));
+  const c = document.getElementById('content');
+  c.innerHTML = `<div style="display:flex;justify-content:center;padding:60px"><div class="spin spin-lg"></div></div>`;
+  setTimeout(async () => {
+    if      (v === 'entry')       await renderEntry();
+    else if (v === 'entries')     await renderEntries();
+    else if (v === 'analytics')   await renderAnalytics();
+    else if (v === 'roster')      await renderRoster();
+    else if (v === 'ext-entries') await renderExtEntries();
+    else if (v === 'fdb')         await renderFDB();
+  }, 80);
+}
+
+// ═══ DUTY ENTRY ═══════════════════════════════════════════════════
+async function renderEntry() {
+  const c = document.getElementById('content');
+  const [md, cold, dd, dsd, rd, sd, fd] = await Promise.all([
+    loadSheet('MOYREXDB'), loadSheet('CollegeDB'), loadSheet('DepartmentDB'),
+    loadSheet('DesignationDB'), loadSheet('RollDB'), loadSheet('SessionDB'), loadSheet('FacultyDB')
+  ]);
+  const opt = (rows) => (rows || []).map(r => `<option value="${r[0]}">${r[0]}</option>`).join('');
+  c.innerHTML = `
+    <div class="pg-h"><div class="pg-t">✍️ Report Duty</div><div class="pg-s">Record your examination attendance</div></div>
+    <div class="ec">
+      <div class="ec-head"><div class="ec-icon">📝</div>
+        <div><div class="ec-title">Attendance Entry Form</div><div class="ec-sub">Complete all 7 steps to submit</div></div>
+      </div>
+      <div class="ec-body">
+        <div class="steps" id="steps-row">
+          <div class="step active" id="s1"><div class="sc">1</div><div class="sl">Date</div></div><div class="scon" id="sc1"></div>
+          <div class="step pending" id="s2"><div class="sc">2</div><div class="sl">M&amp;Y</div></div><div class="scon" id="sc2"></div>
+          <div class="step pending" id="s3"><div class="sc">3</div><div class="sl">College</div></div><div class="scon" id="sc3"></div>
+          <div class="step pending" id="s4"><div class="sc">4</div><div class="sl">Dept</div></div><div class="scon" id="sc4"></div>
+          <div class="step pending" id="s5"><div class="sc">5</div><div class="sl">Desig</div></div><div class="scon" id="sc5"></div>
+          <div class="step pending" id="s6"><div class="sc">6</div><div class="sl">Role</div></div><div class="scon" id="sc6"></div>
+          <div class="step pending" id="s7"><div class="sc">7</div><div class="sl">Name</div></div>
+        </div>
+        <div class="fgrid">
+          <div class="form-g"><label class="form-l">📅 Date of Duty</label>
+            <input type="date" class="form-c" id="f-date" onchange="markS(1);checkDupFaculty()"></div>
+          <div class="form-g"><label class="form-l">📅 Month &amp; Year</label>
+            <select class="form-c" id="f-moyr" onchange="markS(2)"><option value="">Select…</option>${opt(md.rows)}</select></div>
+          <div class="form-g"><label class="form-l">🎓 College</label>
+            <select class="form-c" id="f-col" onchange="markS(3);rebuildFacFilter();checkDupFaculty()"><option value="">Select…</option>${opt(cold.rows)}</select>
+            <div id="college-type-badge" style="margin-top:5px"></div>
+          </div>
+          <div class="form-g"><label class="form-l">🏢 Department</label>
+            <select class="form-c" id="f-dept" onchange="markS(4);rebuildFacFilter()"><option value="">Select…</option>${opt(dd.rows)}</select></div>
+          <div class="form-g"><label class="form-l">🏷️ Designation</label>
+            <select class="form-c" id="f-desig" onchange="markS(5);rebuildFacFilter()"><option value="">Select…</option>${opt(dsd.rows)}</select></div>
+          <div class="form-g"><label class="form-l">📋 Role / Duty</label>
+            <select class="form-c" id="f-roll" onchange="markS(6);checkDupFaculty()"><option value="">Select…</option>${opt(rd.rows)}</select></div>
+          <div class="form-g"><label class="form-l">⏱️ Session</label>
+            <select class="form-c" id="f-ses"><option value="">Select…</option>${opt(sd.rows)}</select></div>
+        </div>
+        <div id="dup-warn" style="display:none;margin-top:14px;background:#fef3c7;border:1.5px solid #fcd34d;border-radius:10px;padding:12px 16px;font-size:13px;color:#92400e;display:flex;align-items:center;gap:10px">
+          ⚠️ <span id="dup-warn-text"></span>
+        </div>
+        <div class="np hl" style="margin-top:20px">
+          <div class="np-title">👤 Step 7 — Faculty Name</div>
+          <div id="fac-match-badge" style="margin-bottom:10px"></div>
+          <div class="form-g" style="margin-bottom:12px">
+            <label class="form-l">Select Name</label>
+            <select class="form-c" id="f-nsel" onchange="onNameSel()">
+              <option value="">-- Select Faculty Name --</option>
+              ${(fd.rows || []).map((r, i) => `<option value="${i}">${r[1]} — ${r[2] || ''} | ${r[3] || ''}</option>`).join('')}
+              <option value="__new__">➕ Name not listed — Enter new</option>
+            </select>
+            <div id="fac-hint" style="font-size:11px;color:var(--g400);margin-top:4px;font-style:italic">Select College, Department &amp; Designation above to filter names</div>
+          </div>
+          <div id="newname-area" class="hidden">
+            <div class="form-g"><label class="form-l">Full Name *</label>
+              <input class="form-c" id="f-newname" placeholder="Enter full name" oninput="markS(7)"></div>
+            <div style="font-size:12px;color:var(--g400);margin-top:6px">ℹ️ Name will be auto-saved to FacultyDB</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--g100);flex-wrap:wrap">
+          <button class="btn btn-outline" onclick="nav('entry')">🔄 Reset</button>
+          <button class="btn btn-primary" onclick="previewFacEntry()">👁️ Preview</button>
+          <button class="btn btn-success" onclick="submitEntry()">✅ Submit Attendance</button>
+        </div>
+      </div>
+    </div>
+    <div id="success-area" class="hidden"></div>`;
+}
+
+function markS(n) {
+  for (let i = 1; i <= 7; i++) {
+    const s = document.getElementById(`s${i}`); if (!s) continue;
+    const circle = s.querySelector('.sc');
+    if (i < n) { s.className = 'step done'; circle.textContent = '✓'; }
+    else if (i === n) { s.className = 'step active'; circle.textContent = i; }
+    else { s.className = 'step pending'; circle.textContent = i; }
+    if (i < 7) { const cn = document.getElementById(`sc${i}`); if (cn) cn.className = `scon ${i < n ? 'done' : ''}`; }
+  }
+}
+
+async function checkDupFaculty() {
+  const date = fmtDate(document.getElementById('f-date')?.value);
+  const roll = document.getElementById('f-roll')?.value;
+  const col  = document.getElementById('f-col')?.value || '';
+  if (!date || !roll) { document.getElementById('dup-warn').style.display = 'none'; return; }
+  const targetSheet = isInternal(col) ? 'DataEntryDB' : 'ExternalEntryDB';
+  const ed = await loadSheet(targetSheet);
+  const rows = ed.rows || [];
+  const dups = rows.filter(r => r[2] === date && r[5] === roll);
+  const w = document.getElementById('dup-warn');
+  if (dups.length > 0) {
+    document.getElementById('dup-warn-text').textContent = `${dups.length} existing entr${dups.length > 1 ? 'ies' : 'y'} already submitted for this date + role. Verify before adding more.`;
+    w.style.display = 'flex';
+  } else {
+    w.style.display = 'none';
+  }
+}
+
+function isInternal(college) {
+  return String(college||'').trim().toLowerCase() === INTERNAL_COLLEGE.toLowerCase();
+}
+
+function rebuildFacFilter() {
+  const col   = (document.getElementById('f-col')?.value   || '').trim().toLowerCase();
+  const dept  = (document.getElementById('f-dept')?.value  || '').trim().toLowerCase();
+  const desig = (document.getElementById('f-desig')?.value || '').trim().toLowerCase();
+  const allRows = _cache['FacultyDB']?.rows || [];
+  const filterOn = col || dept || desig;
+
+  // Show Internal / External badge based on selected college
+  const colVal = document.getElementById('f-col')?.value || '';
+  const colBadge = document.getElementById('college-type-badge');
+  if (colBadge) {
+    if (!colVal) {
+      colBadge.innerHTML = '';
+    } else if (isInternal(colVal)) {
+      colBadge.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;background:#dbeafe;color:#1e40af;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700">👩‍🏫 Internal Faculty</span>`;
+    } else {
+      colBadge.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;background:var(--ext-l);color:var(--ext);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700">🎓 External Faculty → saved to ExternalEntryDB</span>`;
+    }
+  }
+
+  const matched = allRows.filter(r => {
+    if (!String(r[1]||'').trim()) return false;
+    // FacultyDB: [0]=S.No [1]=Name [2]=Desig [3]=Dept [4]=College
+    if (col   && String(r[4]||'').trim().toLowerCase() !== col)   return false;
+    if (dept  && String(r[3]||'').trim().toLowerCase() !== dept)  return false;
+    if (desig && String(r[2]||'').trim().toLowerCase() !== desig) return false;
+    return true;
+  });
+
+  const nsel = document.getElementById('f-nsel'); if (!nsel) return;
+  const prev = nsel.value;
+  nsel.innerHTML = '';
+
+  const ph = document.createElement('option');
+  ph.value = '';
+  ph.textContent = filterOn
+    ? (matched.length > 0 ? `-- ${matched.length} faculty found — select name --` : '-- No matching faculty found --')
+    : '-- Select Faculty Name --';
+  nsel.appendChild(ph);
+
+  matched.forEach(r => {
+    const idx = allRows.indexOf(r);
+    const o = document.createElement('option');
+    o.value = idx;
+    o.textContent = `${r[1]} — ${r[2]||''} | ${r[3]||''}`;
+    nsel.appendChild(o);
+  });
+
+  const newOpt = document.createElement('option');
+  newOpt.value = '__new__';
+  newOpt.textContent = '➕ Name not listed — Enter new';
+  nsel.appendChild(newOpt);
+
+  // Restore previous selection if still valid
+  if (prev && [...nsel.options].some(o => o.value === prev)) nsel.value = prev;
+
+  // Badge
+  const badge = document.getElementById('fac-match-badge');
+  const hint  = document.getElementById('fac-hint');
+  if (filterOn && badge) {
+    badge.innerHTML = matched.length > 0
+      ? `<span style="display:inline-flex;align-items:center;gap:5px;background:#d1fae5;color:#065f46;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700">✓ ${matched.length} faculty match your selection</span>`
+      : `<span style="display:inline-flex;align-items:center;gap:5px;background:#fee2e2;color:#7f1d1d;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700">⚠ No matching faculty — enter name below</span>`;
+    if (hint) hint.textContent = '';
+  } else if (badge) {
+    badge.innerHTML = '';
+    if (hint) hint.textContent = 'Select College, Department & Designation above to filter names';
+  }
+
+  // Show new-name area if no match and filter is active
+  const newArea = document.getElementById('newname-area');
+  if (newArea && filterOn && matched.length === 0) newArea.classList.remove('hidden');
+}
+
+function onNameSel() {
+  const v = document.getElementById('f-nsel').value;
+  document.getElementById('newname-area').classList.toggle('hidden', v !== '__new__');
+  if (v && v !== '__new__') {
+    markS(7);
+    const r = (_cache['FacultyDB']?.rows || [])[parseInt(v)];
+    if (r) { setV('f-desig', r[2]); setV('f-dept', r[3]); setV('f-col', r[4]); rebuildFacFilter(); }
+  }
+}
+function setV(id, val) {
+  const el = document.getElementById(id); if (!el || !val) return;
+  for (let o of el.options) { if (o.value === val) { el.value = val; return; } }
+}
+function getData() {
+  const date = document.getElementById('f-date')?.value;
+  const ns = document.getElementById('f-nsel')?.value;
+  let name = '', isNew = false;
+  if (ns === '__new__') { name = document.getElementById('f-newname')?.value?.trim(); isNew = true; }
+  else if (ns) { const r = (_cache['FacultyDB']?.rows || [])[parseInt(ns)]; if (r) name = r[1]; }
+  return {
+    date: fmtDate(date), dateNum: dateNum(date),
+    moyr: document.getElementById('f-moyr')?.value,
+    col: document.getElementById('f-col')?.value,
+    dept: document.getElementById('f-dept')?.value,
+    desig: document.getElementById('f-desig')?.value,
+    roll: document.getElementById('f-roll')?.value,
+    ses: document.getElementById('f-ses')?.value,
+    name, isNew
+  };
+}
+function previewFacEntry() {
+  const d = getData();
+  if (!d.date) { showToast('Select a date first', 'error'); return; }
+  openMo('👁️ Entry Preview',
+    `<table style="width:100%;font-size:13px;border-collapse:collapse">
+      ${[['Date', d.date], ['Month & Year', d.moyr], ['College', d.col], ['Department', d.dept], ['Designation', d.desig], ['Role', d.roll], ['Session', d.ses], ['Faculty Name', `<strong>${d.name || '<em style="color:var(--g400)">Not entered</em>'}</strong>`]]
+        .map(([l, v]) => `<tr style="border-bottom:1px solid var(--g100)"><td style="padding:8px 4px;color:var(--g400);font-size:12px;font-weight:600;width:140px;text-transform:uppercase">${l}</td><td style="padding:8px 4px;color:var(--g800)">${v || '<em style="color:var(--g400)">Not filled</em>'}</td></tr>`).join('')}
+    </table>`,
+    `<button class="btn btn-outline btn-sm" onclick="closeMo()">Close</button>`);
+}
+async function submitEntry() {
+  const d = getData();
+  if (!d.date || !d.moyr || !d.col || !d.dept || !d.desig || !d.roll || !d.ses || !d.name) {
+    showToast('Complete all fields before submitting', 'error'); return;
+  }
+
+  // Determine target sheet based on college
+  const targetSheet = isInternal(d.col) ? 'DataEntryDB' : 'ExternalEntryDB';
+
+  // Duplicate check: same name + same date in the correct target sheet
+  const ed = await loadSheet(targetSheet, true);
+  const dup = (ed.rows || []).find(r => r[2] === d.date && String(r[6]||'').trim().toLowerCase() === d.name.trim().toLowerCase());
+  if (dup) {
+    showToast(`Duplicate! ${d.name} already has an entry for ${d.date} (ID: ${dup[10]||'—'})`, 'error');
+    return;
+  }
+  const counter = (ed.rows?.length || 0) + 1;
+  const id = genId(counter, d.date);
+  const r = await gasPost({ action: 'addDataEntry', entry: {
+    sheet: targetSheet,
+    moyr: d.moyr, date: d.date, number: counter,
+    session: d.ses, roll: d.roll, name: d.name,
+    designation: d.desig, department: d.dept, college: d.col,
+    id, isNew: d.isNew
+  }});
+  if (r.success) {
+    clearCache(targetSheet); clearCache('FacultyDB');
+    const isInt = isInternal(d.col);
+    const sa = document.getElementById('success-area');
+    sa.classList.remove('hidden');
+    sa.innerHTML = `<div class="success-banner" style="background:${isInt ? 'linear-gradient(135deg,#065f46,#059669)' : 'linear-gradient(135deg,#4c1d95,#7c3aed)'}">
+      <div class="sb-icon2">${isInt ? '✅' : '🎓'}</div>
+      <div class="sb-title">Attendance Recorded!</div>
+      <div style="font-size:12px;opacity:.75;margin-top:2px">${isInt ? '👩‍🏫 Internal — saved to DataEntryDB' : '🎓 External — saved to ExternalEntryDB'}</div>
+      <div style="font-size:13px;opacity:.8;margin-top:8px">Entry ID</div>
+      <div class="sb-id">${id}</div>
+      <button class="btn btn-outline" style="margin-top:18px;border-color:rgba(255,255,255,.3);color:#fff" onclick="nav('entry')">Submit Another</button>
+    </div>`;
+    sa.scrollIntoView({ behavior: 'smooth' });
+  } else showToast(r.message || 'Error saving entry', 'error');
+}
+
+// ═══ MY ENTRIES ═══════════════════════════════════════════════════
+async function renderEntries() {
+  const c = document.getElementById('content');
+  const data = await loadSheet('DataEntryDB'); const rows = data.rows || [];
+  c.innerHTML = `
+    <div class="pg-h"><div class="pg-t">📋 My Entries</div><div class="pg-s">All submitted attendance records</div></div>
+    <div class="card"><div class="ch"><div class="ct">Entries (${rows.length})</div></div>
+      <div class="tw"><table>
+        <thead><tr><th>#</th><th>Entry ID</th><th>Date</th><th>M&Y</th><th>Name</th><th>Role</th><th>Session</th><th>Actions</th></tr></thead>
+        <tbody>${rows.length === 0 ? '<tr><td colspan="8" class="no-data">No entries yet</td></tr>' :
+    rows.map((r, i) => `<tr>
+            <td>${i + 1}</td>
+            <td style="font-family:monospace;font-size:11px;color:var(--royal)">${r[10] || '—'}</td>
+            <td>${r[2] || '—'}</td><td>${r[1] || '—'}</td>
+            <td><strong>${r[6] || '—'}</strong></td>
+            <td style="font-size:11px;max-width:130px">${r[5] || '—'}</td>
+            <td><span class="badge b-blue">${r[4] || '—'}</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-outline btn-xs" onclick="editEntry(${i},'DataEntryDB')">✏️</button>
+              <button class="btn btn-danger btn-xs" onclick="delEntry(${i},'DataEntryDB','entries')">🗑️</button>
+            </div></td>
+          </tr>`).join('')}
+        </tbody></table></div></div>`;
+}
+
+// ═══ ANALYTICS ════════════════════════════════════════════════════
+async function renderAnalytics() {
+  const c = document.getElementById('content');
+  c.innerHTML = `<div class="pg-h"><div class="pg-t">📊 Analytics Dashboard</div><div class="pg-s">Attendance insights across all entries</div></div><div style="display:flex;justify-content:center;padding:40px"><div class="spin spin-lg"></div></div>`;
+  const [internalData, extData] = await Promise.all([loadSheet('DataEntryDB'), loadSheet('ExternalEntryDB')]);
+  const iRows = internalData.rows || [];
+  const eRows = extData.rows || [];
+  const totalInt = iRows.length, totalExt = eRows.length, total = totalInt + totalExt;
+
+  // Count by role (internal)
+  const byRole = {}; iRows.forEach(r => { const k = r[5] || 'Unknown'; byRole[k] = (byRole[k] || 0) + 1; });
+  const byRoleExt = {}; eRows.forEach(r => { const k = r[5] || 'Unknown'; byRoleExt[k] = (byRoleExt[k] || 0) + 1; });
+  const byDept = {}; iRows.forEach(r => { const k = r[8] || 'Unknown'; byDept[k] = (byDept[k] || 0) + 1; });
+  const byCollege = {}; eRows.forEach(r => { const k = r[9] || 'Unknown'; byCollege[k] = (byCollege[k] || 0) + 1; });
+  const byDate = {}; [...iRows, ...eRows].forEach(r => { const k = r[2] || '?'; byDate[k] = (byDate[k] || 0) + 1; });
+  const recentDates = Object.entries(byDate).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 6);
+
+  const topRole = (obj, color, max) => Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 5)
+    .map(([k, v]) => `<div class="bar-row"><div class="bar-label" title="${k}">${k}</div><div class="bar-track"><div class="bar-fill ${color}" style="--w:${Math.round(v / max * 100)}%"></div></div><div class="bar-val">${v}</div></div>`).join('');
+
+  const maxR = Math.max(...Object.values(byRole), 1);
+  const maxE = Math.max(...Object.values(byRoleExt), 1);
+  const maxD = Math.max(...Object.values(byDept), 1);
+  const maxC = Math.max(...Object.values(byCollege), 1);
+
+  // Pie: internal vs external
+  const pct = total > 0 ? Math.round(totalInt / total * 100) : 0;
+  const r = 36, cx = 44, cy = 44, circ = 2 * Math.PI * r;
+  const dash = (circ * pct / 100).toFixed(1);
+  const extDash = (circ * (100 - pct) / 100).toFixed(1);
+
+  c.innerHTML = `
+    <div class="pg-h"><div class="pg-t">📊 Analytics Dashboard</div><div class="pg-s">Attendance insights across all records</div></div>
+    <div class="stats-grid">
+      <div class="stat-card s-blue"><div class="stat-icon">📊</div><div class="stat-num">${total}</div><div class="stat-lbl">Total Entries</div></div>
+      <div class="stat-card s-green"><div class="stat-icon">👩‍🏫</div><div class="stat-num">${totalInt}</div><div class="stat-lbl">Internal Faculty</div></div>
+      <div class="stat-card s-ext"><div class="stat-icon">🎓</div><div class="stat-num">${totalExt}</div><div class="stat-lbl">External Faculty</div></div>
+      <div class="stat-card s-warn"><div class="stat-icon">📅</div><div class="stat-num">${Object.keys(byDate).length}</div><div class="stat-lbl">Duty Days</div></div>
+      <div class="stat-card"><div class="stat-icon">🏢</div><div class="stat-num">${Object.keys(byDept).length}</div><div class="stat-lbl">Departments</div></div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">👩‍🏫 Internal Entries by Role</div>
+        ${Object.keys(byRole).length === 0 ? '<div style="color:var(--g400);font-size:13px;text-align:center;padding:20px">No data</div>' : topRole(byRole, 'f-blue', maxR)}
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">🎓 External Entries by Role</div>
+        ${Object.keys(byRoleExt).length === 0 ? '<div style="color:var(--g400);font-size:13px;text-align:center;padding:20px">No data</div>' : topRole(byRoleExt, 'f-ext', maxE)}
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">🏢 Internal by Department</div>
+        ${Object.keys(byDept).length === 0 ? '<div style="color:var(--g400);font-size:13px;text-align:center;padding:20px">No data</div>' : topRole(byDept, 'f-green', maxD)}
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">🏛️ External Colleges</div>
+        ${Object.keys(byCollege).length === 0 ? '<div style="color:var(--g400);font-size:13px;text-align:center;padding:20px">No data</div>' : topRole(byCollege, 'f-ext', maxC)}
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">📅 Recent Duty Days</div>
+        ${recentDates.length === 0 ? '<div style="color:var(--g400);font-size:13px;text-align:center;padding:20px">No data</div>' : recentDates.map(([d, v]) => {
+    const max = Math.max(...recentDates.map(x => x[1]));
+    return `<div class="bar-row"><div class="bar-label">${d}</div><div class="bar-track"><div class="bar-fill f-blue" style="--w:${Math.round(v / max * 100)}%"></div></div><div class="bar-val">${v}</div></div>`;
+  }).join('')}
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">🔵 Internal vs External Split</div>
+        <div class="pie-wrap">
+          <svg class="pie-svg" width="88" height="88" viewBox="0 0 88 88">
+            <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--g100)" stroke-width="12"/>
+            <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--blue)" stroke-width="12"
+              stroke-dasharray="${dash} ${circ}" stroke-dashoffset="${circ * 0.25}" stroke-linecap="round"/>
+            <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--ext)" stroke-width="12"
+              stroke-dasharray="${extDash} ${circ}" stroke-dashoffset="${(circ * 0.25 - parseFloat(dash)).toFixed(1)}" stroke-linecap="round" transform="rotate(0 ${cx} ${cy})"/>
+            <text x="${cx}" y="${cy + 5}" text-anchor="middle" font-size="13" font-weight="700" fill="var(--g800)">${total}</text>
+          </svg>
+          <div class="pie-legend">
+            <div class="pl-item"><div class="pl-dot" style="background:var(--blue)"></div> Internal: <strong style="margin-left:4px">${totalInt}</strong> (${pct}%)</div>
+            <div class="pl-item"><div class="pl-dot" style="background:var(--ext)"></div> External: <strong style="margin-left:4px">${totalExt}</strong> (${100 - pct}%)</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ═══ DATE ROSTER ══════════════════════════════════════════════════
+async function renderRoster() {
+  const c = document.getElementById('content');
+  const [rd, intData, extData] = await Promise.all([loadSheet('RollDB'), loadSheet('DataEntryDB'), loadSheet('ExternalEntryDB')]);
+  const roles = (rd.rows || []).map(r => r[0]);
+  // Dates from BOTH sheets, sorted descending
+  const allDates = [...new Set([
+    ...(intData.rows || []).map(r => r[2]),
+    ...(extData.rows || []).map(r => r[2])
+  ].filter(Boolean))].sort((a,b) => b.localeCompare(a));
+
+  c.innerHTML = `
+    <div class="pg-h"><div class="pg-t">📅 Date &amp; Role Roster</div><div class="pg-s">View and verify attendance by date and role</div></div>
+    <div class="card">
+      <div class="ch"><div class="ct">Filter Roster</div></div>
+      <div style="padding:16px 22px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+        <div class="form-g" style="min-width:160px">
+          <label class="form-l">📅 Date</label>
+          <select class="form-c" id="r-date" onchange="loadRosterTable()">
+            <option value="">All Dates</option>
+            ${allDates.map(d => `<option value="${d}">${d}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-g" style="min-width:160px">
+          <label class="form-l">📋 Role</label>
+          <select class="form-c" id="r-roll" onchange="loadRosterTable()">
+            <option value="">All Roles</option>
+            ${roles.map(r => `<option value="${r}">${r}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-g" style="min-width:120px">
+          <label class="form-l">🔍 Source</label>
+          <select class="form-c" id="r-src" onchange="loadRosterTable()">
+            <option value="">All</option>
+            <option value="internal">Internal Only</option>
+            <option value="external">External Only</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div id="roster-badges" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px"></div>
+    <div class="card"><div id="roster-table-area"><div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div></div></div>`;
+  await loadRosterTable();
+}
+
+async function loadRosterTable() {
+  const filterDate = document.getElementById('r-date')?.value || '';
+  const filterRole = document.getElementById('r-roll')?.value || '';
+  const filterSrc  = document.getElementById('r-src')?.value || '';
+  const [intData, extData] = await Promise.all([loadSheet('DataEntryDB'), loadSheet('ExternalEntryDB')]);
+
+  // Store real sheet index on each row object — CRITICAL: do this before any filter
+  const intRows = (intData.rows || []).map((r, i) => Object.assign([], r, { _src: 'internal', _idx: i }));
+  const extRows = (extData.rows || []).map((r, i) => Object.assign([], r, { _src: 'external', _idx: i }));
+
+  let combined = [...intRows, ...extRows];
+  if (filterDate) combined = combined.filter(r => r[2] === filterDate);
+  if (filterRole) combined = combined.filter(r => r[5] === filterRole);
+  if (filterSrc === 'internal') combined = combined.filter(r => r._src === 'internal');
+  if (filterSrc === 'external') combined = combined.filter(r => r._src === 'external');
+  combined.sort((a, b) => (a[2] || '').localeCompare(b[2] || ''));
+
+  const isVer = r => String(r[11]||'').trim().toLowerCase() === 'verified';
+  const verified = combined.filter(r => isVer(r));
+  const pending  = combined.filter(r => !isVer(r));
+
+  document.getElementById('roster-badges').innerHTML = `
+    <span class="roster-badge rb-total">📊 Total: ${combined.length}</span>
+    <span class="roster-badge rb-verified">✅ Verified: ${verified.length}</span>
+    <span class="roster-badge rb-pending">⏳ Pending: ${pending.length}</span>`;
+
+  const area = document.getElementById('roster-table-area');
+  if (combined.length === 0) {
+    area.innerHTML = '<div style="text-align:center;padding:40px;color:var(--g400);font-style:italic">No entries match selected filters</div>';
+    return;
+  }
+  area.innerHTML = `<div class="tw"><table>
+    <thead><tr><th>#</th><th>Entry ID</th><th>Date</th><th>Role</th><th>Name</th><th>Dept/College</th><th>Session</th><th>Source</th><th>Status</th><th>Verify</th></tr></thead>
+    <tbody>${combined.map((r, i) => {
+      const isExt      = r._src === 'external';
+      const verNow     = isVer(r);
+      const sheet      = isExt ? 'ExternalEntryDB' : 'DataEntryDB';
+      const realIdx    = r._idx; // ← stored before any filter, always correct
+      return `<tr class="verify-row ${verNow ? '' : 'unverified'}" id="vrow-${sheet}-${realIdx}">
+        <td>${i + 1}</td>
+        <td style="font-family:monospace;font-size:11px;color:var(--royal)">${r[10] || '—'}</td>
+        <td>${r[2] || '—'}</td>
+        <td style="font-size:11px">${r[5] || '—'}</td>
+        <td><strong>${r[6] || '—'}</strong></td>
+        <td style="font-size:11px">${isExt ? (r[9]||'—') : (r[8]||'—')}</td>
+        <td><span class="badge b-blue">${r[4] || '—'}</span></td>
+        <td><span class="badge ${isExt ? 'b-ext' : 'b-green'}">${isExt ? '🎓 Ext' : '👩‍🏫 Int'}</span></td>
+        <td id="vstatus-${sheet}-${realIdx}"><span class="badge ${verNow ? 'b-green' : 'b-warn'}">${verNow ? '✅ Verified' : '⏳ Pending'}</span></td>
+        <td><button class="verify-btn ${verNow ? 'verified' : 'unverified'}" id="vbtn-${sheet}-${realIdx}"
+          onclick="toggleVerify('${sheet}',${realIdx},this)">${verNow ? '✅ Verified' : '⬜ Verify'}</button></td>
+      </tr>`;
+    }).join('')}
+    </tbody></table></div>`;
+}
+
+async function toggleVerify(sheet, idx, btn) {
+  btn.disabled = true;
+  const origText = btn.textContent;
+  btn.textContent = '⏳';
+
+  try {
+    // Fetch fresh to get real current verified state
+    const data = await gasPost({ action: 'getAll', sheet });
+    if (!data.success) throw new Error(data.message || 'Fetch failed');
+
+    const rawRow = data.rows[idx];
+    if (!rawRow) throw new Error('Row not found at index ' + idx);
+
+    const wasVerified = String(rawRow[11]||'').trim().toLowerCase() === 'verified';
+    const newVal      = wasVerified ? '' : 'Verified';
+
+    // ── KEY FIX: use updateVerified — writes ONLY to col 12 (Verified)
+    // Never rewrites Month & Year or any other cell → no date corruption
+    const res = await gasPost({ action: 'updateVerified', sheet, rowIndex: idx, value: newVal });
+    if (!res.success) throw new Error(res.message || 'Update failed');
+
+    // Update local cache (col 11 = index 11)
+    if (_cache[sheet]?.rows?.[idx]) _cache[sheet].rows[idx][11] = newVal;
+
+    // Update button
+    const nowVerified = newVal === 'Verified';
+    btn.textContent   = nowVerified ? '✅ Verified' : '⬜ Verify';
+    btn.className     = `verify-btn ${nowVerified ? 'verified' : 'unverified'}`;
+
+    // Update status badge cell
+    const statusCell = document.getElementById(`vstatus-${sheet}-${idx}`);
+    if (statusCell) {
+      statusCell.innerHTML = `<span class="badge ${nowVerified ? 'b-green' : 'b-warn'}">${nowVerified ? '✅ Verified' : '⏳ Pending'}</span>`;
+    }
+
+    // Update row background
+    const tr = document.getElementById(`vrow-${sheet}-${idx}`);
+    if (tr) tr.classList.toggle('unverified', !nowVerified);
+
+    // Refresh summary badges count
+    const allVerBtns   = document.querySelectorAll('.verify-btn.verified');
+    const allUnverBtns = document.querySelectorAll('.verify-btn.unverified');
+    const verBadge = document.querySelector('.roster-badge.rb-verified');
+    const penBadge = document.querySelector('.roster-badge.rb-pending');
+    if (verBadge) verBadge.textContent = `✅ Verified: ${allVerBtns.length}`;
+    if (penBadge) penBadge.textContent = `⏳ Pending: ${allUnverBtns.length}`;
+
+    showToast(nowVerified ? '✅ Marked as Verified' : 'Verification removed', nowVerified ? 'success' : 'info');
+  } catch(e) {
+    showToast('Error: ' + e.message, 'error');
+    btn.textContent = origText;
+  }
+  btn.disabled = false;
+}
+
+// ═══ EXTERNAL ENTRIES ════════════════════════════════════════════
+async function renderExtEntries() {
+  const c = document.getElementById('content');
+  c.innerHTML = `
+    <div class="pg-h"><div class="pg-t">🎓 External Faculty Entries</div><div class="pg-s">View, edit and delete external attendance records</div></div>
+    <div class="ec">
+      <div class="ext-head"><div class="ec-icon">🎓</div>
+        <div><div class="ec-title">External Faculty Attendance</div><div class="ec-sub">Submitted by external faculty (open-access portal)</div></div>
+      </div>
+      <div id="ext-content" style="padding:24px"><div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div></div>
+    </div>`;
+  await loadExtTable();
+}
+
+async function loadExtTable() {
+  const data = await loadSheet('ExternalEntryDB', true);
+  const rows = data.rows || [];
+  const area = document.getElementById('ext-content');
+  // Find duplicates by name+date
+  const seen = {}; const dupIds = new Set();
+  rows.forEach((r, i) => {
+    const k = `${String(r[6]||'').trim().toLowerCase()}__${r[2]}`;
+    if (seen[k] !== undefined) { dupIds.add(i); dupIds.add(seen[k]); } else seen[k] = i;
+  });
+  area.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <span class="badge b-ext" style="padding:5px 14px;font-size:12px">Total: ${rows.length}</span>
+        ${dupIds.size > 0 ? `<span class="dup-badge">⚠️ ${dupIds.size} Duplicate${dupIds.size > 1 ? 's' : ''}</span>` : '<span class="badge b-green" style="padding:5px 14px;font-size:12px">✅ No Duplicates</span>'}
+      </div>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Entry ID</th><th>Date</th><th>M&Y</th><th>Name</th><th>College</th><th>Role</th><th>Session</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>${rows.length === 0 ? '<tr><td colspan="10" class="no-data">No external entries yet</td></tr>' :
+    rows.map((r, i) => `<tr>
+          <td>${i + 1} ${dupIds.has(i) ? '<span class="dup-badge" style="font-size:9px;padding:2px 6px">DUP</span>' : ''}</td>
+          <td style="font-family:monospace;font-size:11px;color:var(--ext)">${r[10] || '—'}</td>
+          <td>${r[2] || '—'}</td><td>${r[1] || '—'}</td>
+          <td><strong>${r[6] || '—'}</strong></td>
+          <td style="font-size:11px;max-width:120px">${r[9] || '—'}</td>
+          <td style="font-size:11px">${r[5] || '—'}</td>
+          <td><span class="badge b-ext">${r[4] || '—'}</span></td>
+          <td><span class="badge ${r[11] === 'Verified' ? 'b-green' : 'b-warn'}">${r[11] === 'Verified' ? '✅' : '⏳'}</span></td>
+          <td><div style="display:flex;gap:6px">
+            <button class="btn btn-outline btn-xs" onclick="editEntry(${i},'ExternalEntryDB')">✏️</button>
+            <button class="btn btn-danger btn-xs" onclick="delEntry(${i},'ExternalEntryDB','ext-entries')">🗑️</button>
+          </div></td>
+        </tr>`).join('')}
+      </tbody></table></div>`;
+}
+
+// ═══ EDIT / DELETE ENTRIES ═══════════════════════════════════════
+async function editEntry(idx, sheet) {
+  const data = await loadSheet(sheet);
+  const row = data.rows[idx]; if (!row) return;
+  openMo(`✏️ Edit Entry — ${row[10] || ''}`,
+    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-g"><label class="form-l">Date</label><input class="form-c" id="ee0" value="${row[2] || ''}"></div>
+      <div class="form-g"><label class="form-l">Month & Year</label><input class="form-c" id="ee1" value="${row[1] || ''}"></div>
+      <div class="form-g"><label class="form-l">Name</label><input class="form-c" id="ee2" value="${row[6] || ''}"></div>
+      <div class="form-g"><label class="form-l">Designation</label><input class="form-c" id="ee3" value="${row[7] || ''}"></div>
+      <div class="form-g"><label class="form-l">Department</label><input class="form-c" id="ee4" value="${row[8] || ''}"></div>
+      <div class="form-g"><label class="form-l">College</label><input class="form-c" id="ee5" value="${row[9] || ''}"></div>
+      <div class="form-g"><label class="form-l">Role</label><input class="form-c" id="ee6" value="${row[5] || ''}"></div>
+      <div class="form-g"><label class="form-l">Session</label><input class="form-c" id="ee7" value="${row[4] || ''}"></div>
+    </div>`,
+    `<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button>
+     <button class="btn btn-primary btn-sm" onclick="saveEditEntry(${idx},'${sheet}')">💾 Update</button>`);
+}
+async function saveEditEntry(idx, sheet) {
+  const data = await loadSheet(sheet);
+  const row = [...data.rows[idx]];
+  row[2] = document.getElementById('ee0').value.trim();
+  row[1] = document.getElementById('ee1').value.trim();
+  row[6] = document.getElementById('ee2').value.trim();
+  row[7] = document.getElementById('ee3').value.trim();
+  row[8] = document.getElementById('ee4').value.trim();
+  row[9] = document.getElementById('ee5').value.trim();
+  row[5] = document.getElementById('ee6').value.trim();
+  row[4] = document.getElementById('ee7').value.trim();
+  const r = await gasPost({ action: 'updateRow', sheet, rowIndex: idx, row });
+  if (r.success) {
+    clearCache(sheet); closeMo(); showToast('Entry updated!', 'success');
+    if (sheet === 'ExternalEntryDB') await loadExtTable(); else await renderEntries();
+  } else showToast(r.message || 'Error', 'error');
+}
+function delEntry(idx, sheet, navTarget) {
+  showConfirm('🗑️', 'Delete Entry?', 'This action cannot be undone. The entry will be permanently removed.', 'Delete', async () => {
+    const r = await gasPost({ action: 'deleteRow', sheet, rowIndex: idx });
+    if (r.success) {
+      clearCache(sheet); showToast('Entry deleted', 'info');
+      if (sheet === 'ExternalEntryDB') await loadExtTable(); else await renderEntries();
+    } else showToast(r.message || 'Error', 'error');
+  });
+}
+
+// ═══ FACULTY DB ════════════════════════════════════════════════════
+async function renderFDB() {
+  const c = document.getElementById('content');
+  c.innerHTML = `
+    <div class="pg-h"><div class="pg-t">👩‍🏫 Faculty DB</div><div class="pg-s">Manage faculty records</div></div>
+    <div class="card"><div class="ch"><div class="ct">Records</div>
+      <button class="btn btn-primary btn-sm" onclick="addFac()">+ Add Faculty</button></div>
+      <div class="cb" id="fdb-area"><div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div></div>
+    </div>`;
+  const data = await loadSheet('FacultyDB'); const rows = data.rows || [];
+  document.getElementById('fdb-area').innerHTML = `<div class="tw"><table>
+    <thead><tr><th>#</th><th>Name</th><th>Designation</th><th>Department</th><th>College</th><th>Actions</th></tr></thead>
+    <tbody>${rows.length === 0 ? '<tr><td colspan="6" class="no-data">No records</td></tr>' :
+    rows.map((r, i) => `<tr>
+        <td>${i + 1}</td><td><strong>${r[1] || '—'}</strong></td>
+        <td style="font-size:12px">${r[2] || '—'}</td>
+        <td style="font-size:12px">${r[3] || '—'}</td>
+        <td style="font-size:11px">${r[4] || '—'}</td>
+        <td><div style="display:flex;gap:8px">
+          <button class="btn btn-outline btn-xs" onclick="editFac(${i})">✏️ Edit</button>
+          <button class="btn btn-danger btn-xs" onclick="delFac(${i})">🗑️ Delete</button>
+        </div></td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+}
+async function addFac() {
+  const [dd, deptd, cd] = await Promise.all([loadSheet('DesignationDB'), loadSheet('DepartmentDB'), loadSheet('CollegeDB')]);
+  const opt = rows => (rows || []).map(r => `<option value="${r[0]}">${r[0]}</option>`).join('');
+  openMo('Add Faculty',
+    `<div style="display:grid;grid-template-columns:1fr;gap:12px">
+      <div class="form-g"><label class="form-l">Full Name</label><input class="form-c" id="mf0" placeholder="Enter name"></div>
+      <div class="form-g"><label class="form-l">Designation</label><select class="form-c" id="mf1"><option value="">Select…</option>${opt(dd.rows)}</select></div>
+      <div class="form-g"><label class="form-l">Department</label><select class="form-c" id="mf2"><option value="">Select…</option>${opt(deptd.rows)}</select></div>
+      <div class="form-g"><label class="form-l">College</label><select class="form-c" id="mf3"><option value="">Select…</option>${opt(cd.rows)}</select></div>
+    </div>`,
+    `<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button>
+     <button class="btn btn-primary btn-sm" onclick="saveFac()">💾 Save</button>`);
+}
+async function saveFac() {
+  const vals = [0, 1, 2, 3].map(i => document.getElementById(`mf${i}`).value.trim());
+  if (!vals[0]) { showToast('Name is required', 'error'); return; }
+  const data = await loadSheet('FacultyDB'); const sno = (data.rows?.length || 0) + 1;
+  const r = await gasPost({ action: 'addRow', sheet: 'FacultyDB', row: [sno, ...vals] });
+  if (r.success) { clearCache('FacultyDB'); closeMo(); showToast('Faculty added!', 'success'); await renderFDB(); }
+  else showToast(r.message || 'Error', 'error');
+}
+function editFac(idx) {
+  const row = (_cache['FacultyDB']?.rows || [])[idx]; if (!row) return;
+  openMo('✏️ Edit Faculty',
+    `<div style="display:grid;grid-template-columns:1fr;gap:12px">
+      <div class="form-g"><label class="form-l">Full Name</label><input class="form-c" id="mf0" value="${row[1] || ''}"></div>
+      <div class="form-g"><label class="form-l">Designation</label><input class="form-c" id="mf1" value="${row[2] || ''}"></div>
+      <div class="form-g"><label class="form-l">Department</label><input class="form-c" id="mf2" value="${row[3] || ''}"></div>
+      <div class="form-g"><label class="form-l">College</label><input class="form-c" id="mf3" value="${row[4] || ''}"></div>
+    </div>`,
+    `<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button>
+     <button class="btn btn-primary btn-sm" onclick="updFac(${idx})">💾 Update</button>`);
+}
+async function updFac(idx) {
+  const ex = [...(_cache['FacultyDB']?.rows || [])[idx]];
+  [0, 1, 2, 3].forEach(i => { ex[i + 1] = document.getElementById(`mf${i}`).value.trim(); });
+  const r = await gasPost({ action: 'updateRow', sheet: 'FacultyDB', rowIndex: idx, row: ex });
+  if (r.success) { clearCache('FacultyDB'); closeMo(); showToast('Updated!', 'success'); await renderFDB(); }
+  else showToast(r.message || 'Error', 'error');
+}
+function delFac(idx) {
+  showConfirm('🗑️', 'Delete Faculty Record?', 'This will permanently remove the faculty record from the database.', 'Delete', async () => {
+    const r = await gasPost({ action: 'deleteRow', sheet: 'FacultyDB', rowIndex: idx });
+    if (r.success) { clearCache('FacultyDB'); showToast('Deleted', 'info'); await renderFDB(); }
+    else showToast(r.message || 'Error', 'error');
+  });
+}
+</script>
+</body>
+</html>

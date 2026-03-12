@@ -1,0 +1,859 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>External Faculty Entry — KCET Attendance</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#061429;--royal:#0d2d6b;--blue:#1a4fba;--sky:#2e80d8;
+  --pale:#dbeafe;--ghost:#f0f7ff;
+  --g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g400:#94a3b8;--g500:#64748b;--g600:#475569;--g700:#334155;--g800:#1e293b;
+  --success:#059669;--danger:#dc2626;--warn:#d97706;
+  --r:14px;--rs:8px;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes stepPop{0%{transform:scale(.8)}100%{transform:scale(1)}}
+@keyframes successIn{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes shakeX{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+body{font-family:'DM Sans',sans-serif;background:var(--g50);min-height:100vh;overflow-x:hidden}
+
+/* ── HEADER ── */
+.site-header{background:linear-gradient(135deg,var(--navy),var(--royal) 60%,#1a50c0);padding:0 28px;height:66px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(6,20,41,.35)}
+.sh-logo{width:38px;height:38px;background:linear-gradient(135deg,#c8882a,#f0c84a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 0 4px rgba(200,136,42,.25);flex-shrink:0}
+.sh-college{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:#fff;flex:1;line-height:1.2}
+.sh-college span{display:block;font-size:11px;font-weight:400;color:rgba(255,255,255,.45);letter-spacing:.5px}
+.sh-badge{background:rgba(5,150,105,.2);border:1px solid rgba(52,211,153,.35);color:#34d399;border-radius:30px;padding:5px 14px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.sh-dot{width:7px;height:7px;border-radius:50%;background:#34d399;animation:pulse 2s infinite}
+.back-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:12px;font-weight:600;text-decoration:none;transition:all .2s;flex-shrink:0}
+.back-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(90deg,var(--ghost),#fff);border-bottom:2px solid var(--pale);padding:20px 28px;display:flex;align-items:center;gap:16px}
+.hero-icon{width:54px;height:54px;background:linear-gradient(135deg,var(--success),#34d399);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 4px 16px rgba(5,150,105,.3)}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy)}
+.hero-sub{font-size:13px;color:var(--g400);margin-top:2px}
+.open-badge{margin-left:auto;background:#d1fae5;color:var(--success);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;flex-shrink:0}
+
+/* ── MAIN ── */
+.main{max-width:880px;margin:0 auto;padding:28px 20px 60px}
+
+/* ── FORM CARD ── */
+.fc-wrap{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(10,31,68,.12);border:1px solid var(--g200);overflow:hidden;margin-bottom:20px}
+.fc-head{background:linear-gradient(135deg,#065f46,#059669 60%,#10b981);padding:22px 28px;display:flex;align-items:center;gap:14px}
+.fc-hicon{width:48px;height:48px;background:rgba(255,255,255,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.fc-title{font-family:'Cormorant Garamond',serif;font-size:21px;color:#fff;font-weight:700}
+.fc-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px}
+.fc-body{padding:26px 28px}
+
+/* ── STEPS ── */
+.steps{display:flex;align-items:center;margin-bottom:24px}
+.step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.sc{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;transition:all .3s;flex-shrink:0}
+.sl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;text-align:center;color:var(--g400);white-space:nowrap}
+.step.done .sc{background:var(--success);color:#fff}.step.done .sl{color:var(--success)}
+.step.active .sc{background:var(--success);color:#fff;box-shadow:0 0 0 5px rgba(5,150,105,.2);animation:stepPop .3s}.step.active .sl{color:var(--success)}
+.step.pending .sc{background:var(--g100);color:var(--g400)}
+.scon{height:2px;flex:1;background:var(--g200);border-radius:2px;transition:background .3s;margin-bottom:20px}
+.scon.done{background:var(--success)}
+
+/* ── FORM ELEMENTS ── */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.fg{display:flex;flex-direction:column;gap:6px}
+.fl{font-size:11.5px;font-weight:600;color:var(--g600);letter-spacing:.4px;text-transform:uppercase}
+.fc{padding:10px 14px;border:1.5px solid var(--g200);border-radius:var(--rs);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--g800);background:#fff;outline:none;transition:all .2s;width:100%}
+.fc:focus{border-color:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.12)}
+.fc::placeholder{color:var(--g400)}
+.fc.err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(220,38,38,.1);animation:shakeX .4s ease}
+
+/* ── STEP SECTIONS ── */
+.ss{background:var(--g50);border-radius:12px;border:1.5px solid var(--g200);padding:16px 18px;margin-bottom:14px;transition:border-color .2s}
+.ss.act{border-color:#10b981;background:rgba(5,150,105,.02)}
+.ss-label{font-size:11px;font-weight:700;color:var(--success);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ss-num{width:20px;height:20px;background:var(--success);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+
+/* ── DUPLICATE ALERT ── */
+.dup-alert{background:linear-gradient(90deg,#fef2f2,#fee2e2);border:2px solid #fca5a5;border-radius:14px;padding:18px 20px;margin-bottom:16px;display:none}
+.dup-alert.show{display:block;animation:fadeUp .3s ease}
+.dup-title{font-size:14px;font-weight:700;color:#7f1d1d;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.dup-msg{font-size:13px;color:#991b1b;line-height:1.6}
+.dup-detail{background:rgba(220,38,38,.08);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:12px;color:#7f1d1d;font-family:monospace}
+
+/* ── NAME PANEL ── */
+.np{background:linear-gradient(135deg,var(--ghost),#fff);border:2px solid var(--pale);border-radius:12px;padding:18px 20px;margin-top:4px}
+.np-title{font-size:12px;font-weight:700;color:var(--royal);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px}
+.np-note{background:rgba(5,150,105,.06);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px;color:var(--success)}
+.np-warn{background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.3);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px;color:#92400e}
+
+/* ── FACULTY FILTER ── */
+.fac-hint{font-size:11px;color:var(--g400);margin-top:5px;font-style:italic}
+.match-badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;margin-bottom:10px}
+.match-badge.found{background:#d1fae5;color:var(--success)}
+.match-badge.none{background:#fee2e2;color:var(--danger)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--rs);font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .2s}
+.btn-main{background:linear-gradient(135deg,#059669,#10b981);color:#fff;padding:13px 28px;font-size:15px}
+.btn-main:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(5,150,105,.4)}
+.btn-main:disabled{opacity:.7;cursor:not-allowed;transform:none}
+.btn-pri{background:var(--blue);color:#fff}.btn-pri:hover{background:var(--royal)}
+.btn-out{background:transparent;border:1.5px solid var(--g200);color:var(--g600)}.btn-out:hover{border-color:var(--blue);color:var(--blue);background:var(--ghost)}
+.btn-sm{padding:6px 14px;font-size:12px}
+
+/* ── SUCCESS ── */
+.success-card{background:linear-gradient(135deg,#065f46,#059669 60%,#10b981);border-radius:20px;padding:40px;text-align:center;box-shadow:0 20px 60px rgba(5,150,105,.35);animation:successIn .5s ease}
+.sc-icon{font-size:64px;margin-bottom:16px}
+.sc-title{font-family:'Cormorant Garamond',serif;font-size:32px;color:#fff;font-weight:700;margin-bottom:8px}
+.sc-msg{font-size:14px;color:rgba(255,255,255,.7);margin-bottom:24px;line-height:1.6}
+.sc-id-box{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:14px 24px;display:inline-block;margin-bottom:20px}
+.sc-id-lbl{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.sc-id{font-family:monospace;font-size:24px;font-weight:700;color:#fff;letter-spacing:2px}
+.sc-detail{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:4px}
+.sc-detail strong{color:#fff}
+.sc-tag{display:inline-block;background:rgba(255,255,255,.15);border-radius:6px;padding:5px 12px;font-size:12px;margin-top:8px}
+
+/* ── INFO CARD ── */
+.info-card{background:#fff;border-radius:var(--r);box-shadow:0 1px 3px rgba(10,31,68,.08);border:1px solid var(--g200);padding:20px;margin-top:16px}
+.info-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.info-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--g100);font-size:13px;color:var(--g600)}
+.info-row:last-child{border:none}
+.info-icon{font-size:16px;flex-shrink:0}
+
+/* ── MODAL ── */
+.mo{position:fixed;inset:0;background:rgba(6,20,41,.5);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.mo.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(10,31,68,.2);width:100%;max-width:500px;transform:translateY(20px) scale(.97);transition:transform .25s}
+.mo.open .modal{transform:none}
+.mh{padding:20px 24px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between}
+.mt-m{font-size:16px;font-weight:700;color:var(--g800)}
+.mc{width:30px;height:30px;border-radius:8px;border:none;background:var(--g100);color:var(--g600);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+#mb{padding:24px}#mf{padding:14px 24px;border-top:1px solid var(--g100);display:flex;gap:10px;justify-content:flex-end}
+
+/* ── GAS BANNER ── */
+.gas-banner{background:linear-gradient(90deg,#fff7ed,#fffbeb);border:1.5px solid #fed7aa;border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;font-size:13px;color:#92400e}
+.gas-banner.ok{background:linear-gradient(90deg,#f0fdf4,#dcfce7);border-color:#86efac;color:#14532d}
+.gas-banner.err{background:linear-gradient(90deg,#fef2f2,#fee2e2);border-color:#fca5a5;color:#7f1d1d}
+.gas-icon{font-size:20px;flex-shrink:0}
+.gas-text{flex:1}
+.gas-text strong{display:block;font-weight:700;margin-bottom:2px}
+.gas-text span{font-size:11px;opacity:.7}
+
+.spin{width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+.spin-dark{border-color:var(--g200);border-top-color:var(--success)}
+.hidden{display:none!important}
+#tc{position:fixed;top:76px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="sh-logo">🏛️</div>
+  <div class="sh-college">
+    Kamaraj College of Engineering &amp; Technology (Autonomous)
+    <span>Examination Office · External Faculty Attendance</span>
+  </div>
+  <div class="sh-badge"><span class="sh-dot"></span>Open Access</div>
+  <a class="back-btn" href="index.html">← Portal</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-icon">🎓</div>
+  <div>
+    <div class="hero-title">External Faculty Duty Entry</div>
+    <div class="hero-sub">No login required — fill in your details to record attendance</div>
+  </div>
+  <div class="open-badge">✅ Direct Entry</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <div class="gas-banner" id="gas-banner">
+    <span class="gas-icon">⏳</span>
+    <div class="gas-text"><strong>Connecting to Database…</strong><span>Fetching dropdown data from Google Sheets</span></div>
+  </div>
+
+  <!-- DUPLICATE ALERT -->
+  <div class="dup-alert" id="dup-alert">
+    <div class="dup-title">🚫 Duplicate Entry Detected</div>
+    <div class="dup-msg" id="dup-msg"></div>
+    <div class="dup-detail" id="dup-detail"></div>
+  </div>
+
+  <!-- FORM SECTION -->
+  <div id="form-section">
+    <div class="fc-wrap">
+      <div class="fc-head">
+        <div class="fc-hicon">📝</div>
+        <div>
+          <div class="fc-title">External Faculty Attendance Form</div>
+          <div class="fc-sub">Complete all steps and submit</div>
+        </div>
+      </div>
+      <div class="fc-body">
+
+        <!-- Steps -->
+        <div class="steps">
+          <div class="step active" id="s1"><div class="sc">1</div><div class="sl">Date</div></div><div class="scon" id="sc1"></div>
+          <div class="step pending" id="s2"><div class="sc">2</div><div class="sl">M&amp;Y</div></div><div class="scon" id="sc2"></div>
+          <div class="step pending" id="s3"><div class="sc">3</div><div class="sl">College</div></div><div class="scon" id="sc3"></div>
+          <div class="step pending" id="s4"><div class="sc">4</div><div class="sl">Dept</div></div><div class="scon" id="sc4"></div>
+          <div class="step pending" id="s5"><div class="sc">5</div><div class="sl">Desig</div></div><div class="scon" id="sc5"></div>
+          <div class="step pending" id="s6"><div class="sc">6</div><div class="sl">Role</div></div><div class="scon" id="sc6"></div>
+          <div class="step pending" id="s7"><div class="sc">7</div><div class="sl">Name</div></div>
+        </div>
+
+        <!-- Step 1–2: Date & Exam Period -->
+        <div class="ss act" id="ss1">
+          <div class="ss-label"><div class="ss-num">1</div>Date &amp; Exam Period</div>
+          <div class="fgrid">
+            <div class="fg">
+              <label class="fl">📅 Date of Duty *</label>
+              <input type="date" class="fc" id="f-date" onchange="markStep(1); onDateChange()">
+            </div>
+            <div class="fg">
+              <label class="fl">📅 Month &amp; Year of Exam *</label>
+              <select class="fc" id="f-moyr" onchange="markStep(2)">
+                <option value="">Select Month &amp; Year…</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3–4: College & Dept -->
+        <div class="ss" id="ss2">
+          <div class="ss-label"><div class="ss-num">3</div>College &amp; Department</div>
+          <div class="fgrid">
+            <div class="fg">
+              <label class="fl">🎓 Your College *</label>
+              <select class="fc" id="f-col" onchange="onFilterChange(); markStep(3)">
+                <option value="">Select College…</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label class="fl">🏢 Department *</label>
+              <select class="fc" id="f-dept" onchange="onFilterChange(); markStep(4)">
+                <option value="">Select Department…</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5–6: Designation & Role -->
+        <div class="ss" id="ss3">
+          <div class="ss-label"><div class="ss-num">5</div>Designation, Role &amp; Session</div>
+          <div class="fgrid">
+            <div class="fg">
+              <label class="fl">🏷️ Designation *</label>
+              <select class="fc" id="f-desig" onchange="onFilterChange(); markStep(5)">
+                <option value="">Select Designation…</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label class="fl">📋 Role / Duty *</label>
+              <select class="fc" id="f-roll" onchange="markStep(6)">
+                <option value="">Select Role…</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label class="fl">⏱️ Session *</label>
+              <select class="fc" id="f-ses">
+                <option value="">Select Session…</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 7: Name -->
+        <div class="ss" id="ss4">
+          <div class="ss-label"><div class="ss-num">7</div>Your Name</div>
+          <div class="np">
+            <div class="np-title">👤 Select or Enter Your Name</div>
+            <div id="match-badge-wrap"></div>
+            <div class="fg" style="margin-bottom:12px">
+              <label class="fl">Faculty Name</label>
+              <select class="fc" id="f-nsel" onchange="onNameSel()">
+                <option value="">-- Select your name if already listed --</option>
+              </select>
+              <div class="fac-hint" id="fac-hint">Select College, Department &amp; Designation above to filter faculty names</div>
+            </div>
+            <div id="new-name-area">
+              <div class="fg">
+                <label class="fl">Full Name *</label>
+                <input class="fc" id="f-newname" placeholder="Enter your full name" oninput="onNameType()">
+              </div>
+              <div id="new-name-note" class="np-note">
+                ℹ️ If your name is not in the list above, enter it here. It will be auto-saved to Faculty DB for future entries.
+              </div>
+            </div>
+          </div>
+
+          <!-- Live dup check status -->
+          <div id="name-dup-status" style="margin-top:10px;display:none"></div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid var(--g100);flex-wrap:wrap">
+          <button class="btn btn-out" onclick="resetForm()">🔄 Clear Form</button>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-pri btn-sm" onclick="previewEntry()">👁️ Preview</button>
+            <button class="btn btn-main" id="submit-btn" onclick="submitEntry()">✅ Submit Attendance</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-title">ℹ️ Instructions for External Faculty</div>
+      <div class="info-row"><span class="info-icon">📅</span><span>Select the date and exam period you are reporting for</span></div>
+      <div class="info-row"><span class="info-icon">🎓</span><span>Select your College, Department and Designation — the name list filters automatically</span></div>
+      <div class="info-row"><span class="info-icon">👤</span><span>Select your name from the filtered list. If not found, type it in the box — it will be saved for future visits</span></div>
+      <div class="info-row"><span class="info-icon">🚫</span><span>Duplicate entries for the same name on the same date are <strong>not allowed</strong> — the system will block them</span></div>
+      <div class="info-row"><span class="info-icon">🆔</span><span>Note your Entry ID after submission — it is your attendance reference number</span></div>
+    </div>
+  </div>
+
+  <!-- SUCCESS SECTION -->
+  <div id="success-section" class="hidden">
+    <div class="success-card" id="success-content"></div>
+    <div style="text-align:center;margin-top:20px">
+      <button class="btn btn-pri" onclick="resetForm()">📝 Submit Another Entry</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="mo" id="mo">
+  <div class="modal">
+    <div class="mh"><span class="mt-m" id="mt"></span><button class="mc" onclick="closeMo()">✕</button></div>
+    <div id="mb"></div><div id="mf"></div>
+  </div>
+</div>
+<div id="tc"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  ⚙️  CONFIG
+// ═══════════════════════════════════════════════════════════
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbziAfoHxuXT-YlloSRmCwEWORFhPVDiuLUj7OAOyan6R8kTq0I57pJ-RVxeThhEasfd9A/exec';
+
+// ── GAS CALL ─────────────────────────────────────────────────────
+async function gasPost(params) {
+  if (!GAS_URL) throw new Error('GAS_URL not configured.');
+  const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify(params) });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+const _cache = {};
+
+// ── TOAST ────────────────────────────────────────────────────────
+function showToast(msg, type = 'info') {
+  const col = { success:'#059669', error:'#dc2626', info:'#1e5cb3', warning:'#d97706' };
+  const ic  = { success:'✅', error:'❌', info:'ℹ️', warning:'⚠️' };
+  const t = document.createElement('div');
+  t.style.cssText = `background:#fff;border-radius:10px;box-shadow:0 8px 30px rgba(10,31,68,.18);padding:13px 18px;display:flex;align-items:center;gap:10px;min-width:260px;max-width:360px;border-left:4px solid ${col[type]};font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;animation:slideIn .3s ease`;
+  t.innerHTML = `<span>${ic[type]}</span><span>${msg}</span>`;
+  document.getElementById('tc').appendChild(t);
+  setTimeout(() => { t.style.transition='opacity .4s'; t.style.opacity='0'; }, 3200);
+  setTimeout(() => t.remove(), 3700);
+}
+
+function openMo(title, body, footer) {
+  document.getElementById('mt').textContent = title;
+  document.getElementById('mb').innerHTML = body;
+  document.getElementById('mf').innerHTML = footer || '';
+  document.getElementById('mo').classList.add('open');
+}
+function closeMo() { document.getElementById('mo').classList.remove('open'); }
+document.getElementById('mo').addEventListener('click', e => { if (e.target === e.currentTarget) closeMo(); });
+
+function fmtDate(d) { if (!d) return ''; const [y,m,day] = d.split('-'); return `${day}.${m}.${y}`; }
+function dateNum(d) { if (!d) return ''; const [y,m,day] = d.split('-'); return `${day}${m}${y}`; }
+function genId(n, ds) { return `${n}${ds.replace(/\./g,'')}`; }
+
+function setBanner(state, title, sub) {
+  const b = document.getElementById('gas-banner');
+  b.className = 'gas-banner' + (state ? ` ${state}` : '');
+  const icon = {ok:'🟢', err:'🔴', '':'⏳'}[state] || '⏳';
+  b.innerHTML = `<span class="gas-icon">${icon}</span><div class="gas-text"><strong>${title}</strong><span>${sub}</span></div>`;
+}
+
+function toMonthYear(str) {
+  if (!str) return '';
+
+  str = String(str).trim();
+
+  // Already correct format (Nov 2025)
+  if (/^[A-Za-z]{3} \d{4}$/.test(str)) return str;
+
+  // dd.MM.yyyy format
+  let m = str.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+  if (m) {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[parseInt(m[2]) - 1] + ' ' + m[3];
+  }
+
+  // Google date format (2025-11-01)
+  m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (m) {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[parseInt(m[2]) - 1] + ' ' + m[1];
+  }
+
+  return str;
+}
+
+// ── LOAD ALL DROPDOWNS ───────────────────────────────────────────
+async function loadDropdowns() {
+  setBanner('', 'Connecting to Database…', 'Fetching data from Server');
+
+  const populate = (id, rows, col = 0, transform = null) => {
+    const sel = document.getElementById(id);
+    if (!sel || !rows) return 0;
+    let n = 0;
+    rows.forEach(r => {
+      let v = r[col] != null ? String(r[col]).trim() : '';
+      if (!v || v === 'null') return;
+      if (transform) v = transform(v);
+      if (!v) return;
+      const o = document.createElement('option');
+      o.value = v; o.textContent = v;
+      sel.appendChild(o); n++;
+    });
+    return n;
+  };
+
+  const sheets = ['MOYREXDB','CollegeDB','DepartmentDB','DesignationDB','RollDB','SessionDB','FacultyDB','ExternalEntryDB'];
+  const errors = [];
+
+  await Promise.all(sheets.map(async name => {
+    try {
+      const res = await gasPost({ action: 'getAll', sheet: name });
+      _cache[name] = res.success ? res : { rows: [] };
+      if (!res.success) errors.push(`${name}: ${res.message || 'failed'}`);
+    } catch(e) {
+      _cache[name] = { rows: [] };
+      errors.push(`${name}: ${e.message}`);
+    }
+  }));
+
+  const c = {
+    moyr:  populate('f-moyr',  _cache['MOYREXDB']?.rows,      0, toMonthYear),
+    col:   populate('f-col',   _cache['CollegeDB']?.rows),
+    dept:  populate('f-dept',  _cache['DepartmentDB']?.rows),
+    desig: populate('f-desig', _cache['DesignationDB']?.rows),
+    roll:  populate('f-roll',  _cache['RollDB']?.rows),
+    ses:   populate('f-ses',   _cache['SessionDB']?.rows),
+  };
+
+  rebuildFacultyDropdown();
+  const facTotal = _cache['FacultyDB']?.rows?.length || 0;
+
+  if (errors.length > 0) {
+    setBanner('err', `Partial Load — ${errors.length} error(s)`, errors[0]);
+    showToast('Some data failed to load.', 'warning');
+  } else {
+    setBanner('ok', 'Connected ✓',
+      `${c.moyr} exam periods · ${c.col} colleges · ${c.dept} depts · ${facTotal} faculty`);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DUPLICATE CHECK ENGINE
+// ═══════════════════════════════════════════════════════════
+
+/** Check ExternalEntryDB for a duplicate: same name + same date */
+function checkDuplicate(name, date) {
+  if (!name || !date) return null;
+  const rows = _cache['ExternalEntryDB']?.rows || [];
+  return rows.find(r =>
+    String(r[2] || '').trim() === date &&
+    String(r[6] || '').trim().toLowerCase() === name.trim().toLowerCase()
+  ) || null;
+}
+
+/** Show/hide the big dup alert box */
+function showDupAlert(name, date, dupRow) {
+  const alert = document.getElementById('dup-alert');
+  const msg   = document.getElementById('dup-msg');
+  const det   = document.getElementById('dup-detail');
+  if (!dupRow) { alert.classList.remove('show'); alert.style.display = 'none'; return; }
+  alert.classList.add('show'); alert.style.display = 'block';
+  msg.textContent = `An attendance entry for "${name}" on ${date} already exists. Duplicate entries are not allowed.`;
+  det.textContent = `Existing Entry ID: ${dupRow[10] || '—'}   |   Date: ${dupRow[2] || '—'}   |   Role: ${dupRow[5] || '—'}   |   Session: ${dupRow[4] || '—'}`;
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('submit-btn').style.opacity = '0.5';
+}
+
+function hideDupAlert() {
+  const alert = document.getElementById('dup-alert');
+  alert.classList.remove('show'); alert.style.display = 'none';
+  document.getElementById('submit-btn').disabled = false;
+  document.getElementById('submit-btn').style.opacity = '';
+}
+
+/** Called when date or name changes to run live duplicate check */
+function runLiveDupCheck() {
+  const date = fmtDate(document.getElementById('f-date')?.value || '');
+  const name = getEffectiveName();
+  if (!date || !name) { hideDupAlert(); updateNameDupStatus(null, name, date); return; }
+  const dup = checkDuplicate(name, date);
+  if (dup) { showDupAlert(name, date, dup); }
+  else { hideDupAlert(); }
+  updateNameDupStatus(dup, name, date);
+}
+
+function updateNameDupStatus(dup, name, date) {
+  const el = document.getElementById('name-dup-status');
+  if (!name || !date) { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  if (dup) {
+    el.innerHTML = `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:10px 14px;font-size:12px;color:#7f1d1d;display:flex;align-items:center;gap:8px">🚫 <strong>${name}</strong> already submitted for ${date} — duplicate blocked</div>`;
+  } else {
+    el.innerHTML = `<div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:8px;padding:10px 14px;font-size:12px;color:#065f46;display:flex;align-items:center;gap:8px">✅ <strong>${name}</strong> — no duplicate found for ${date}</div>`;
+  }
+}
+
+function getEffectiveName() {
+  const nsel  = document.getElementById('f-nsel')?.value;
+  const allRows = _cache['FacultyDB']?.rows || [];
+  if (nsel && nsel !== '__new__' && nsel !== '') {
+    const r = allRows[parseInt(nsel)];
+    return r ? String(r[1] || '').trim() : '';
+  }
+  return document.getElementById('f-newname')?.value?.trim() || '';
+}
+
+function onDateChange() { runLiveDupCheck(); }
+function onNameType()   { if (document.getElementById('f-newname').value.trim()) { markStep(7); runLiveDupCheck(); } }
+
+// ═══════════════════════════════════════════════════════════
+//  FACULTY FILTERING
+//  FacultyDB row layout: [0]=S.No, [1]=Name, [2]=Designation, [3]=Department, [4]=College
+// ═══════════════════════════════════════════════════════════
+
+function onFilterChange() {
+  document.getElementById('f-nsel').value = '';
+  document.getElementById('f-newname').value = '';
+  hideDupAlert();
+  rebuildFacultyDropdown();
+}
+
+function rebuildFacultyDropdown() {
+  const col   = (document.getElementById('f-col')?.value   || '').trim().toLowerCase();
+  const dept  = (document.getElementById('f-dept')?.value  || '').trim().toLowerCase();
+  const desig = (document.getElementById('f-desig')?.value || '').trim().toLowerCase();
+
+  const allRows = _cache['FacultyDB']?.rows || [];
+  const filterOn = col || dept || desig;
+
+  const matched = allRows.filter(r => {
+    const name = String(r[1] || '').trim();
+    if (!name) return false;
+    if (col   && String(r[4]||'').trim().toLowerCase() !== col)   return false;
+    if (dept  && String(r[3]||'').trim().toLowerCase() !== dept)  return false;
+    if (desig && String(r[2]||'').trim().toLowerCase() !== desig) return false;
+    return true;
+  });
+
+  const nsel = document.getElementById('f-nsel');
+  nsel.innerHTML = '';
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = matched.length > 0
+    ? `-- ${matched.length} faculty found — select your name --`
+    : '-- No matching faculty found --';
+  nsel.appendChild(placeholder);
+
+  matched.forEach(r => {
+    const o = document.createElement('option');
+    o.value = allRows.indexOf(r);
+    o.textContent = String(r[1] || '').trim();
+    nsel.appendChild(o);
+  });
+
+  const newOpt = document.createElement('option');
+  newOpt.value = '__new__';
+  newOpt.textContent = '➕ My name is not listed — enter below';
+  nsel.appendChild(newOpt);
+
+  const badge = document.getElementById('match-badge-wrap');
+  if (filterOn) {
+    badge.innerHTML = matched.length > 0
+      ? `<div class="match-badge found">✓ ${matched.length} faculty match your selection</div>`
+      : `<div class="match-badge none">⚠ No existing faculty — enter your name below</div>`;
+  } else {
+    badge.innerHTML = '';
+  }
+
+  document.getElementById('fac-hint').textContent = filterOn
+    ? '' : 'Select College, Department & Designation above to filter faculty names';
+
+  refreshNewNameArea(matched.length);
+}
+
+function refreshNewNameArea(matchCount) {
+  const nsel    = document.getElementById('f-nsel');
+  const newArea = document.getElementById('new-name-area');
+  const noteEl  = document.getElementById('new-name-note');
+  const col     = (document.getElementById('f-col')?.value   || '').trim();
+  const dept    = (document.getElementById('f-dept')?.value  || '').trim();
+  const desig   = (document.getElementById('f-desig')?.value || '').trim();
+  const filterOn = col || dept || desig;
+
+  const show = nsel.value === '__new__' || (filterOn && matchCount === 0) || !filterOn;
+  newArea.style.display = show ? '' : 'none';
+
+  if (filterOn && matchCount === 0) {
+    noteEl.textContent = '⚠ No existing faculty match your selection. Enter your name — it will be added to Faculty DB.';
+    noteEl.className = 'np-warn';
+  } else {
+    noteEl.textContent = 'ℹ️ If your name is not in the list, enter it here — it will be auto-saved for future entries.';
+    noteEl.className = 'np-note';
+  }
+}
+
+function onNameSel() {
+  const v       = document.getElementById('f-nsel').value;
+  const nameIn  = document.getElementById('f-newname');
+  const allRows = _cache['FacultyDB']?.rows || [];
+
+  const col   = (document.getElementById('f-col')?.value   || '').trim().toLowerCase();
+  const dept  = (document.getElementById('f-dept')?.value  || '').trim().toLowerCase();
+  const desig = (document.getElementById('f-desig')?.value || '').trim().toLowerCase();
+  const filterOn = col || dept || desig;
+  const matchCount = filterOn ? allRows.filter(r => {
+    if (!String(r[1]||'').trim()) return false;
+    if (col   && String(r[4]||'').trim().toLowerCase() !== col)   return false;
+    if (dept  && String(r[3]||'').trim().toLowerCase() !== dept)  return false;
+    if (desig && String(r[2]||'').trim().toLowerCase() !== desig) return false;
+    return true;
+  }).length : allRows.length;
+
+  if (v === '__new__') {
+    nameIn.value = '';
+    refreshNewNameArea(matchCount);
+    nameIn.focus();
+    markStep(7);
+  } else if (v !== '') {
+    const r = allRows[parseInt(v)];
+    if (r) {
+      nameIn.value = '';
+      if (!document.getElementById('f-col').value)   setVal('f-col',   String(r[4]||''));
+      if (!document.getElementById('f-dept').value)  setVal('f-dept',  String(r[3]||''));
+      if (!document.getElementById('f-desig').value) setVal('f-desig', String(r[2]||''));
+      refreshNewNameArea(matchCount);
+      markStep(7);
+    }
+  } else {
+    refreshNewNameArea(matchCount);
+  }
+
+  // Always run dup check after name selection
+  runLiveDupCheck();
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (!el || !val) return;
+  for (const o of el.options) {
+    if (o.value.toLowerCase() === val.trim().toLowerCase()) { el.value = o.value; return; }
+  }
+}
+
+// ── STEP INDICATORS ──────────────────────────────────────────────
+function markStep(n) {
+  for (let i = 1; i <= 7; i++) {
+    const s = document.getElementById(`s${i}`);
+    if (!s) continue;
+    const circle = s.querySelector('.sc');
+    if (i < n)        { s.className='step done';    circle.textContent='✓'; }
+    else if (i === n) { s.className='step active';  circle.textContent=i; }
+    else              { s.className='step pending'; circle.textContent=i; }
+    if (i < 7) {
+      const cn = document.getElementById(`sc${i}`);
+      if (cn) cn.className = `scon ${i < n ? 'done' : ''}`;
+    }
+  }
+  ['ss1','ss2','ss3','ss4'].forEach((id, idx) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('act', n >= [1,3,5,7][idx]);
+  });
+}
+
+// ── GET FORM DATA ────────────────────────────────────────────────
+function getFormData() {
+  const date    = document.getElementById('f-date')?.value;
+  const nsel    = document.getElementById('f-nsel')?.value;
+  const newNm   = document.getElementById('f-newname')?.value?.trim();
+  const allRows = _cache['FacultyDB']?.rows || [];
+
+  let name = '', isNew = false;
+  if (nsel && nsel !== '__new__' && nsel !== '') {
+    const r = allRows[parseInt(nsel)];
+    name  = r ? String(r[1]||'').trim() : newNm;
+    isNew = false;
+  } else {
+    name  = newNm;
+    isNew = true;
+  }
+
+  return {
+    date:  fmtDate(date), dNum: dateNum(date),
+    moyr: "'" + String(document.getElementById('f-moyr')?.value || ''),
+    //moyr:  String(document.getElementById('f-moyr')?.value || ''),
+    //moyr:  document.getElementById('f-moyr')?.value,
+    col:   document.getElementById('f-col')?.value,
+    dept:  document.getElementById('f-dept')?.value,
+    desig: document.getElementById('f-desig')?.value,
+    roll:  document.getElementById('f-roll')?.value,
+    ses:   document.getElementById('f-ses')?.value,
+    name, isNew
+  };
+}
+
+// ── PREVIEW ──────────────────────────────────────────────────────
+function previewEntry() {
+  const d = getFormData();
+  if (!d.date) { showToast('Please select a date first', 'error'); return; }
+  const dup = checkDuplicate(d.name, d.date);
+  const dupWarning = dup ? `<div style="background:#fee2e2;border:1.5px solid #fca5a5;border-radius:8px;padding:10px 14px;font-size:12px;color:#7f1d1d;margin-top:12px">🚫 Duplicate detected — this entry cannot be submitted</div>` : '';
+  openMo('👁️ Preview Your Entry',
+    `<table style="width:100%;font-size:13px;border-collapse:collapse">
+      ${[['Date',d.date],['Month & Year',d.moyr],['College',d.col],['Department',d.dept],
+         ['Designation',d.desig],['Role / Duty',d.roll],['Session',d.ses],
+         ['Your Name', `<strong>${d.name||'<em style="color:var(--g400)">Not entered</em>'}</strong>`]]
+        .map(([l,v])=>`<tr style="border-bottom:1px solid var(--g100)">
+          <td style="padding:8px 4px;color:var(--g400);font-size:11px;font-weight:600;width:120px;text-transform:uppercase">${l}</td>
+          <td style="padding:8px 4px;color:var(--g800)">${v||'<em style="color:var(--g400)">Not filled</em>'}</td></tr>`).join('')}
+    </table>
+    ${dupWarning}
+    ${!dup ? '<div style="margin-top:12px;background:var(--ghost);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--royal)">✅ No duplicate found — safe to submit.</div>' : ''}`,
+    !dup
+      ? `<button class="btn btn-out btn-sm" onclick="closeMo()">← Edit</button>
+         <button class="btn btn-main btn-sm" onclick="closeMo();submitEntry()">Submit →</button>`
+      : `<button class="btn btn-out btn-sm" onclick="closeMo()">← Back</button>`);
+}
+
+// ── SUBMIT ───────────────────────────────────────────────────────
+async function submitEntry() {
+  const d = getFormData();
+  if (!d.date || !d.moyr || !d.col || !d.dept || !d.desig || !d.roll || !d.ses || !d.name) {
+    showToast('Please complete all required fields', 'error'); return;
+  }
+
+  // ── FINAL DUPLICATE CHECK (server-fresh) ──
+  const btn = document.getElementById('submit-btn');
+  btn.innerHTML = '<div class="spin"></div> Checking…'; btn.disabled = true;
+
+  try {
+    // Re-fetch ExternalEntryDB fresh to avoid stale cache race condition
+    const fresh = await gasPost({ action: 'getAll', sheet: 'ExternalEntryDB' });
+    if (fresh.success) _cache['ExternalEntryDB'] = fresh;
+    const freshRows = fresh.rows || [];
+
+    const dup = freshRows.find(r =>
+      String(r[2] || '').trim() === d.date &&
+      String(r[6] || '').trim().toLowerCase() === d.name.trim().toLowerCase()
+    );
+
+    if (dup) {
+      showDupAlert(d.name, d.date, dup);
+      showToast(`Duplicate blocked: ${d.name} already submitted for ${d.date}`, 'error');
+      btn.innerHTML = '✅ Submit Attendance'; btn.disabled = false;
+      return;
+    }
+
+    btn.innerHTML = '<div class="spin"></div> Submitting…';
+
+    const counter = freshRows.length + 1;
+    const id      = genId(counter, d.date);
+
+    const res = await gasPost({
+      action: 'addDataEntry',
+      entry: {
+        sheet:       'ExternalEntryDB',
+        moyr:        d.moyr,
+        date:        d.date,
+        number:      counter,
+        session:     d.ses,
+        roll:        d.roll,
+        name:        d.name,
+        designation: d.desig,
+        department:  d.dept,
+        college:     d.col,
+        id,
+        isNew:       d.isNew
+      }
+    });
+
+    if (res.success) {
+      delete _cache['ExternalEntryDB'];
+      if (d.isNew) delete _cache['FacultyDB'];
+      showSuccess(d, id);
+    } else {
+      showToast(res.message || 'Submission failed. Try again.', 'error');
+    }
+  } catch (e) {
+    showToast('Error: ' + e.message, 'error');
+  }
+
+  btn.innerHTML = '✅ Submit Attendance'; btn.disabled = false;
+}
+
+// ── SUCCESS ───────────────────────────────────────────────────────
+function showSuccess(d, id) {
+  document.getElementById('form-section').classList.add('hidden');
+  hideDupAlert();
+  const ss = document.getElementById('success-section');
+  ss.classList.remove('hidden');
+  document.getElementById('success-content').innerHTML = `
+    <div class="sc-icon">🎉</div>
+    <div class="sc-title">Attendance Recorded!</div>
+    <div class="sc-msg">Your duty attendance has been successfully submitted to<br>
+      <strong style="color:#fff">KCET Examination Office</strong></div>
+    <div class="sc-id-box">
+      <div class="sc-id-lbl">Your Entry ID</div>
+      <div class="sc-id">${id}</div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="sc-detail"><strong>${d.name}</strong></div>
+      <div class="sc-detail">${d.desig} · ${d.dept}</div>
+      <div class="sc-detail">${d.col}</div>
+      <div class="sc-detail">Date: <strong>${d.date}</strong> · Session: <strong>${d.ses}</strong></div>
+      ${d.isNew ? `<div class="sc-tag">🆕 Name saved to Faculty DB for future entries</div>` : `<div class="sc-tag">✅ Existing faculty — attendance recorded</div>`}
+      <div class="sc-detail" style="margin-top:10px;font-size:12px;opacity:.7">Please note your Entry ID for future reference</div>
+    </div>`;
+  ss.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── RESET ────────────────────────────────────────────────────────
+function resetForm() {
+  document.getElementById('success-section').classList.add('hidden');
+  document.getElementById('form-section').classList.remove('hidden');
+  hideDupAlert();
+  document.getElementById('name-dup-status').style.display = 'none';
+  ['f-date','f-moyr','f-col','f-dept','f-desig','f-roll','f-ses','f-nsel','f-newname']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.getElementById('match-badge-wrap').innerHTML = '';
+  rebuildFacultyDropdown();
+  markStep(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', loadDropdowns);
+</script>
+</body>
+</html>
