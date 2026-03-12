@@ -729,23 +729,33 @@ function setV(id, val) {
   for (let o of el.options) { if (o.value === val) { el.value = val; return; } }
 }
 function getData() {
-  const date = document.getElementById('f-date')?.value;
-  const ns = document.getElementById('f-nsel')?.value;
-  let name = '', isNew = false;
-  if (ns === '__new__') { name = document.getElementById('f-newname')?.value?.trim(); isNew = true; }
-  else if (ns) { const r = (_cache['FacultyDB']?.rows || [])[parseInt(ns)]; if (r) name = r[1]; }
-  return {
-    date: fmtDate(date), dateNum: dateNum(date),
-    //moyr: "'" + String(document.getElementById('f-moyr')?.value || ''),
-    moyr: String(document.getElementById('f-moyr')?.value || ''),
-    //moyr: document.getElementById('f-moyr')?.value,
-    col: document.getElementById('f-col')?.value,
-    dept: document.getElementById('f-dept')?.value,
-    desig: document.getElementById('f-desig')?.value,
-    roll: document.getElementById('f-roll')?.value,
-    ses: document.getElementById('f-ses')?.value,
-    name, isNew
-  };
+  const date    = document.getElementById('f-date')?.value;
+const nsel    = document.getElementById('f-nsel')?.value;
+const newNm   = document.getElementById('f-newname')?.value?.trim();
+const allRows = _cache['FacultyDB']?.rows || [];
+
+let name = '', isNew = false;
+if (nsel && nsel !== '__new__' && nsel !== '') {
+  const r = allRows[parseInt(nsel)];
+  name  = r ? String(r[1]||'').trim() : newNm;
+  isNew = false;
+} else {
+  name  = newNm;
+  isNew = true;
+}
+
+return {
+  date:  fmtDate(date), dNum: dateNum(date),
+  moyr: "'" + String(document.getElementById('f-moyr')?.value || ''),
+  //moyr:  String(document.getElementById('f-moyr')?.value || ''),
+  //moyr:  document.getElementById('f-moyr')?.value,
+  col:   document.getElementById('f-col')?.value,
+  dept:  document.getElementById('f-dept')?.value,
+  desig: document.getElementById('f-desig')?.value,
+  roll:  document.getElementById('f-roll')?.value,
+  ses:   document.getElementById('f-ses')?.value,
+  name, isNew
+};
 }
 function previewFacEntry() {
   const d = getData();
@@ -1205,5 +1215,6 @@ function delFac(idx) {
 </script>
 </body>
 </html>
+
 
 
