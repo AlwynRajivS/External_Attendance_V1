@@ -12,14 +12,14 @@
   --gold:#b8891a;--gold-l:#f0c84a;--gold-pale:#fef9ee;
   --g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g300:#cbd5e1;--g400:#94a3b8;--g500:#64748b;--g600:#475569;--g700:#334155;--g800:#1e293b;
   --success:#059669;--danger:#dc2626;--warn:#d97706;--ext:#7c3aed;
-  --r:14px;--rs:8px;--sidebar-w:252px;--topbar-h:60px;
+  --r:14px;--rs:8px;--sidebar-w:260px;--topbar-h:60px;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
-@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes loginIn{from{opacity:0;transform:scale(.95) translateY(18px)}to{opacity:1;transform:none}}
-
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 html{-webkit-tap-highlight-color:transparent}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(--g800);min-height:100vh;overflow-x:hidden}
 
@@ -60,8 +60,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(
 
 /* ─── APP SHELL ─────────────────────────────────────────────── */
 #app{display:none;flex-direction:column;min-height:100vh}
-
-/* ─── TOPBAR ─────────────────────────────────────────────────── */
 .topbar{height:var(--topbar-h);background:#fff;border-bottom:1px solid var(--g200);display:flex;align-items:center;padding:0 14px;gap:10px;position:sticky;top:0;z-index:300;box-shadow:0 1px 8px rgba(10,31,68,.06)}
 .tb-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--royal));display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
 .tb-brand{flex:1;min-width:0}
@@ -106,16 +104,17 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(
 
 /* ─── STATS ─────────────────────────────────────────────────── */
 .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
-.stat-card{background:#fff;border-radius:var(--r);padding:16px 18px;box-shadow:0 1px 4px rgba(10,31,68,.07);border:1px solid var(--g200);position:relative;overflow:hidden;transition:transform .2s}
-.stat-card:hover{transform:translateY(-2px)}
+.stat-card{background:#fff;border-radius:var(--r);padding:16px 18px;box-shadow:0 1px 4px rgba(10,31,68,.07);border:1px solid var(--g200);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(10,31,68,.1)}
 .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .sc-blue::before{background:linear-gradient(90deg,var(--blue),var(--ice))}
 .sc-gold::before{background:linear-gradient(90deg,var(--gold),var(--gold-l))}
 .sc-green::before{background:linear-gradient(90deg,var(--success),#34d399)}
 .sc-purple::before{background:linear-gradient(90deg,var(--ext),#a78bfa)}
 .sc-navy::before{background:linear-gradient(90deg,var(--navy),var(--royal))}
+.sc-red::before{background:linear-gradient(90deg,var(--danger),#f87171)}
 .stat-icon{font-size:24px;margin-bottom:8px;display:block}
-.stat-n{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--navy);line-height:1}
+.stat-n{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--navy);line-height:1;animation:countUp .4s ease}
 .stat-l{font-size:12px;color:var(--g400);margin-top:5px;font-weight:500}
 .stat-sub{font-size:11px;color:var(--g300);margin-top:2px}
 
@@ -131,6 +130,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(
 .btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:var(--royal)}
 .btn-sm{padding:7px 12px;font-size:12px}.btn-xs{padding:4px 9px;font-size:11px}
 .btn-group{display:flex;gap:6px;flex-wrap:wrap}
+.btn-tab{padding:8px 16px;border-radius:var(--rs);font-size:12px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:1.5px solid var(--g200);background:#fff;color:var(--g500);transition:all .2s;-webkit-tap-highlight-color:transparent}
+.btn-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
 /* ─── FORM ─────────────────────────────────────────────────── */
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
@@ -169,6 +170,78 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
 .bar-fill{height:100%;border-radius:6px;transition:width .8s cubic-bezier(.34,1.56,.64,1)}
 .bar-count{font-size:12px;font-weight:700;color:var(--g600);width:32px;text-align:right;flex-shrink:0}
 
+/* ─── ANALYTICS SPECIFIC ─────────────────────────────────────── */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+.kpi-card{background:#fff;border-radius:12px;padding:14px 16px;border:1px solid var(--g200);box-shadow:0 1px 4px rgba(10,31,68,.06);position:relative;overflow:hidden;transition:transform .2s}
+.kpi-card:hover{transform:translateY(-2px)}
+.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.kpi-blue::after{background:var(--blue)}
+.kpi-green::after{background:var(--success)}
+.kpi-gold::after{background:var(--gold)}
+.kpi-purple::after{background:var(--ext)}
+.kpi-navy::after{background:var(--navy)}
+.kpi-red::after{background:var(--danger)}
+.kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--g400);margin-bottom:6px}
+.kpi-value{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);line-height:1}
+.kpi-sub{font-size:11px;color:var(--g400);margin-top:4px}
+.kpi-trend{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;margin-top:6px}
+.trend-up{background:rgba(5,150,105,.1);color:var(--success)}
+.trend-dn{background:rgba(220,38,38,.1);color:var(--danger)}
+
+.chart-wrap{position:relative;width:100%}
+.chart-wrap canvas{display:block!important}
+.chart-legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px}
+.cl-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--g600)}
+.cl-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+.insight-card{background:linear-gradient(135deg,var(--ghost),#fff);border:1px solid var(--pale);border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+.insight-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.insight-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.insight-text{font-size:12px;color:var(--g500);line-height:1.5}
+
+.rank-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--g100)}
+.rank-item:last-child{border:none}
+.rank-num{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--g300);width:24px;flex-shrink:0;text-align:center}
+.rank-num.top{color:var(--gold)}
+.rank-info{flex:1;min-width:0}
+.rank-name{font-size:13px;font-weight:600;color:var(--g800);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-sub{font-size:11px;color:var(--g400);margin-top:2px}
+.rank-count{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--blue);flex-shrink:0}
+
+.heatmap-grid{display:grid;gap:3px;padding:4px 0}
+.hm-cell{height:28px;border-radius:4px;display:flex;align-items:center;justify-content:flex-start;padding:0 8px;font-size:11px;font-weight:600;cursor:default;transition:transform .15s}
+.hm-cell:hover{transform:scaleY(1.05)}
+.hm-label{font-size:11px;color:var(--g500);padding:4px 0;font-weight:500}
+
+.timeline-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--g100)}
+.timeline-item:last-child{border:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tl-body{flex:1}
+.tl-date{font-size:11px;color:var(--g400);margin-bottom:2px}
+.tl-text{font-size:13px;color:var(--g700);font-weight:500}
+
+.report-section{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:20px;margin-bottom:14px}
+.report-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--g100)}
+.report-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy)}
+.report-meta{font-size:11px;color:var(--g400)}
+
+.progress-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.progress-label{font-size:12px;font-weight:600;color:var(--g700);min-width:140px}
+.progress-track{flex:1;height:10px;background:var(--g100);border-radius:6px;overflow:hidden}
+.progress-fill{height:100%;border-radius:6px;transition:width 1s cubic-bezier(.34,1.56,.64,1)}
+.progress-value{font-size:12px;font-weight:700;color:var(--g600);min-width:40px;text-align:right}
+
+.summary-table{width:100%;border-collapse:collapse}
+.summary-table th{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--royal);background:var(--ghost);border-bottom:1px solid var(--pale)}
+.summary-table td{padding:8px 12px;font-size:12px;color:var(--g700);border-bottom:1px solid var(--g100)}
+.summary-table tr:last-child td{border:none}
+.summary-table tr:hover td{background:var(--g50)}
+
+.report-tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid var(--g200);padding-bottom:12px;flex-wrap:wrap}
+.rtab{padding:7px 14px;border-radius:8px 8px 0 0;font-size:12px;font-weight:600;cursor:pointer;border:1px solid transparent;color:var(--g500);transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif}
+.rtab.active{background:#fff;color:var(--blue);border-color:var(--g200);border-bottom-color:#fff;margin-bottom:-1px}
+.rtab:hover:not(.active){color:var(--g800);background:var(--g50)}
+
 /* ─── MODAL ─────────────────────────────────────────────────── */
 .mo{position:fixed;inset:0;background:rgba(6,20,41,.55);backdrop-filter:blur(6px);z-index:400;display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;pointer-events:none;transition:opacity .25s}
 .mo.open{opacity:1;pointer-events:all}
@@ -200,6 +273,15 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
 #tc{position:fixed;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;top:70px;right:12px;left:auto}
 .toast{background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(10,31,68,.18);padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;animation:slideIn .3s ease;pointer-events:all;max-width:340px;min-width:220px}
 
+/* ─── PRINT STYLES ───────────────────────────────────────────── */
+@media print{
+  .topbar,.sidebar,.sidebar-overlay{display:none!important}
+  .content{padding:0!important;margin:0!important}
+  .btn,.btn-group,.no-print{display:none!important}
+  .card{box-shadow:none!important;border:1px solid #ddd!important}
+  body{background:#fff!important}
+}
+
 /* ─── UTILS ─────────────────────────────────────────────────── */
 .spin{width:20px;height:20px;border:2.5px solid var(--g200);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;flex-shrink:0}
 .spin-lg{width:40px;height:40px;border-width:3.5px}
@@ -207,23 +289,14 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
 .hidden{display:none!important}
 .divider{height:1px;background:var(--g100);margin:12px 0}
 
-/* ─── MOBILE BREAKPOINTS ─────────────────────────────────────── */
-@media(max-width:900px){
-  .ll{display:none}
-  .lr{padding:40px 24px}
-}
-
+/* ─── MOBILE ─────────────────────────────────────────────────── */
+@media(max-width:900px){.ll{display:none}.lr{padding:40px 24px}}
 @media(max-width:768px){
   :root{--topbar-h:58px;--sidebar-w:270px}
   .hamburger{display:flex}
   .tb-user .tb-uname,.tb-user .tb-urole{display:none}
   .tb-brand-sub{display:none}
-  .sidebar{
-    position:fixed;top:var(--topbar-h);left:0;bottom:0;
-    height:calc(100vh - var(--topbar-h));
-    transform:translateX(-100%);z-index:260;
-    box-shadow:4px 0 24px rgba(10,31,68,.15)
-  }
+  .sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;height:calc(100vh - var(--topbar-h));transform:translateX(-100%);z-index:260;box-shadow:4px 0 24px rgba(10,31,68,.15)}
   .sidebar.open{transform:translateX(0)}
   .content{padding:14px 12px 60px}
   .pg-t{font-size:20px}
@@ -239,19 +312,16 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
   .pg-h{flex-direction:column;align-items:flex-start}
   .pg-h .btn-group{width:100%}
   .pg-h .btn-group .btn{flex:1;justify-content:center}
-  .dash-grid-2{grid-template-columns:1fr!important}
-  .dash-grid-halves{grid-template-columns:1fr!important}
+  .dash-grid-2,.dash-grid-halves,.dash-grid-3{grid-template-columns:1fr!important}
+  .kpi-strip{grid-template-columns:1fr 1fr}
 }
-
 @media(max-width:480px){
   :root{--topbar-h:56px}
-  .stat-row{grid-template-columns:1fr 1fr}
+  .stat-row,.kpi-strip{grid-template-columns:1fr 1fr}
   .fgrid{grid-template-columns:1fr}
   .mf-grid{grid-template-columns:1fr!important}
   .tb-user{display:none}
-  .ll-cards{grid-template-columns:1fr 1fr}
   .ch{gap:8px}
-  .btn-xs{padding:3px 7px;font-size:10px}
 }
 </style>
 </head>
@@ -279,19 +349,14 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
       <div class="lr-badge">🔐 Secured Access</div>
       <div class="lr-title">Administrator<br>Sign In</div>
       <div class="lr-sub">Enter your admin credentials to access the control panel</div>
-      <div class="fg">
-        <label class="fl">Username</label>
+      <div class="fg"><label class="fl">Username</label>
         <div class="fi-wrap"><span class="fi-icon">👤</span>
-        <input class="fi" id="l-u" placeholder="Enter username" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      </div>
-      <div class="fg">
-        <label class="fl">Password</label>
+        <input class="fi" id="l-u" placeholder="Enter username" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"></div></div>
+      <div class="fg"><label class="fl">Password</label>
         <div class="fi-wrap"><span class="fi-icon">🔒</span>
-        <input class="fi" id="l-p" type="password" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      </div>
+        <input class="fi" id="l-p" type="password" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div></div>
       <button class="btn-login" id="login-btn" onclick="doLogin()">
-        <span id="lbt">Sign In to Admin Panel →</span>
-      </button>
+        <span id="lbt">Sign In to Admin Panel →</span></button>
       <div class="login-err" id="lerr"></div>
       <a class="back-link" href="index.html">← Back to Portal</a>
     </div>
@@ -302,9 +367,7 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
 <div id="app">
   <div class="topbar">
     <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menu">
-      <span class="ham-line"></span>
-      <span class="ham-line"></span>
-      <span class="ham-line"></span>
+      <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
     </button>
     <div class="tb-logo">👑</div>
     <div class="tb-brand">
@@ -317,14 +380,19 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
     </div>
     <button class="btn-logout" onclick="doLogout()">Sign Out</button>
   </div>
-
   <div class="sidebar-overlay" id="sb-overlay" onclick="toggleSidebar(false)"></div>
-
   <div class="app-body">
     <div class="sidebar" id="sidebar">
       <div class="sb-sec">Overview</div>
       <div class="sb-item active" data-v="dashboard" onclick="nav('dashboard')"><span class="sb-icon">📊</span>Dashboard</div>
-      <div class="sb-item" data-v="analytics" onclick="nav('analytics')"><span class="sb-icon">📈</span>Analytics</div>
+      <div class="sb-sec">Analytics & Reports</div>
+      <div class="sb-item" data-v="analytics-overview" onclick="nav('analytics-overview')"><span class="sb-icon">📈</span>Analytics Overview</div>
+      <div class="sb-item" data-v="report-department" onclick="nav('report-department')"><span class="sb-icon">🏢</span>Department Report</div>
+      <div class="sb-item" data-v="report-college" onclick="nav('report-college')"><span class="sb-icon">🎓</span>College Report</div>
+      <div class="sb-item" data-v="report-period" onclick="nav('report-period')"><span class="sb-icon">📅</span>Period-wise Report</div>
+      <div class="sb-item" data-v="report-faculty" onclick="nav('report-faculty')"><span class="sb-icon">👩‍🏫</span>Faculty Report</div>
+      <div class="sb-item" data-v="report-verification" onclick="nav('report-verification')"><span class="sb-icon">✅</span>Verification Report</div>
+      <div class="sb-item" data-v="report-crossanalysis" onclick="nav('report-crossanalysis')"><span class="sb-icon">🔀</span>Cross Analysis</div>
       <div class="sb-sec">Attendance</div>
       <div class="sb-item" data-v="entries-int" onclick="nav('entries-int')"><span class="sb-icon">📝</span>Internal Entries</div>
       <div class="sb-item" data-v="entries-ext" onclick="nav('entries-ext')"><span class="sb-icon">🎓</span>External Entries</div>
@@ -373,20 +441,43 @@ const DB_DEFS = {
   FacultyDB:     { label:'Faculty DB',     icon:'👩‍🏫',cols:['Name','Designation','Department','College'], indices:[1,2,3,4] },
 };
 
+const CHART_COLORS = {
+  blue:['#1a4fba','#2e80d8','#5ca8f5','#93c5fd','#bfdbfe'],
+  green:['#059669','#10b981','#34d399','#6ee7b7','#a7f3d0'],
+  gold:['#b8891a','#d4a020','#f0c84a','#fde68a','#fef3c7'],
+  purple:['#7c3aed','#8b5cf6','#a78bfa','#c4b5fd','#ddd6fe'],
+  navy:['#061429','#0d2d6b','#1a4fba','#2e80d8','#5ca8f5'],
+  mixed:['#1a4fba','#059669','#b8891a','#7c3aed','#dc2626','#0d2d6b','#10b981','#d4a020','#8b5cf6','#ef4444'],
+};
+
 const getSession   = () => { try{ return JSON.parse(sessionStorage.getItem(SES_KEY))||null; }catch{ return null; } };
 const setSession   = u  => sessionStorage.setItem(SES_KEY, JSON.stringify(u));
 const clearSession = () => sessionStorage.removeItem(SES_KEY);
 
 // ══════════════════════════════════════════════════════════════
+// CHART.JS LOADER
+// ══════════════════════════════════════════════════════════════
+let _chartJsLoaded = false;
+async function loadChartJs(){
+  if(_chartJsLoaded || typeof Chart !== 'undefined'){ _chartJsLoaded=true; return; }
+  await new Promise((res,rej)=>{
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
+    s.onload=()=>{ _chartJsLoaded=true; res(); }; s.onerror=rej;
+    document.head.appendChild(s);
+  });
+}
+const _charts = {};
+function destroyChart(id){ if(_charts[id]){ _charts[id].destroy(); delete _charts[id]; } }
+function makeChart(id, config){ destroyChart(id); const c=new Chart(document.getElementById(id),config); _charts[id]=c; return c; }
+
+// ══════════════════════════════════════════════════════════════
 // SIDEBAR TOGGLE
 // ══════════════════════════════════════════════════════════════
 function toggleSidebar(force){
-  const sb=document.getElementById('sidebar');
-  const ov=document.getElementById('sb-overlay');
-  const ham=document.getElementById('hamburger');
-  const open=force!==undefined ? force : !sb.classList.contains('open');
-  sb.classList.toggle('open',open);
-  ov.classList.toggle('open',open);
+  const sb=document.getElementById('sidebar'),ov=document.getElementById('sb-overlay'),ham=document.getElementById('hamburger');
+  const open=force!==undefined?force:!sb.classList.contains('open');
+  sb.classList.toggle('open',open);ov.classList.toggle('open',open);
   if(ham) ham.classList.toggle('open',open);
 }
 
@@ -402,6 +493,11 @@ async function gasPost(params){
 async function loadSheet(sheet,force=false){
   if(!force&&_cache[sheet]) return _cache[sheet];
   const res=await gasPost({action:'getAll',sheet});
+  // Normalise: GAS sometimes returns rows as an object {0:[...],1:[...]} instead of an array
+  if(res.rows && !Array.isArray(res.rows)){
+    res.rows=Object.values(res.rows);
+  }
+  if(!Array.isArray(res.rows)) res.rows=[];
   if(res.success) _cache[sheet]=res;
   return res;
 }
@@ -414,11 +510,10 @@ function showToast(msg,type='info'){
   const COLS={success:'#059669',error:'#dc2626',info:'#1a4fba',warning:'#d97706'};
   const ICON={success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'};
   const t=document.createElement('div');
-  t.className='toast';
-  t.style.borderLeft=`4px solid ${COLS[type]}`;
+  t.className='toast';t.style.borderLeft=`4px solid ${COLS[type]}`;
   t.innerHTML=`<span>${ICON[type]}</span><span style="flex:1">${msg}</span>`;
   document.getElementById('tc').appendChild(t);
-  setTimeout(()=>{ t.style.transition='opacity .4s'; t.style.opacity='0'; },3400);
+  setTimeout(()=>{t.style.transition='opacity .4s';t.style.opacity='0';},3400);
   setTimeout(()=>t.remove(),3900);
 }
 function openMo(title,body,footer,large=false){
@@ -435,8 +530,7 @@ document.getElementById('mo').addEventListener('click',e=>{ if(e.target===e.curr
 // AUTH
 // ══════════════════════════════════════════════════════════════
 async function doLogin(){
-  const u=document.getElementById('l-u').value.trim();
-  const p=document.getElementById('l-p').value.trim();
+  const u=document.getElementById('l-u').value.trim(),p=document.getElementById('l-p').value.trim();
   if(!u||!p){ showLoginErr('Please enter username and password'); return; }
   const btn=document.getElementById('login-btn');
   document.getElementById('lbt').innerHTML='<span class="spin spin-w" style="display:inline-block;margin-right:6px"></span>Authenticating…';
@@ -446,8 +540,7 @@ async function doLogin(){
     if(res.success&&res.user){ setSession(res.user); showApp(res.user); }
     else showLoginErr(res.message||'Invalid credentials or insufficient privileges');
   } catch(e){ showLoginErr('Connection error: '+e.message); }
-  document.getElementById('lbt').textContent='Sign In to Admin Panel →';
-  btn.disabled=false;
+  document.getElementById('lbt').textContent='Sign In to Admin Panel →';btn.disabled=false;
 }
 function showLoginErr(msg){ const el=document.getElementById('lerr'); el.textContent='⛔ '+msg; el.style.display='block'; }
 function showApp(user){
@@ -467,21 +560,55 @@ function nav(view){
   _currentView=view;
   document.querySelectorAll('.sb-item').forEach(el=>el.classList.toggle('active',el.dataset.v===view));
   toggleSidebar(false);
+  Object.values(_charts).forEach(ch=>ch.destroy());
+  Object.keys(_charts).forEach(k=>delete _charts[k]);
   const c=document.getElementById('content');
   c.innerHTML=`<div style="display:flex;justify-content:center;align-items:center;padding:80px;flex-direction:column;gap:16px">
     <div class="spin spin-lg"></div><div style="font-size:13px;color:var(--g400)">Loading…</div></div>`;
   setTimeout(async()=>{
-    if(view==='dashboard')       await renderDashboard();
-    else if(view==='analytics')  await renderAnalytics();
-    else if(view==='gas')             renderGas();
-    else if(view==='users')      await renderUsers();
-    else if(view==='entries-int') await renderEntries('DataEntryDB');
-    else if(view==='entries-ext') await renderEntries('ExternalEntryDB');
-    else if(view==='add-ext')    await renderAddExternal();
-    else if(view==='certs')      await renderCerts();
-    else if(view.startsWith('db-')) await renderDB(view.slice(3));
+    if(view==='dashboard')                await renderDashboard();
+    else if(view==='analytics-overview')  await renderAnalyticsOverview();
+    else if(view==='report-department')   await renderReportDepartment();
+    else if(view==='report-college')      await renderReportCollege();
+    else if(view==='report-period')       await renderReportPeriod();
+    else if(view==='report-faculty')      await renderReportFaculty();
+    else if(view==='report-verification') await renderReportVerification();
+    else if(view==='report-crossanalysis')await renderReportCrossAnalysis();
+    else if(view==='gas')                      renderGas();
+    else if(view==='users')               await renderUsers();
+    else if(view==='entries-int')         await renderEntries('DataEntryDB');
+    else if(view==='entries-ext')         await renderEntries('ExternalEntryDB');
+    else if(view==='certs')               await renderCerts();
+    else if(view.startsWith('db-'))       await renderDB(view.slice(3));
   },60);
 }
+
+// ══════════════════════════════════════════════════════════════
+// ANALYTICS HELPERS
+// ══════════════════════════════════════════════════════════════
+function gc(rows,keyFn,max=999){ const m={}; rows.forEach(r=>{const k=keyFn(r);if(k){m[k]=(m[k]||0)+1;}}); return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,max); }
+function rb(entries,color,max=10){
+  if(!entries.length) return '<div class="no-data" style="padding:16px">No data</div>';
+  const top=entries.slice(0,max),maxV=top[0][1];
+  return top.map(([lbl,cnt])=>`<div class="bar-row">
+    <div class="bar-label" title="${lbl}">${lbl||'—'}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${Math.round(cnt/maxV*100)}%;background:${color}"></div></div>
+    <div class="bar-count">${cnt}</div>
+  </div>`).join('');
+}
+function pct(n,d){ return d>0?Math.round(n/d*100):0; }
+function topN(rows,keyFn,n=5){ return gc(rows,keyFn).slice(0,n); }
+
+function exportTableCSV(id, filename){
+  const tbl = document.getElementById(id); if(!tbl) return;
+  const rows = Array.from(tbl.querySelectorAll('tr'));
+  const csv = rows.map(r=>Array.from(r.querySelectorAll('th,td')).map(c=>`"${c.innerText.replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=(filename||'report')+'_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+  showToast('CSV exported','success');
+}
+
+function printReport(){ window.print(); }
 
 // ══════════════════════════════════════════════════════════════
 // DASHBOARD
@@ -499,7 +626,6 @@ async function renderDashboard(){
     const allMoyr=new Set([...intR,...extR].map(r=>r[1]).filter(Boolean));
     const combined=[...intR.map(r=>({...r,_src:'Internal'})),...extR.map(r=>({...r,_src:'External'}))].sort((a,b)=>String(b[2]||'').localeCompare(String(a[2]||'')));
     const recent=combined.slice(0,8);
-
     c.innerHTML=`
     <div class="pg-h"><div class="pg-hL">
       <div class="pg-t">📊 Dashboard</div>
@@ -507,20 +633,13 @@ async function renderDashboard(){
     </div>
     <div class="btn-group">
       <button class="btn btn-outline btn-sm" onclick="clearCache();nav('dashboard')">🔄 Refresh</button>
+      <button class="btn btn-primary btn-sm" onclick="nav('analytics-overview')">📈 Full Analytics</button>
     </div></div>
     <div class="stat-row">
-      <div class="stat-card sc-blue"><span class="stat-icon">📝</span>
-        <div class="stat-n">${total}</div><div class="stat-l">Total Entries</div>
-        <div class="stat-sub">${intR.length} Int · ${extR.length} Ext</div></div>
-      <div class="stat-card sc-green"><span class="stat-icon">✅</span>
-        <div class="stat-n">${totalVer}</div><div class="stat-l">Verified</div>
-        <div class="stat-sub">${total>0?Math.round(totalVer/total*100):0}% done</div></div>
-      <div class="stat-card sc-gold"><span class="stat-icon">👩‍🏫</span>
-        <div class="stat-n">${facR.length}</div><div class="stat-l">Faculty</div>
-        <div class="stat-sub">In Faculty DB</div></div>
-      <div class="stat-card sc-navy"><span class="stat-icon">🎓</span>
-        <div class="stat-n">${allColleges.size}</div><div class="stat-l">Colleges</div>
-        <div class="stat-sub">${allMoyr.size} period${allMoyr.size!==1?'s':''}</div></div>
+      <div class="stat-card sc-blue"><span class="stat-icon">📝</span><div class="stat-n">${total}</div><div class="stat-l">Total Entries</div><div class="stat-sub">${intR.length} Int · ${extR.length} Ext</div></div>
+      <div class="stat-card sc-green"><span class="stat-icon">✅</span><div class="stat-n">${totalVer}</div><div class="stat-l">Verified</div><div class="stat-sub">${pct(totalVer,total)}% done</div></div>
+      <div class="stat-card sc-gold"><span class="stat-icon">👩‍🏫</span><div class="stat-n">${facR.length}</div><div class="stat-l">Faculty</div><div class="stat-sub">In Faculty DB</div></div>
+      <div class="stat-card sc-navy"><span class="stat-icon">🎓</span><div class="stat-n">${allColleges.size}</div><div class="stat-l">Colleges</div><div class="stat-sub">${allMoyr.size} period${allMoyr.size!==1?'s':''}</div></div>
     </div>
     <div style="display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px;margin-bottom:14px" class="dash-grid-2">
       <div class="card">
@@ -545,15 +664,15 @@ async function renderDashboard(){
       <div class="card">
         <div class="ch"><div class="ct">📊 Quick Stats</div></div>
         <div class="cb" style="padding:12px 16px">
-          ${[['DataEntryDB','📝 Internal','b-navy',intR.length],['ExternalEntryDB','🎓 External','b-purple',extR.length],
-             ['FacultyDB','👩‍🏫 Faculty','b-gold',facR.length]].map(([sh,lbl,badge,cnt])=>`
+          ${[['DataEntryDB','📝 Internal','b-navy',intR.length],['ExternalEntryDB','🎓 External','b-purple',extR.length],['FacultyDB','👩‍🏫 Faculty','b-gold',facR.length]].map(([sh,lbl,badge,cnt])=>`
             <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--g100)">
               <span style="font-size:13px;font-weight:500;color:var(--g700)">${lbl}</span>
               <span class="badge ${badge}">${cnt}</span>
             </div>`).join('')}
           <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="nav('analytics-overview')">📈 Analytics</button>
             <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="nav('certs')">📜 Certificates</button>
-            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="window.location.href='External.html'">➕ Add External</button>
+            <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="window.location.href='External.html'">➕ Add External</button>
           </div>
         </div>
       </div>
@@ -573,14 +692,14 @@ async function renderDashboard(){
         <div class="ch"><div class="ct">✅ Verification</div></div>
         <div class="cb">
           ${[['Internal',intR.length,intVer,'var(--blue)'],['External',extR.length,extVer,'#7c3aed']].map(([lbl,tot,vf,color])=>{
-            const pct=tot>0?Math.round(vf/tot*100):0;
+            const p=pct(vf,tot);
             return `<div style="margin-bottom:14px">
               <div style="display:flex;justify-content:space-between;margin-bottom:6px">
                 <span style="font-size:13px;font-weight:600;color:var(--g700)">${lbl}</span>
-                <span style="font-size:12px;color:var(--g500)">${vf}/${tot} (${pct}%)</span>
+                <span style="font-size:12px;color:var(--g500)">${vf}/${tot} (${p}%)</span>
               </div>
               <div style="height:8px;background:var(--g100);border-radius:6px;overflow:hidden">
-                <div style="height:100%;width:${pct}%;background:${color};border-radius:6px;transition:width .8s ease"></div>
+                <div style="height:100%;width:${p}%;background:${color};border-radius:6px;transition:width .8s ease"></div>
               </div>
             </div>`;
           }).join('')}
@@ -591,53 +710,980 @@ async function renderDashboard(){
 }
 
 // ══════════════════════════════════════════════════════════════
-// ANALYTICS
+// ANALYTICS OVERVIEW — Main comprehensive analytics page
 // ══════════════════════════════════════════════════════════════
-async function renderAnalytics(){
+async function renderAnalyticsOverview(){
   const c=document.getElementById('content');
   try{
+    await loadChartJs();
     const [intD,extD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB')]);
     const intR=intD.rows||[],extR=extD.rows||[];
     const all=[...intR.map(r=>({...r,_src:'I'})),...extR.map(r=>({...r,_src:'E'}))];
-    const byDept=gc(all,r=>r[8]);
-    const byCol=gc(extR,r=>r[9]);
-    const byRole=gc(all,r=>r[5]);
-    const byMoyr=gc(all,r=>r[1]);
-    const bySes=gc(all,r=>r[4]);
-    const byDate=gc(all,r=>r[2]);
+    const total=all.length;
     const intVer=intR.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
     const extVer=extR.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
+    const totalVer=intVer+extVer;
+    const uniqDepts=new Set(all.map(r=>r[8]).filter(Boolean)).size;
+    const uniqCols=new Set(extR.map(r=>r[9]).filter(Boolean)).size;
+    const uniqPeriods=new Set(all.map(r=>r[1]).filter(Boolean)).size;
+    const uniqFac=new Set(all.map(r=>String(r[6]||'').toLowerCase().trim()).filter(Boolean)).size;
+
+    // Top faculty by appearances
+    const topFac=gc(all,r=>r[6]).slice(0,5);
+    // By session
+    const bySes=gc(all,r=>r[4]);
+    // By dept
+    const byDept=gc(all,r=>r[8]);
+    // By role
+    const byRole=gc(all,r=>r[5]);
+    // By period
+    const byPeriod=gc(all,r=>r[1]);
+    // By date
+    const byDate=gc(all,r=>r[2]).slice(0,10).reverse();
+    // By college (external)
+    const byCol=gc(extR,r=>r[9]).slice(0,8);
+
+    // Insights
+    const insights=[];
+    if(total>0){
+      const topDept=byDept[0]; if(topDept) insights.push({icon:'🏢',title:'Most Active Department',text:`${topDept[0]} leads with ${topDept[1]} duty entries — ${pct(topDept[1],total)}% of all records.`});
+      const topPeriod=byPeriod[0]; if(topPeriod) insights.push({icon:'📅',title:'Highest Exam Period',text:`${topPeriod[0]} recorded the most activity with ${topPeriod[1]} entries across all roles.`});
+      const topSes=bySes[0]; if(topSes) insights.push({icon:'⏱️',title:'Dominant Session',text:`${topSes[0]} session accounts for ${topSes[1]} entries (${pct(topSes[1],total)}% of total).`});
+      const unverified=total-totalVer; if(unverified>0) insights.push({icon:'⚠️',title:'Pending Verification',text:`${unverified} entries (${pct(unverified,total)}%) across both databases are still awaiting verification.`});
+      if(extR.length>0&&byCol[0]) insights.push({icon:'🎓',title:'Top External College',text:`${byCol[0][0]} has contributed the most external faculty — ${byCol[0][1]} entries.`});
+    }
+
     c.innerHTML=`
-    <div class="pg-h"><div class="pg-hL"><div class="pg-t">📈 Analytics</div><div class="pg-s">Attendance statistics and breakdowns</div></div></div>
-    <div class="stat-row">
-      <div class="stat-card sc-blue"><span class="stat-icon">📝</span><div class="stat-n">${intR.length}</div><div class="stat-l">Internal</div></div>
-      <div class="stat-card sc-purple"><span class="stat-icon">🎓</span><div class="stat-n">${extR.length}</div><div class="stat-l">External</div></div>
-      <div class="stat-card sc-green"><span class="stat-icon">✅</span><div class="stat-n">${intVer+extVer}</div><div class="stat-l">Verified</div></div>
-      <div class="stat-card sc-gold"><span class="stat-icon">🎓</span><div class="stat-n">${new Set(extR.map(r=>r[9]).filter(Boolean)).size}</div><div class="stat-l">Colleges</div></div>
+    <div class="pg-h"><div class="pg-hL">
+      <div class="pg-t">📈 Analytics Overview</div>
+      <div class="pg-s">Comprehensive attendance intelligence across all records</div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
-      <div class="card"><div class="ch"><div class="ct">🏢 By Department</div></div><div class="cb">${rb(byDept,'#1a4fba')}</div></div>
-      <div class="card"><div class="ch"><div class="ct">📋 By Role</div></div><div class="cb">${rb(byRole,'#059669')}</div></div>
+    <div class="btn-group no-print">
+      <button class="btn btn-outline btn-sm" onclick="clearCache();nav('analytics-overview')">🔄 Refresh</button>
+      <button class="btn btn-gold btn-sm" onclick="printReport()">🖨️ Print</button>
+    </div></div>
+
+    <!-- KPI STRIP -->
+    <div class="kpi-strip">
+      <div class="kpi-card kpi-blue"><div class="kpi-label">Total Entries</div><div class="kpi-value">${total}</div><div class="kpi-sub">${intR.length} internal · ${extR.length} external</div></div>
+      <div class="kpi-card kpi-green"><div class="kpi-label">Verified</div><div class="kpi-value">${totalVer}</div><div class="kpi-sub">${pct(totalVer,total)}% completion rate</div></div>
+      <div class="kpi-card kpi-navy"><div class="kpi-label">Departments</div><div class="kpi-value">${uniqDepts}</div><div class="kpi-sub">Departments covered</div></div>
+      <div class="kpi-card kpi-gold"><div class="kpi-label">Colleges</div><div class="kpi-value">${uniqCols}</div><div class="kpi-sub">External institutions</div></div>
+      <div class="kpi-card kpi-purple"><div class="kpi-label">Exam Periods</div><div class="kpi-value">${uniqPeriods}</div><div class="kpi-sub">Academic periods</div></div>
+      <div class="kpi-card kpi-red"><div class="kpi-label">Pending</div><div class="kpi-value">${total-totalVer}</div><div class="kpi-sub">Need verification</div></div>
     </div>
+
+    <!-- CHARTS ROW 1 -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
-      <div class="card"><div class="ch"><div class="ct">📅 By Exam Period</div></div><div class="cb">${rb(byMoyr,'#b8891a')}</div></div>
-      <div class="card"><div class="ch"><div class="ct">⏱️ By Session</div></div><div class="cb">${rb(bySes,'#7c3aed')}</div></div>
+      <div class="card">
+        <div class="ch"><div class="ct">📊 Internal vs External Split</div></div>
+        <div class="cb">
+          <div class="chart-legend">
+            <div class="cl-item"><div class="cl-dot" style="background:#1a4fba"></div>Internal (${intR.length})</div>
+            <div class="cl-item"><div class="cl-dot" style="background:#7c3aed"></div>External (${extR.length})</div>
+          </div>
+          <div class="chart-wrap" style="height:200px"><canvas id="ch-split"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">✅ Verification Status</div></div>
+        <div class="cb">
+          <div class="chart-legend">
+            <div class="cl-item"><div class="cl-dot" style="background:#059669"></div>Verified (${totalVer})</div>
+            <div class="cl-item"><div class="cl-dot" style="background:#fbbf24"></div>Pending (${total-totalVer})</div>
+          </div>
+          <div class="chart-wrap" style="height:200px"><canvas id="ch-verif"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW 2 -->
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-2">
+      <div class="card">
+        <div class="ch"><div class="ct">🏢 Entries by Department</div><button class="btn btn-outline btn-xs" onclick="nav('report-department')">Full Report →</button></div>
+        <div class="cb">
+          <div class="chart-wrap" style="height:${Math.max(180,byDept.slice(0,8).length*38+40)}px"><canvas id="ch-dept"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">⏱️ By Session</div></div>
+        <div class="cb">
+          <div class="chart-wrap" style="height:200px"><canvas id="ch-session"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW 3 -->
+    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:14px;margin-bottom:14px" class="dash-grid-2">
+      <div class="card">
+        <div class="ch"><div class="ct">📋 Entries by Role</div></div>
+        <div class="cb">${rb(byRole.slice(0,8),'#059669')}</div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">📅 Trend by Exam Period</div></div>
+        <div class="cb">
+          <div class="chart-wrap" style="height:220px"><canvas id="ch-period"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW 4 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
+      <div class="card">
+        <div class="ch"><div class="ct">🎓 Top External Colleges</div><button class="btn btn-outline btn-xs" onclick="nav('report-college')">Full Report →</button></div>
+        <div class="cb">${rb(byCol,'#7c3aed')}</div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">📆 Activity by Date (Recent 10)</div></div>
+        <div class="cb">
+          <div class="chart-wrap" style="height:220px"><canvas id="ch-date"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP FACULTY & INSIGHTS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
+      <div class="card">
+        <div class="ch"><div class="ct">🏆 Top Faculty by Appearances</div><button class="btn btn-outline btn-xs" onclick="nav('report-faculty')">Full Report →</button></div>
+        <div class="cb" style="padding:10px 16px">
+          ${topFac.map(([name,cnt],i)=>`
+            <div class="rank-item">
+              <div class="rank-num ${i<3?'top':''}">${i+1}</div>
+              <div class="rank-info"><div class="rank-name">${name||'—'}</div><div class="rank-sub">${pct(cnt,total)}% of total entries</div></div>
+              <div class="rank-count">${cnt}</div>
+            </div>`).join('')||'<div class="no-data">No data</div>'}
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">💡 Key Insights</div></div>
+        <div class="cb" style="padding:10px 16px">
+          ${insights.map(i=>`
+            <div class="insight-card">
+              <div class="insight-icon">${i.icon}</div>
+              <div><div class="insight-title">${i.title}</div><div class="insight-text">${i.text}</div></div>
+            </div>`).join('')||'<div class="no-data">Not enough data for insights</div>'}
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="card">
+      <div class="ch"><div class="ct">🗂️ Detailed Reports</div></div>
+      <div class="cb">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
+          ${[
+            ['report-department','🏢','Department Report','Entries by department'],
+            ['report-college','🎓','College Report','External college breakdown'],
+            ['report-period','📅','Period-wise Report','Exam period analysis'],
+            ['report-faculty','👩‍🏫','Faculty Report','Individual faculty records'],
+            ['report-verification','✅','Verification Report','Pending vs verified'],
+            ['report-crossanalysis','🔀','Cross Analysis','Multi-dimension view'],
+          ].map(([v,icon,title,sub])=>`
+            <div onclick="nav('${v}')" style="padding:14px;border:1.5px solid var(--g200);border-radius:12px;cursor:pointer;transition:all .2s;background:#fff" onmouseover="this.style.borderColor='var(--blue)';this.style.background='var(--ghost)'" onmouseout="this.style.borderColor='var(--g200)';this.style.background='#fff'">
+              <div style="font-size:22px;margin-bottom:6px">${icon}</div>
+              <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px">${title}</div>
+              <div style="font-size:11px;color:var(--g400)">${sub}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+    // Draw charts
+    setTimeout(()=>{
+      // Int vs Ext doughnut
+      makeChart('ch-split',{type:'doughnut',data:{labels:['Internal','External'],datasets:[{data:[intR.length,extR.length],backgroundColor:['#1a4fba','#7c3aed'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
+      // Verification doughnut
+      makeChart('ch-verif',{type:'doughnut',data:{labels:['Verified','Pending'],datasets:[{data:[totalVer,total-totalVer],backgroundColor:['#059669','#fbbf24'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
+      // Department horizontal bar
+      const deptTop=byDept.slice(0,8);
+      makeChart('ch-dept',{type:'bar',data:{labels:deptTop.map(([l])=>l),datasets:[{data:deptTop.map(([,v])=>v),backgroundColor:CHART_COLORS.blue,borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:11}}},y:{ticks:{font:{size:11}}}}}});
+      // Session donut
+      makeChart('ch-session',{type:'doughnut',data:{labels:bySes.map(([l])=>l),datasets:[{data:bySes.map(([,v])=>v),backgroundColor:CHART_COLORS.gold,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10,padding:8}}},cutout:'55%'}});
+      // Period trend
+      const periodData=byPeriod.slice(0,8).reverse();
+      makeChart('ch-period',{type:'bar',data:{labels:periodData.map(([l])=>l),datasets:[{data:periodData.map(([,v])=>v),backgroundColor:'rgba(26,79,186,.15)',borderColor:'#1a4fba',borderWidth:2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45}},y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'}}}}});
+      // Date line
+      makeChart('ch-date',{type:'line',data:{labels:byDate.map(([l])=>l),datasets:[{data:byDate.map(([,v])=>v),borderColor:'#059669',backgroundColor:'rgba(5,150,105,.08)',fill:true,tension:.4,pointRadius:4,pointHoverRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45}},y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'}}}}});
+    },100);
+  } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
+}
+
+// ══════════════════════════════════════════════════════════════
+// DEPARTMENT REPORT
+// ══════════════════════════════════════════════════════════════
+async function renderReportDepartment(){
+  const c=document.getElementById('content');
+  try{
+    await loadChartJs();
+    const [intD,extD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB')]);
+    const intR=intD.rows||[],extR=extD.rows||[];
+    const all=[...intR,...extR];
+    const total=all.length;
+    const depts=[...new Set(all.map(r=>r[8]).filter(Boolean))].sort();
+
+    const deptStats=depts.map(dept=>{
+      const dRows=all.filter(r=>r[8]===dept);
+      const intCount=intR.filter(r=>r[8]===dept).length;
+      const extCount=extR.filter(r=>r[8]===dept).length;
+      const ver=dRows.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
+      const roles=[...new Set(dRows.map(r=>r[5]).filter(Boolean))];
+      const periods=[...new Set(dRows.map(r=>r[1]).filter(Boolean))];
+      return {dept,total:dRows.length,intCount,extCount,ver,pct:pct(ver,dRows.length),roles,periods};
+    }).sort((a,b)=>b.total-a.total);
+
+    c.innerHTML=`
+    <div class="pg-h"><div class="pg-hL">
+      <div class="pg-t">🏢 Department Report</div>
+      <div class="pg-s">Attendance breakdown by department across ${depts.length} departments</div>
+    </div>
+    <div class="btn-group no-print">
+      <button class="btn btn-outline btn-sm" onclick="clearCache();nav('report-department')">🔄 Refresh</button>
+      <button class="btn btn-outline btn-sm" onclick="exportTableCSV('dept-report-tbl','department_report')">⬇️ CSV</button>
+      <button class="btn btn-gold btn-sm" onclick="printReport()">🖨️ Print</button>
+    </div></div>
+
+    <!-- KPI -->
+    <div class="kpi-strip">
+      <div class="kpi-card kpi-blue"><div class="kpi-label">Departments</div><div class="kpi-value">${depts.length}</div></div>
+      <div class="kpi-card kpi-navy"><div class="kpi-label">Total Entries</div><div class="kpi-value">${total}</div></div>
+      <div class="kpi-card kpi-green"><div class="kpi-label">Top Dept</div><div class="kpi-value" style="font-size:14px;padding-top:4px">${deptStats[0]?.dept||'—'}</div><div class="kpi-sub">${deptStats[0]?.total||0} entries</div></div>
+      <div class="kpi-card kpi-gold"><div class="kpi-label">Avg / Dept</div><div class="kpi-value">${depts.length>0?Math.round(total/depts.length):0}</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-2">
+      <div class="card">
+        <div class="ch"><div class="ct">📊 Entries by Department</div></div>
+        <div class="cb">
+          <div class="chart-wrap" style="height:${Math.max(200,deptStats.length*36+60)}px"><canvas id="ch-dept-main"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">✅ Verification by Department</div></div>
+        <div class="cb" style="padding:10px 16px">
+          ${deptStats.map(ds=>`
+            <div class="progress-row">
+              <div class="progress-label" title="${ds.dept}">${ds.dept.length>18?ds.dept.slice(0,18)+'…':ds.dept}</div>
+              <div class="progress-track"><div class="progress-fill" style="width:${ds.pct}%;background:${ds.pct>=75?'var(--success)':ds.pct>=40?'var(--warn)':'var(--danger)'}"></div></div>
+              <div class="progress-value">${ds.pct}%</div>
+            </div>`).join('')||'<div class="no-data">No data</div>'}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ch">
+        <div class="ct">📋 Department Summary Table</div>
+        <div style="font-size:11px;color:var(--g400)">${deptStats.length} departments</div>
+      </div>
+      <div class="tw">
+        <table id="dept-report-tbl">
+          <thead><tr><th>#</th><th>Department</th><th>Total</th><th>Internal</th><th>External</th><th>Verified</th><th>Pending</th><th>Ver%</th><th>Periods</th><th>Roles</th></tr></thead>
+          <tbody>
+            ${deptStats.map((ds,i)=>`<tr>
+              <td><span class="badge b-gray">${i+1}</span></td>
+              <td><strong>${ds.dept}</strong></td>
+              <td><strong style="color:var(--navy)">${ds.total}</strong></td>
+              <td><span class="badge b-navy">${ds.intCount}</span></td>
+              <td><span class="badge b-purple">${ds.extCount}</span></td>
+              <td><span class="badge b-green">${ds.ver}</span></td>
+              <td><span class="badge ${ds.total-ds.ver>0?'b-warn':'b-gray'}">${ds.total-ds.ver}</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="flex:1;height:6px;background:var(--g100);border-radius:3px;min-width:50px">
+                    <div style="height:100%;width:${ds.pct}%;background:${ds.pct>=75?'var(--success)':ds.pct>=40?'var(--warn)':'var(--danger)'};border-radius:3px"></div>
+                  </div>
+                  <span style="font-size:11px;font-weight:700;color:var(--g600)">${ds.pct}%</span>
+                </div>
+              </td>
+              <td style="font-size:11px">${ds.periods.length}</td>
+              <td style="font-size:11px">${ds.roles.slice(0,3).join(', ')}${ds.roles.length>3?'…':''}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+
+    setTimeout(()=>{
+      makeChart('ch-dept-main',{type:'bar',data:{labels:deptStats.map(d=>d.dept),datasets:[
+        {label:'Internal',data:deptStats.map(d=>d.intCount),backgroundColor:'#1a4fba',borderRadius:4},
+        {label:'External',data:deptStats.map(d=>d.extCount),backgroundColor:'#7c3aed',borderRadius:4},
+      ]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}}},scales:{x:{stacked:true,beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'}},y:{stacked:true,ticks:{font:{size:10}}}}}});
+    },100);
+  } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
+}
+
+// ══════════════════════════════════════════════════════════════
+// COLLEGE REPORT
+// ══════════════════════════════════════════════════════════════
+async function renderReportCollege(){
+  const c=document.getElementById('content');
+  try{
+    await loadChartJs();
+    const extD=await loadSheet('ExternalEntryDB');
+    const extR=extD.rows||[];
+    const colleges=[...new Set(extR.map(r=>r[9]).filter(Boolean))].sort();
+    const total=extR.length;
+
+    const colStats=colleges.map(col=>{
+      const cRows=extR.filter(r=>r[9]===col);
+      const ver=cRows.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
+      const depts=[...new Set(cRows.map(r=>r[8]).filter(Boolean))];
+      const roles=[...new Set(cRows.map(r=>r[5]).filter(Boolean))];
+      const periods=[...new Set(cRows.map(r=>r[1]).filter(Boolean))];
+      const names=[...new Set(cRows.map(r=>r[6]).filter(Boolean))];
+      return {col,total:cRows.length,ver,pct:pct(ver,cRows.length),depts,roles,periods,names,share:pct(cRows.length,total)};
+    }).sort((a,b)=>b.total-a.total);
+
+    const top10=colStats.slice(0,10);
+
+    c.innerHTML=`
+    <div class="pg-h"><div class="pg-hL">
+      <div class="pg-t">🎓 College Report</div>
+      <div class="pg-s">External faculty attendance by institution — ${colleges.length} colleges</div>
+    </div>
+    <div class="btn-group no-print">
+      <button class="btn btn-outline btn-sm" onclick="exportTableCSV('col-report-tbl','college_report')">⬇️ CSV</button>
+      <button class="btn btn-gold btn-sm" onclick="printReport()">🖨️ Print</button>
+    </div></div>
+
+    <div class="kpi-strip">
+      <div class="kpi-card kpi-purple"><div class="kpi-label">Colleges</div><div class="kpi-value">${colleges.length}</div></div>
+      <div class="kpi-card kpi-blue"><div class="kpi-label">Ext. Entries</div><div class="kpi-value">${total}</div></div>
+      <div class="kpi-card kpi-green"><div class="kpi-label">Top College</div><div class="kpi-value" style="font-size:12px;padding-top:4px">${colStats[0]?.col?.slice(0,20)||'—'}</div><div class="kpi-sub">${colStats[0]?.total||0} entries</div></div>
+      <div class="kpi-card kpi-gold"><div class="kpi-label">Avg / College</div><div class="kpi-value">${colleges.length>0?Math.round(total/colleges.length):0}</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-2">
+      <div class="card">
+        <div class="ch"><div class="ct">📊 Top 10 Colleges</div></div>
+        <div class="cb">
+          <div class="chart-wrap" style="height:${Math.max(200,top10.length*36+60)}px"><canvas id="ch-col-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">🥧 Share Distribution</div></div>
+        <div class="cb">
+          <div class="chart-legend">${top10.slice(0,5).map(([],i)=>`<div class="cl-item"><div class="cl-dot" style="background:${CHART_COLORS.mixed[i]}"></div>${top10[i]?.col?.slice(0,20)||''}</div>`).join('')}</div>
+          <div class="chart-wrap" style="height:200px"><canvas id="ch-col-pie"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><div class="ct">📋 College Details Table</div></div>
+      <div class="tw">
+        <table id="col-report-tbl">
+          <thead><tr><th>#</th><th>College</th><th>Entries</th><th>Share %</th><th>Verified</th><th>Ver%</th><th>Faculty</th><th>Depts Covered</th><th>Periods</th></tr></thead>
+          <tbody>
+            ${colStats.map((cs,i)=>`<tr>
+              <td><span class="badge b-gray">${i+1}</span></td>
+              <td><strong style="font-size:12px">${cs.col}</strong></td>
+              <td><strong style="color:var(--royal)">${cs.total}</strong></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="width:40px;height:5px;background:var(--g100);border-radius:3px">
+                    <div style="height:100%;width:${cs.share}%;background:var(--ext);border-radius:3px"></div>
+                  </div>
+                  <span style="font-size:11px">${cs.share}%</span>
+                </div>
+              </td>
+              <td><span class="badge b-green">${cs.ver}</span></td>
+              <td><span class="badge ${cs.pct>=75?'b-green':cs.pct>=40?'b-gold':'b-red'}">${cs.pct}%</span></td>
+              <td style="font-size:11px">${cs.names.length}</td>
+              <td style="font-size:11px">${cs.depts.slice(0,2).join(', ')}${cs.depts.length>2?` +${cs.depts.length-2}`:''}</td>
+              <td style="font-size:11px">${cs.periods.length}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+
+    setTimeout(()=>{
+      makeChart('ch-col-bar',{type:'bar',data:{labels:top10.map(cs=>cs.col.length>20?cs.col.slice(0,20)+'…':cs.col),datasets:[{data:top10.map(cs=>cs.total),backgroundColor:CHART_COLORS.purple,borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:11}}},y:{ticks:{font:{size:10}}}}}});
+      const others=total-top10.reduce((s,cs)=>s+cs.total,0);
+      makeChart('ch-col-pie',{type:'doughnut',data:{labels:[...top10.slice(0,5).map(cs=>cs.col.slice(0,18)),`Others`],datasets:[{data:[...top10.slice(0,5).map(cs=>cs.total),others],backgroundColor:[...CHART_COLORS.mixed.slice(0,5),'#cbd5e1'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'55%'}});
+    },100);
+  } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
+}
+
+// ══════════════════════════════════════════════════════════════
+// PERIOD-WISE REPORT
+// ══════════════════════════════════════════════════════════════
+async function renderReportPeriod(){
+  const c=document.getElementById('content');
+  try{
+    await loadChartJs();
+    const [intD,extD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB')]);
+    const intR=intD.rows||[],extR=extD.rows||[];
+    const all=[...intR,...extR];
+    const periods=[...new Set(all.map(r=>r[1]).filter(Boolean))].sort();
+
+    const pStats=periods.map(period=>{
+      const pRows=all.filter(r=>r[1]===period);
+      const intC=intR.filter(r=>r[1]===period).length;
+      const extC=extR.filter(r=>r[1]===period).length;
+      const ver=pRows.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
+      const dates=[...new Set(pRows.map(r=>r[2]).filter(Boolean))].sort();
+      const depts=[...new Set(pRows.map(r=>r[8]).filter(Boolean))];
+      const roles=[...new Set(pRows.map(r=>r[5]).filter(Boolean))];
+      const sessions={};
+      pRows.forEach(r=>{ const s=r[4]; if(s) sessions[s]=(sessions[s]||0)+1; });
+      return {period,total:pRows.length,intC,extC,ver,pct:pct(ver,pRows.length),dates,depts,roles,sessions};
+    }).sort((a,b)=>b.total-a.total);
+
+    const selPeriod=pStats[0]?.period||'';
+    window._pStatsCache=pStats;
+
+    c.innerHTML=`
+    <div class="pg-h"><div class="pg-hL">
+      <div class="pg-t">📅 Period-wise Report</div>
+      <div class="pg-s">Attendance analysis across ${periods.length} exam periods</div>
+    </div>
+    <div class="btn-group no-print">
+      <button class="btn btn-outline btn-sm" onclick="exportTableCSV('period-tbl','period_report')">⬇️ CSV</button>
+      <button class="btn btn-gold btn-sm" onclick="printReport()">🖨️ Print</button>
+    </div></div>
+
+    <div class="kpi-strip">
+      <div class="kpi-card kpi-blue"><div class="kpi-label">Periods</div><div class="kpi-value">${periods.length}</div></div>
+      <div class="kpi-card kpi-navy"><div class="kpi-label">Total Entries</div><div class="kpi-value">${all.length}</div></div>
+      <div class="kpi-card kpi-green"><div class="kpi-label">Best Period</div><div class="kpi-value" style="font-size:13px;padding-top:4px">${pStats[0]?.period||'—'}</div><div class="kpi-sub">${pStats[0]?.total||0} entries</div></div>
+      <div class="kpi-card kpi-gold"><div class="kpi-label">Avg / Period</div><div class="kpi-value">${periods.length>0?Math.round(all.length/periods.length):0}</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
+      <div class="card">
+        <div class="ch"><div class="ct">📊 Entries per Period</div></div>
+        <div class="cb">
+          <div class="chart-wrap" style="height:250px"><canvas id="ch-period-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">🔀 Int vs Ext per Period</div></div>
+        <div class="cb">
+          <div class="chart-legend">
+            <div class="cl-item"><div class="cl-dot" style="background:#1a4fba"></div>Internal</div>
+            <div class="cl-item"><div class="cl-dot" style="background:#7c3aed"></div>External</div>
+          </div>
+          <div class="chart-wrap" style="height:220px"><canvas id="ch-period-split"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERIOD DRILL-DOWN -->
+    <div class="card">
+      <div class="ch">
+        <div class="ct">🔍 Period Drill-Down</div>
+        <select class="form-c" id="period-sel" style="width:200px;padding:6px 10px;font-size:12px" onchange="renderPeriodDrilldown()">
+          ${pStats.map(ps=>`<option value="${ps.period}">${ps.period} (${ps.total})</option>`).join('')}
+        </select>
+      </div>
+      <div class="cb" id="period-drilldown"></div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><div class="ct">📋 Period Summary Table</div></div>
+      <div class="tw">
+        <table id="period-tbl">
+          <thead><tr><th>#</th><th>Exam Period</th><th>Total</th><th>Internal</th><th>External</th><th>Verified</th><th>Pending</th><th>Ver%</th><th>Days Active</th><th>Depts</th></tr></thead>
+          <tbody>
+            ${pStats.map((ps,i)=>`<tr>
+              <td><span class="badge b-gray">${i+1}</span></td>
+              <td><strong style="font-size:13px;color:var(--navy)">${ps.period}</strong></td>
+              <td><strong>${ps.total}</strong></td>
+              <td><span class="badge b-navy">${ps.intC}</span></td>
+              <td><span class="badge b-purple">${ps.extC}</span></td>
+              <td><span class="badge b-green">${ps.ver}</span></td>
+              <td><span class="badge ${ps.total-ps.ver>0?'b-warn':'b-gray'}">${ps.total-ps.ver}</span></td>
+              <td><span class="badge ${ps.pct>=75?'b-green':ps.pct>=40?'b-gold':'b-red'}">${ps.pct}%</span></td>
+              <td><span class="badge b-blue">${ps.dates.length}</span></td>
+              <td style="font-size:11px">${ps.depts.length}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+
+    setTimeout(()=>{
+      const sorted=pStats.slice().reverse();
+      makeChart('ch-period-bar',{type:'bar',data:{labels:sorted.map(ps=>ps.period),datasets:[{data:sorted.map(ps=>ps.total),backgroundColor:'rgba(26,79,186,.2)',borderColor:'#1a4fba',borderWidth:2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45}},y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'}}}}});
+      makeChart('ch-period-split',{type:'bar',data:{labels:sorted.map(ps=>ps.period),datasets:[
+        {label:'Internal',data:sorted.map(ps=>ps.intC),backgroundColor:'#1a4fba',borderRadius:4},
+        {label:'External',data:sorted.map(ps=>ps.extC),backgroundColor:'#7c3aed',borderRadius:4},
+      ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10},maxRotation:45}},y:{stacked:true,beginAtZero:true}}}});
+      renderPeriodDrilldown();
+    },100);
+  } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
+}
+
+function renderPeriodDrilldown(){
+  const sel=document.getElementById('period-sel');
+  if(!sel) return;
+  const period=sel.value;
+  const ps=(window._pStatsCache||[]).find(p=>p.period===period);
+  const el=document.getElementById('period-drilldown'); if(!el) return;
+  if(!ps){ el.innerHTML='<div class="no-data">Select a period</div>'; return; }
+  const sesList=Object.entries(ps.sessions).sort((a,b)=>b[1]-a[1]);
+  el.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:14px">
+      <div class="kpi-card kpi-blue"><div class="kpi-label">Total Entries</div><div class="kpi-value">${ps.total}</div></div>
+      <div class="kpi-card kpi-green"><div class="kpi-label">Verified</div><div class="kpi-value">${ps.ver}</div><div class="kpi-sub">${ps.pct}%</div></div>
+      <div class="kpi-card kpi-navy"><div class="kpi-label">Days Active</div><div class="kpi-value">${ps.dates.length}</div></div>
+      <div class="kpi-card kpi-purple"><div class="kpi-label">Depts</div><div class="kpi-value">${ps.depts.length}</div></div>
+      <div class="kpi-card kpi-gold"><div class="kpi-label">Roles</div><div class="kpi-value">${ps.roles.length}</div></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="dash-grid-halves">
-      <div class="card"><div class="ch"><div class="ct">🎓 External Colleges</div></div><div class="cb">${rb(byCol,'#2e80d8',10)}</div></div>
-      <div class="card"><div class="ch"><div class="ct">📆 By Date (Recent)</div></div><div class="cb">${rb(byDate.slice(0,8),'#059669',8)}</div></div>
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--g400);margin-bottom:8px">Sessions Breakdown</div>
+        ${sesList.map(([ses,cnt])=>`
+          <div class="bar-row">
+            <div class="bar-label">${ses}</div>
+            <div class="bar-track"><div class="bar-fill" style="width:${pct(cnt,ps.total)}%;background:#b8891a"></div></div>
+            <div class="bar-count">${cnt}</div>
+          </div>`).join('')}
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--g400);margin-bottom:8px">Departments Active</div>
+        ${ps.depts.slice(0,8).map(d=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--g100)"><span style="font-size:12px;color:var(--g700)">${d}</span></div>`).join('')}
+        ${ps.depts.length>8?`<div style="font-size:11px;color:var(--g400);margin-top:6px">+${ps.depts.length-8} more departments</div>`:''}
+      </div>
     </div>`;
-  } catch(e){ document.getElementById('content').innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
 }
-function gc(rows,keyFn,max=999){ const m={}; rows.forEach(r=>{const k=keyFn(r);if(k){m[k]=(m[k]||0)+1;}}); return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,max); }
-function rb(entries,color,max=10){
-  if(!entries.length) return '<div class="no-data" style="padding:16px">No data</div>';
-  const top=entries.slice(0,max),maxV=top[0][1];
-  return top.map(([lbl,cnt])=>`<div class="bar-row">
-    <div class="bar-label" title="${lbl}">${lbl||'—'}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:${Math.round(cnt/maxV*100)}%;background:${color}"></div></div>
-    <div class="bar-count">${cnt}</div>
-  </div>`).join('');
+
+// ══════════════════════════════════════════════════════════════
+// FACULTY REPORT
+// ══════════════════════════════════════════════════════════════
+async function renderReportFaculty(){
+  const c=document.getElementById('content');
+  try{
+    await loadChartJs();
+    const [intD,extD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB')]);
+    const intR=intD.rows||[],extR=extD.rows||[];
+    const all=[...intR.map(r=>({...r,_src:'Internal'})),...extR.map(r=>({...r,_src:'External'}))];
+
+    // Build faculty map
+    const facMap={};
+    all.forEach(r=>{
+      const name=String(r[6]||'').trim(); if(!name) return;
+      if(!facMap[name]) facMap[name]={name,entries:[],desig:r[7]||'',dept:r[8]||'',college:r[9]||'',_src:r._src};
+      facMap[name].entries.push(r);
+    });
+    const facList=Object.values(facMap).map(f=>({
+      ...f,
+      total:f.entries.length,
+      ver:f.entries.filter(r=>String(r[11]||'').toLowerCase()==='verified').length,
+      periods:[...new Set(f.entries.map(r=>r[1]).filter(Boolean))],
+      roles:[...new Set(f.entries.map(r=>r[5]).filter(Boolean))],
+      dates:[...new Set(f.entries.map(r=>r[2]).filter(Boolean))],
+    })).sort((a,b)=>b.total-a.total);
+
+    const topFac=facList.slice(0,10);
+    window._facListCache=facList;
+
+    c.innerHTML=`
+    <div class="pg-h"><div class="pg-hL">
+      <div class="pg-t">👩‍🏫 Faculty Report</div>
+      <div class="pg-s">Individual faculty attendance records — ${facList.length} unique faculty</div>
+    </div>
+    <div class="btn-group no-print">
+      <button class="btn btn-outline btn-sm" onclick="exportTableCSV('fac-report-tbl','faculty_report')">⬇️ CSV</button>
+      <button class="btn btn-gold btn-sm" onclick="printReport()">🖨️ Print</button>
+    </div></div>
+
+    <div class="kpi-strip">
+      <div class="kpi-card kpi-blue"><div class="kpi-label">Unique Faculty</div><div class="kpi-value">${facList.length}</div></div>
+      <div class="kpi-card kpi-navy"><div class="kpi-label">Total Entries</div><div class="kpi-value">${all.length}</div></div>
+      <div class="kpi-card kpi-gold"><div class="kpi-label">Most Active</div><div class="kpi-value" style="font-size:12px;padding-top:4px">${facList[0]?.name?.split(' ')[0]||'—'}</div><div class="kpi-sub">${facList[0]?.total||0} appearances</div></div>
+      <div class="kpi-card kpi-green"><div class="kpi-label">Single-day</div><div class="kpi-value">${facList.filter(f=>f.dates.length===1).length}</div><div class="kpi-sub">Faculty</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
+      <div class="card">
+        <div class="ch"><div class="ct">🏆 Top 10 Faculty by Appearances</div></div>
+        <div class="cb">
+          <div class="chart-wrap" style="height:${Math.max(220,topFac.length*36+60)}px"><canvas id="ch-fac-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">📊 Frequency Distribution</div></div>
+        <div class="cb">
+          <div style="font-size:12px;color:var(--g500);margin-bottom:10px">How often faculty appeared</div>
+          ${[['1 appearance',facList.filter(f=>f.total===1).length,'b-gray'],
+             ['2–3 appearances',facList.filter(f=>f.total>=2&&f.total<=3).length,'b-blue'],
+             ['4–6 appearances',facList.filter(f=>f.total>=4&&f.total<=6).length,'b-gold'],
+             ['7+ appearances',facList.filter(f=>f.total>=7).length,'b-green']
+          ].map(([lbl,cnt,badge])=>`
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--g100)">
+              <span style="font-size:13px;color:var(--g700)">${lbl}</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:60px;height:6px;background:var(--g100);border-radius:3px">
+                  <div style="height:100%;width:${pct(cnt,facList.length)}%;background:var(--blue);border-radius:3px"></div>
+                </div>
+                <span class="badge ${badge}">${cnt}</span>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH & TABLE -->
+    <div class="card">
+      <div class="ch">
+        <div class="ct">📋 Faculty Directory (${facList.length})</div>
+        <div class="search-bar" style="width:220px">
+          <span>🔍</span><input id="fac-search" placeholder="Search faculty…" oninput="filterFacReport()">
+        </div>
+      </div>
+      <div class="tw">
+        <table id="fac-report-tbl">
+          <thead><tr><th>#</th><th>Name</th><th>Designation</th><th>Department</th><th>College</th><th>Src</th><th>Total</th><th>Verified</th><th>Ver%</th><th>Periods</th><th>Days</th></tr></thead>
+          <tbody id="fac-report-body">
+            ${renderFacRows(facList)}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+
+    setTimeout(()=>{
+      makeChart('ch-fac-bar',{type:'bar',data:{labels:topFac.map(f=>f.name),datasets:[{data:topFac.map(f=>f.total),backgroundColor:CHART_COLORS.navy,borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:11}}},y:{ticks:{font:{size:11}}}}}});
+    },100);
+  } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
+}
+
+function renderFacRows(list){
+  return list.slice(0,100).map((f,i)=>`<tr>
+    <td><span class="badge b-gray">${i+1}</span></td>
+    <td><strong style="font-size:12px">${f.name}</strong></td>
+    <td style="font-size:11px">${f.desig||'—'}</td>
+    <td style="font-size:11px">${f.dept||'—'}</td>
+    <td style="font-size:10px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${f.college}">${f.college||'—'}</td>
+    <td><span class="badge ${f._src==='External'?'b-purple':'b-navy'}" style="font-size:9px">${f._src==='External'?'Ext':'Int'}</span></td>
+    <td><strong style="color:var(--royal)">${f.total}</strong></td>
+    <td><span class="badge b-green">${f.ver}</span></td>
+    <td><span class="badge ${f.total>0&&pct(f.ver,f.total)>=75?'b-green':pct(f.ver,f.total)>=40?'b-gold':'b-red'}">${pct(f.ver,f.total)}%</span></td>
+    <td style="font-size:11px">${f.periods.length}</td>
+    <td style="font-size:11px">${f.dates.length}</td>
+  </tr>`).join('');
+}
+function filterFacReport(){
+  const q=(document.getElementById('fac-search')?.value||'').toLowerCase();
+  const list=(window._facListCache||[]).filter(f=>!q||f.name.toLowerCase().includes(q)||f.dept.toLowerCase().includes(q)||f.college.toLowerCase().includes(q));
+  const body=document.getElementById('fac-report-body');
+  if(body) body.innerHTML=renderFacRows(list)+(list.length>100?`<tr><td colspan="11" style="text-align:center;padding:12px;font-size:12px;color:var(--g400)">Showing first 100 of ${list.length} results</td></tr>`:'');
+}
+
+// ══════════════════════════════════════════════════════════════
+// VERIFICATION REPORT
+// ══════════════════════════════════════════════════════════════
+async function renderReportVerification(){
+  const c=document.getElementById('content');
+  try{
+    await loadChartJs();
+    const [intD,extD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB')]);
+    const intR=intD.rows||[],extR=extD.rows||[];
+    const all=[...intR.map(r=>({...r,_sheet:'DataEntryDB',_src:'Internal'})),...extR.map(r=>({...r,_sheet:'ExternalEntryDB',_src:'External'}))];
+    const total=all.length;
+    const verified=all.filter(r=>String(r[11]||'').toLowerCase()==='verified');
+    const pending=all.filter(r=>String(r[11]||'').toLowerCase()!=='verified');
+    const intVer=intR.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
+    const extVer=extR.filter(r=>String(r[11]||'').toLowerCase()==='verified').length;
+
+    // By dept verification
+    const depts=[...new Set(all.map(r=>r[8]).filter(Boolean))].sort();
+    const deptVer=depts.map(d=>{
+      const tot=all.filter(r=>r[8]===d).length;
+      const ver=verified.filter(r=>r[8]===d).length;
+      return {d,tot,ver,pend:tot-ver,p:pct(ver,tot)};
+    }).sort((a,b)=>a.p-b.p);
+
+    // By period verification
+    const periods=[...new Set(all.map(r=>r[1]).filter(Boolean))].sort();
+    const periodVer=periods.map(p=>{
+      const tot=all.filter(r=>r[1]===p).length;
+      const ver=verified.filter(r=>r[1]===p).length;
+      return {p,tot,ver,pend:tot-ver,pct:pct(ver,tot)};
+    }).sort((a,b)=>a.pct-b.pct);
+
+    c.innerHTML=`
+    <div class="pg-h"><div class="pg-hL">
+      <div class="pg-t">✅ Verification Report</div>
+      <div class="pg-s">Verification status analysis — ${total} total entries</div>
+    </div>
+    <div class="btn-group no-print">
+      <button class="btn btn-warn btn-sm" onclick="nav('entries-int')">📝 Verify Internal</button>
+      <button class="btn btn-primary btn-sm" onclick="nav('entries-ext')">🎓 Verify External</button>
+      <button class="btn btn-gold btn-sm" onclick="printReport()">🖨️ Print</button>
+    </div></div>
+
+    <div class="kpi-strip">
+      <div class="kpi-card kpi-green"><div class="kpi-label">Verified</div><div class="kpi-value">${verified.length}</div><div class="kpi-sub">${pct(verified.length,total)}% complete</div></div>
+      <div class="kpi-card kpi-red"><div class="kpi-label">Pending</div><div class="kpi-value">${pending.length}</div><div class="kpi-sub">Need action</div></div>
+      <div class="kpi-card kpi-blue"><div class="kpi-label">Int. Verified</div><div class="kpi-value">${intVer}</div><div class="kpi-sub">${pct(intVer,intR.length)}% of ${intR.length}</div></div>
+      <div class="kpi-card kpi-purple"><div class="kpi-label">Ext. Verified</div><div class="kpi-value">${extVer}</div><div class="kpi-sub">${pct(extVer,extR.length)}% of ${extR.length}</div></div>
+    </div>
+
+    <!-- BIG PROGRESS BAR -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ch"><div class="ct">📊 Overall Verification Progress</div></div>
+      <div class="cb">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:13px;font-weight:600;color:var(--g700)">All Entries</span>
+          <span style="font-size:13px;color:var(--g500)">${verified.length} / ${total} verified</span>
+        </div>
+        <div style="height:20px;background:var(--g100);border-radius:10px;overflow:hidden;margin-bottom:4px">
+          <div style="height:100%;width:${pct(verified.length,total)}%;background:linear-gradient(90deg,var(--success),#34d399);border-radius:10px;transition:width 1s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:8px">
+            <span style="font-size:11px;font-weight:700;color:#fff">${pct(verified.length,total)}%</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:8px">
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:2px;background:var(--success)"></div><span style="font-size:12px;color:var(--g600)">Internal: ${intVer}/${intR.length} (${pct(intVer,intR.length)}%)</span></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:2px;background:#7c3aed"></div><span style="font-size:12px;color:var(--g600)">External: ${extVer}/${extR.length} (${pct(extVer,extR.length)}%)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid-halves">
+      <div class="card">
+        <div class="ch"><div class="ct">🏢 Verification by Department</div></div>
+        <div class="cb" style="padding:10px 16px">
+          ${deptVer.map(dv=>`
+            <div style="margin-bottom:8px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:12px;font-weight:600;color:var(--g700)">${dv.d.length>22?dv.d.slice(0,22)+'…':dv.d}</span>
+                <span style="font-size:11px;color:var(--g500)">${dv.ver}/${dv.tot}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="flex:1;height:7px;background:var(--g100);border-radius:4px;overflow:hidden">
+                  <div style="height:100%;width:${dv.p}%;background:${dv.p>=75?'var(--success)':dv.p>=40?'var(--warn)':'var(--danger)'};border-radius:4px"></div>
+                </div>
+                <span style="font-size:10px;font-weight:700;color:var(--g600);min-width:28px">${dv.p}%</span>
+              </div>
+            </div>`).join('')||'<div class="no-data">No data</div>'}
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">📅 Verification by Period</div></div>
+        <div class="cb" style="padding:10px 16px">
+          ${periodVer.map(pv=>`
+            <div style="margin-bottom:8px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:12px;font-weight:600;color:var(--g700)">${pv.p}</span>
+                <span style="font-size:11px;color:var(--g500)">${pv.ver}/${pv.tot} — ${pv.pend} pending</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="flex:1;height:7px;background:var(--g100);border-radius:4px;overflow:hidden">
+                  <div style="height:100%;width:${pv.pct}%;background:${pv.pct>=75?'var(--success)':pv.pct>=40?'var(--warn)':'var(--danger)'};border-radius:4px"></div>
+                </div>
+                <span style="font-size:10px;font-weight:700;min-width:28px">${pv.pct}%</span>
+              </div>
+            </div>`).join('')||'<div class="no-data">No data</div>'}
+        </div>
+      </div>
+    </div>
+
+    <!-- PENDING TABLE -->
+    <div class="card">
+      <div class="ch">
+        <div class="ct">⏳ Pending Entries (${pending.length})</div>
+        <div style="font-size:11px;color:var(--warn);font-weight:600">These need verification</div>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>#</th><th>Source</th><th>Date</th><th>Period</th><th>Name</th><th>Dept</th><th>Session</th><th>Role</th><th>Action</th></tr></thead>
+          <tbody>
+            ${!pending.length?'<tr><td colspan="9" class="no-data">✅ All entries verified!</td></tr>':
+              pending.slice(0,50).map((r,i)=>`<tr>
+                <td style="font-size:11px;color:var(--g400)">${i+1}</td>
+                <td><span class="badge ${r._src==='External'?'b-purple':'b-navy'}" style="font-size:9px">${r._src}</span></td>
+                <td style="font-size:11px;white-space:nowrap">${r[2]||'—'}</td>
+                <td style="font-size:11px">${r[1]||'—'}</td>
+                <td><strong style="font-size:12px">${r[6]||'—'}</strong></td>
+                <td style="font-size:11px">${r[8]||'—'}</td>
+                <td><span class="badge b-blue" style="font-size:10px">${r[4]||'—'}</span></td>
+                <td style="font-size:11px">${r[5]||'—'}</td>
+                <td><button class="btn btn-success btn-xs" onclick="nav('${r._sheet==='DataEntryDB'?'entries-int':'entries-ext'}')">Go →</button></td>
+              </tr>`).join('')}
+            ${pending.length>50?`<tr><td colspan="9" style="text-align:center;padding:12px;font-size:12px;color:var(--g400)">…and ${pending.length-50} more pending entries</td></tr>`:''}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
+}
+
+// ══════════════════════════════════════════════════════════════
+// CROSS ANALYSIS REPORT
+// ══════════════════════════════════════════════════════════════
+async function renderReportCrossAnalysis(){
+  const c=document.getElementById('content');
+  try{
+    await loadChartJs();
+    const [intD,extD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB')]);
+    const intR=intD.rows||[],extR=extD.rows||[];
+    const all=[...intR,...extR];
+
+    // Cross: Dept × Session
+    const depts=[...new Set(all.map(r=>r[8]).filter(Boolean))].sort().slice(0,8);
+    const sessions=[...new Set(all.map(r=>r[4]).filter(Boolean))].sort();
+
+    // Cross: Dept × Role
+    const roles=[...new Set(all.map(r=>r[5]).filter(Boolean))].sort();
+
+    // Cross: Period × Session
+    const periods=[...new Set(all.map(r=>r[1]).filter(Boolean))].sort();
+
+    const dxs=depts.map(d=>sessions.map(s=>all.filter(r=>r[8]===d&&r[4]===s).length));
+    const dxr=depts.map(d=>roles.map(ro=>all.filter(r=>r[8]===d&&r[5]===ro).length));
+    const pxs=periods.map(p=>sessions.map(s=>all.filter(r=>r[1]===p&&r[4]===s).length));
+
+    // Heat map color helper
+    const allDxs=dxs.flat(); const maxDxs=allDxs.length?Math.max(...allDxs,1):1;
+    const hm=(v,max)=>{ const i=v/max; if(i>0.7) return 'background:rgba(26,79,186,0.85);color:#fff'; if(i>0.4) return 'background:rgba(26,79,186,0.45);color:#1a4fba'; if(i>0.15) return 'background:rgba(26,79,186,0.15);color:#2e80d8'; if(i>0) return 'background:rgba(26,79,186,0.06);color:#5ca8f5'; return 'background:var(--g50);color:var(--g300)'; };
+    const allPxs=pxs.flat(); const maxPxs=allPxs.length?Math.max(...allPxs,1):1;
+    const hm2=(v,max)=>{ const i=v/max; if(i>0.7) return 'background:rgba(5,150,105,0.85);color:#fff'; if(i>0.4) return 'background:rgba(5,150,105,0.45);color:#059669'; if(i>0.15) return 'background:rgba(5,150,105,0.15);color:#10b981'; if(i>0) return 'background:rgba(5,150,105,0.06);color:#34d399'; return 'background:var(--g50);color:var(--g300)'; };
+
+    c.innerHTML=`
+    <div class="pg-h"><div class="pg-hL">
+      <div class="pg-t">🔀 Cross Analysis</div>
+      <div class="pg-s">Multi-dimensional attendance patterns and correlations</div>
+    </div>
+    <div class="btn-group no-print">
+      <button class="btn btn-gold btn-sm" onclick="printReport()">🖨️ Print</button>
+    </div></div>
+
+    <!-- HEATMAP: Dept × Session -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ch">
+        <div class="ct">🔥 Heatmap — Department × Session</div>
+        <div style="font-size:11px;color:var(--g400)">Cell value = number of entries</div>
+      </div>
+      <div class="cb" style="overflow-x:auto">
+        <table style="min-width:400px;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:8px 10px;font-size:10px;color:var(--royal);background:var(--ghost)">Department</th>
+              ${sessions.map(s=>`<th style="padding:8px 10px;font-size:10px;color:var(--royal);background:var(--ghost);white-space:nowrap">${s}</th>`).join('')}
+              <th style="padding:8px 10px;font-size:10px;color:var(--royal);background:var(--ghost)">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${depts.map((d,di)=>`<tr>
+              <td style="padding:7px 10px;font-size:12px;font-weight:600;color:var(--g700);white-space:nowrap;border-bottom:1px solid var(--g100)">${d.length>22?d.slice(0,22)+'…':d}</td>
+              ${sessions.map((s,si)=>{const v=dxs[di][si];return `<td style="padding:7px 10px;text-align:center;font-size:12px;font-weight:700;border-bottom:1px solid var(--g100);${hm(v,maxDxs)}">${v||''}</td>`;}).join('')}
+              <td style="padding:7px 10px;text-align:center;font-size:12px;font-weight:700;color:var(--navy);border-bottom:1px solid var(--g100)">${dxs[di].reduce((a,b)=>a+b,0)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px;font-size:11px;color:var(--g500)">
+          <span>Low</span>
+          ${[0.06,0.15,0.45,0.85].map(a=>`<div style="width:20px;height:14px;border-radius:3px;background:rgba(26,79,186,${a})"></div>`).join('')}
+          <span>High</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEATMAP: Period × Session -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ch">
+        <div class="ct">📅 Heatmap — Exam Period × Session</div>
+        <div style="font-size:11px;color:var(--g400)">Combined internal + external entries</div>
+      </div>
+      <div class="cb" style="overflow-x:auto">
+        <table style="min-width:400px;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:8px 10px;font-size:10px;color:var(--royal);background:var(--ghost)">Exam Period</th>
+              ${sessions.map(s=>`<th style="padding:8px 10px;font-size:10px;color:var(--royal);background:var(--ghost);white-space:nowrap">${s}</th>`).join('')}
+              <th style="padding:8px 10px;font-size:10px;color:var(--royal);background:var(--ghost)">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${periods.map((p,pi)=>`<tr>
+              <td style="padding:7px 10px;font-size:12px;font-weight:600;color:var(--g700);white-space:nowrap;border-bottom:1px solid var(--g100)">${p}</td>
+              ${sessions.map((s,si)=>{const v=pxs[pi][si];return `<td style="padding:7px 10px;text-align:center;font-size:12px;font-weight:700;border-bottom:1px solid var(--g100);${hm2(v,maxPxs)}">${v||''}</td>`;}).join('')}
+              <td style="padding:7px 10px;text-align:center;font-size:12px;font-weight:700;color:var(--navy);border-bottom:1px solid var(--g100)">${pxs[pi].reduce((a,b)=>a+b,0)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px;font-size:11px;color:var(--g500)">
+          <span>Low</span>
+          ${[0.06,0.15,0.45,0.85].map(a=>`<div style="width:20px;height:14px;border-radius:3px;background:rgba(5,150,105,${a})"></div>`).join('')}
+          <span>High</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPARTMENT × ROLE BREAKDOWN -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ch"><div class="ct">🔀 Department × Role Breakdown</div></div>
+      <div class="cb">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="dash-grid-halves">
+          <div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--g400);margin-bottom:10px">Top Role per Department</div>
+            ${depts.map(d=>{
+              const topRole=gc(all.filter(r=>r[8]===d),r=>r[5])[0];
+              return topRole?`<div class="bar-row">
+                <div class="bar-label" title="${d}">${d.length>18?d.slice(0,18)+'…':d}</div>
+                <div style="flex:1;font-size:11px;color:var(--g600)">${topRole[0]}</div>
+                <div class="bar-count">${topRole[1]}</div>
+              </div>`:'';
+            }).join('')}
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--g400);margin-bottom:10px">Role Coverage by Department</div>
+            <div class="chart-wrap" style="height:250px"><canvas id="ch-role-radar"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CORRELATION INSIGHTS -->
+    <div class="card">
+      <div class="ch"><div class="ct">💡 Pattern Insights</div></div>
+      <div class="cb" style="padding:10px 16px">
+        ${generateCrossInsights(all,intR,extR,depts,sessions,roles,periods).map(i=>`
+          <div class="insight-card">
+            <div class="insight-icon">${i.icon}</div>
+            <div><div class="insight-title">${i.title}</div><div class="insight-text">${i.text}</div></div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+    setTimeout(()=>{
+      if(depts.length>=3&&roles.length>=3){
+        const topRoles=roles.slice(0,5);
+        makeChart('ch-role-radar',{type:'radar',data:{labels:depts.slice(0,6).map(d=>d.length>12?d.slice(0,12)+'…':d),datasets:topRoles.map((ro,i)=>({label:ro,data:depts.slice(0,6).map(d=>all.filter(r=>r[8]===d&&r[5]===ro).length),backgroundColor:`${CHART_COLORS.mixed[i]}22`,borderColor:CHART_COLORS.mixed[i],pointRadius:3}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:8}}},scales:{r:{ticks:{font:{size:9}},pointLabels:{font:{size:10}}}}}});
+      }
+    },100);
+  } catch(e){ c.innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
+}
+
+function generateCrossInsights(all,intR,extR,depts,sessions,roles,periods){
+  const insights=[];
+  if(!all.length) return [{icon:'📊',title:'No data',text:'Add attendance records to see cross-analysis insights.'}];
+  // Session concentration
+  const sesCounts=gc(all,r=>r[4]);
+  if(sesCounts.length>1){ const top=sesCounts[0]; insights.push({icon:'⏱️',title:`${top[0]} is the dominant session`,text:`${top[1]} entries (${pct(top[1],all.length)}%) were recorded in ${top[0]} session, making it the most active session across all periods.`}); }
+  // Dept-session pattern
+  if(depts.length>0&&sessions.length>0){
+    let bestCombo={v:0,d:'',s:''};
+    depts.forEach(d=>sessions.forEach(s=>{ const v=all.filter(r=>r[8]===d&&r[4]===s).length; if(v>bestCombo.v) bestCombo={v,d,s}; }));
+    if(bestCombo.v>0) insights.push({icon:'🔥',title:`Hottest combination: ${bestCombo.d} × ${bestCombo.s}`,text:`This department-session pair has the highest co-occurrence with ${bestCombo.v} entries recorded together.`});
+  }
+  // External concentration
+  if(extR.length>0){
+    const topCol=gc(extR,r=>r[9])[0];
+    if(topCol) insights.push({icon:'🎓',title:`External concentration`,text:`${topCol[0]} accounts for ${pct(topCol[1],extR.length)}% of external entries. Consider diversifying external faculty outreach.`});
+  }
+  // Period trend
+  if(periods.length>1){
+    const pCounts=gc(all,r=>r[1]); const last=pCounts[0],prev=pCounts[1];
+    if(prev) insights.push({icon:last[1]>prev[1]?'📈':'📉',title:`Recent period trend`,text:`${last[0]} recorded ${last[1]} entries vs ${prev[1]} in ${prev[0]} — a ${Math.abs(last[1]-prev[1])} entry ${last[1]>prev[1]?'increase':'decrease'}.`});
+  }
+  // Role diversity
+  const roleCounts=gc(all,r=>r[5]);
+  if(roleCounts.length>2) insights.push({icon:'📋',title:`Role concentration`,text:`Top 3 roles account for ${pct(roleCounts.slice(0,3).reduce((s,[,v])=>s+v,0),all.length)}% of all duties. ${roleCounts[0][0]} leads with ${roleCounts[0][1]} assignments.`});
+  return insights.length?insights:[{icon:'📊',title:'More data needed',text:'Add more attendance records across multiple periods and departments to generate cross-analysis insights.'}];
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -654,7 +1700,6 @@ async function renderEntries(sheetName){
     const uniqMoyr=[...new Set(rows.map(r=>r[1]).filter(Boolean))].sort();
     const uniqCols=[...new Set(rows.map(r=>r[9]).filter(Boolean))].sort();
     const uniqDates=[...new Set(rows.map(r=>r[2]).filter(Boolean))].sort();
-
     c.innerHTML=`
     <div class="pg-h"><div class="pg-hL">
       <div class="pg-t">${isExt?'🎓':'📝'} ${isExt?'External':'Internal'} Entries</div>
@@ -665,7 +1710,6 @@ async function renderEntries(sheetName){
       <button class="btn btn-gold btn-sm" onclick="nav('certs')">📜 Certs</button>
       ${isExt?`<button class="btn btn-primary btn-sm" onclick="window.location.href='External.html'">➕ Add</button>`:''}
     </div></div>
-
     <div class="card">
       <div class="ch"><div class="ct">🔍 Filter</div></div>
       <div class="cb"><div class="fgrid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
@@ -673,23 +1717,19 @@ async function renderEntries(sheetName){
           <div class="search-bar"><span>🔍</span><input id="e-search" placeholder="Search name…" oninput="filterEntries('${sheetName}')"></div></div>
         <div class="form-g"><label class="form-l">Date</label>
           <select class="form-c" id="e-date" onchange="filterEntries('${sheetName}')">
-            <option value="">All Dates</option>
-            ${uniqDates.map(d=>`<option>${d}</option>`).join('')}
+            <option value="">All Dates</option>${uniqDates.map(d=>`<option>${d}</option>`).join('')}
           </select></div>
         <div class="form-g"><label class="form-l">Exam Period</label>
           <select class="form-c" id="e-moyr" onchange="filterEntries('${sheetName}')">
-            <option value="">All Periods</option>
-            ${uniqMoyr.map(m=>`<option>${m}</option>`).join('')}
+            <option value="">All Periods</option>${uniqMoyr.map(m=>`<option>${m}</option>`).join('')}
           </select></div>
         <div class="form-g"><label class="form-l">Department</label>
           <select class="form-c" id="e-dept" onchange="filterEntries('${sheetName}')">
-            <option value="">All Depts</option>
-            ${uniqDepts.map(d=>`<option>${d}</option>`).join('')}
+            <option value="">All Depts</option>${uniqDepts.map(d=>`<option>${d}</option>`).join('')}
           </select></div>
         ${isExt?`<div class="form-g"><label class="form-l">College</label>
           <select class="form-c" id="e-col" onchange="filterEntries('${sheetName}')">
-            <option value="">All Colleges</option>
-            ${uniqCols.map(col=>`<option>${col}</option>`).join('')}
+            <option value="">All Colleges</option>${uniqCols.map(col=>`<option>${col}</option>`).join('')}
           </select></div>`:''}
       </div></div>
     </div>
@@ -766,9 +1806,7 @@ async function toggleVerify(sheet,idx,btn){
       _cache[sheet]=fresh; _cache[sheet].rows[idx]=[...rawRow]; _cache[sheet].rows[idx][11]=newVal;
       window[`_${sheet}`]=_cache[sheet].rows;
       const now=newVal==='Verified';
-      btn.textContent=now?'✅':'⏳';
-      btn.className=`verify-btn ${now?'v-yes':'v-no'}`;
-      btn.disabled=false;
+      btn.textContent=now?'✅':'⏳'; btn.className=`verify-btn ${now?'v-yes':'v-no'}`; btn.disabled=false;
       showToast(now?'Marked as Verified':'Verification cleared','success');
     } else { showToast(res.message||'Error','error'); btn.textContent=orig; btn.disabled=false; }
   } catch(e){ showToast(e.message,'error'); btn.textContent=orig; btn.disabled=false; }
@@ -777,10 +1815,7 @@ async function toggleVerify(sheet,idx,btn){
 async function editEntry(sheet,idx){
   const rows=_cache[sheet]?.rows||[];
   const r=rows[idx]; if(!r) return;
-  const [desigD,deptD,colD,sesD,rollD]=await Promise.all([
-    loadSheet('DesignationDB'),loadSheet('DepartmentDB'),loadSheet('CollegeDB'),
-    loadSheet('SessionDB'),loadSheet('RollDB')
-  ]);
+  const [desigD,deptD,colD,sesD,rollD]=await Promise.all([loadSheet('DesignationDB'),loadSheet('DepartmentDB'),loadSheet('CollegeDB'),loadSheet('SessionDB'),loadSheet('RollDB')]);
   const opts=(d,cur)=>(d.rows||[]).map(x=>`<option ${x[0]===cur?'selected':''}>${x[0]}</option>`).join('');
   openMo(`✏️ Edit Entry`,`
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="mf-grid">
@@ -795,7 +1830,6 @@ async function editEntry(sheet,idx){
     `<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button>
      <button class="btn btn-primary btn-sm" onclick="saveEditEntry('${sheet}',${idx})">💾 Update</button>`);
 }
-
 async function saveEditEntry(sheet,idx){
   const existing=[...(_cache[sheet]?.rows||[])[idx]];
   existing[2]=document.getElementById('ef-date').value;
@@ -809,14 +1843,12 @@ async function saveEditEntry(sheet,idx){
   if(res.success){ clearCache(sheet);closeMo();showToast('Updated!','success');nav(_currentView); }
   else showToast(res.message||'Error','error');
 }
-
 async function delEntry(sheet,idx){
   if(!confirm('Delete this entry permanently?')) return;
   const res=await gasPost({action:'deleteRow',sheet,rowIndex:idx});
   if(res.success){ clearCache(sheet);showToast('Deleted','info');nav(_currentView); }
   else showToast(res.message||'Error','error');
 }
-
 function exportCSV(sheet){
   const rows=window[`_${sheet}`]||[];
   if(!rows.length){ showToast('No data','warning'); return; }
@@ -824,32 +1856,23 @@ function exportCSV(sheet){
   const csv=[hdrs.join(','),...rows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','))].join('\n');
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`${sheet}_${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
+  a.download=`${sheet}_${new Date().toISOString().slice(0,10)}.csv`; a.click();
   showToast('CSV exported','success');
 }
 
 // ══════════════════════════════════════════════════════════════
-// ADD EXTERNAL ENTRY
+// ADD EXTERNAL
 // ══════════════════════════════════════════════════════════════
 let _facCache=[];
 async function renderAddExternal(){
   const c=document.getElementById('content');
-  c.innerHTML=`<div class="pg-h"><div class="pg-hL"><div class="pg-t">➕ Add External Entry</div><div class="pg-s">Manually add external faculty attendance record</div></div></div>
+  c.innerHTML=`<div class="pg-h"><div class="pg-hL"><div class="pg-t">➕ Add External Entry</div></div></div>
   <div class="card"><div class="ch"><div class="ct">📋 Entry Details</div></div><div class="cb" id="aef-wrap">
-    <div style="display:flex;justify-content:center;padding:30px"><div class="spin spin-lg"></div></div>
-  </div></div>`;
+    <div style="display:flex;justify-content:center;padding:30px"><div class="spin spin-lg"></div></div></div></div>`;
   try{
-    const [moyrD,sesD,rollD,desigD,deptD,colD,facD]=await Promise.all([
-      loadSheet('MOYREXDB'),loadSheet('SessionDB'),loadSheet('RollDB'),
-      loadSheet('DesignationDB'),loadSheet('DepartmentDB'),loadSheet('CollegeDB'),
-      loadSheet('FacultyDB')
-    ]);
+    const [moyrD,sesD,rollD,desigD,deptD,colD,facD]=await Promise.all([loadSheet('MOYREXDB'),loadSheet('SessionDB'),loadSheet('RollDB'),loadSheet('DesignationDB'),loadSheet('DepartmentDB'),loadSheet('CollegeDB'),loadSheet('FacultyDB')]);
     _facCache=facD.rows||[];
-    const sel=(id,d,ph)=>`<select class="form-c" id="aef-${id}" required>
-      <option value="">-- ${ph} --</option>
-      ${(d.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
-    </select>`;
+    const sel=(id,d,ph)=>`<select class="form-c" id="aef-${id}" required><option value="">-- ${ph} --</option>${(d.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}</select>`;
     document.getElementById('aef-wrap').innerHTML=`
       <div class="fgrid">
         <div class="form-g"><label class="form-l">Month & Year <span class="req">*</span></label>${sel('moyr',moyrD,'Select Period')}</div>
@@ -861,36 +1884,19 @@ async function renderAddExternal(){
       <div style="margin-bottom:10px">
         <label class="form-l" style="margin-bottom:8px;display:block">Filter Faculty</label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" class="mf-grid">
-          <select class="form-c" id="aef-filter-dept" onchange="aefRebuildFaculty()">
-            <option value="">All Departments</option>
-            ${(deptD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
-          </select>
-          <select class="form-c" id="aef-filter-col" onchange="aefRebuildFaculty()">
-            <option value="">All Colleges</option>
-            ${(colD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
-          </select>
+          <select class="form-c" id="aef-filter-dept" onchange="aefRebuildFaculty()"><option value="">All Departments</option>${(deptD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}</select>
+          <select class="form-c" id="aef-filter-col" onchange="aefRebuildFaculty()"><option value="">All Colleges</option>${(colD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}</select>
         </div>
       </div>
       <div class="form-g" style="margin-bottom:12px">
         <label class="form-l">Select Faculty from DB</label>
-        <select class="form-c" id="aef-faculty" onchange="aefFillFromFaculty()">
-          <option value="">-- Select Faculty --</option>
-        </select>
+        <select class="form-c" id="aef-faculty" onchange="aefFillFromFaculty()"><option value="">-- Select Faculty --</option></select>
       </div>
       <div class="fgrid">
         <div class="form-g"><label class="form-l">Faculty Name <span class="req">*</span></label><input class="form-c" id="aef-name" placeholder="Full name" required oninput="aefDupCheck()"></div>
-        <div class="form-g"><label class="form-l">Designation <span class="req">*</span></label>
-          <select class="form-c" id="aef-desig">
-            ${(desigD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
-          </select></div>
-        <div class="form-g"><label class="form-l">Department <span class="req">*</span></label>
-          <select class="form-c" id="aef-dept">
-            ${(deptD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
-          </select></div>
-        <div class="form-g"><label class="form-l">College <span class="req">*</span></label>
-          <select class="form-c" id="aef-col">
-            ${(colD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}
-          </select></div>
+        <div class="form-g"><label class="form-l">Designation <span class="req">*</span></label><select class="form-c" id="aef-desig">${(desigD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}</select></div>
+        <div class="form-g"><label class="form-l">Department <span class="req">*</span></label><select class="form-c" id="aef-dept">${(deptD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}</select></div>
+        <div class="form-g"><label class="form-l">College <span class="req">*</span></label><select class="form-c" id="aef-col">${(colD.rows||[]).map(x=>`<option>${x[0]}</option>`).join('')}</select></div>
       </div>
       <div id="aef-dup-warn" class="dup-warn hidden">⚠️ Possible duplicate: this person may already have an entry for this date/session.</div>
       <div class="divider"></div>
@@ -902,41 +1908,32 @@ async function renderAddExternal(){
     document.getElementById('aef-ses').addEventListener('change',aefDupCheck);
   } catch(e){ document.getElementById('aef-wrap').innerHTML=`<div class="no-data">❌ ${e.message}</div>`; }
 }
-
 function aefRebuildFaculty(){
   const deptF=document.getElementById('aef-filter-dept')?.value||'';
   const colF=document.getElementById('aef-filter-col')?.value||'';
   let list=_facCache;
   if(deptF) list=list.filter(r=>r[3]===deptF);
   if(colF)  list=list.filter(r=>r[4]===colF);
-  const sel=document.getElementById('aef-faculty');
-  if(!sel) return;
-  sel.innerHTML='<option value="">-- Select Faculty --</option>'+
-    list.map(r=>`<option value="${_facCache.indexOf(r)}">${r[1]||''}${r[3]?' — '+r[3]:''}</option>`).join('');
+  const sel=document.getElementById('aef-faculty'); if(!sel) return;
+  sel.innerHTML='<option value="">-- Select Faculty --</option>'+list.map(r=>`<option value="${_facCache.indexOf(r)}">${r[1]||''}${r[3]?' — '+r[3]:''}</option>`).join('');
 }
-
 function aefFillFromFaculty(){
-  const sel=document.getElementById('aef-faculty');
-  const idx=parseInt(sel.value);
+  const sel=document.getElementById('aef-faculty'),idx=parseInt(sel.value);
   if(isNaN(idx)||idx<0) return;
   const r=_facCache[idx]; if(!r) return;
-  const nameEl=document.getElementById('aef-name');
-  const desigEl=document.getElementById('aef-desig');
-  const deptEl=document.getElementById('aef-dept');
-  const colEl=document.getElementById('aef-col');
-  if(nameEl) nameEl.value=r[1]||'';
-  if(desigEl){ for(let o of desigEl.options) if(o.value===r[2]){o.selected=true;break;} }
-  if(deptEl){ for(let o of deptEl.options) if(o.value===r[3]){o.selected=true;break;} }
-  if(colEl){ for(let o of colEl.options) if(o.value===r[4]){o.selected=true;break;} }
+  ['name','desig','dept','col'].forEach((id,i)=>{
+    const el=document.getElementById('aef-'+id);
+    if(!el) return;
+    if(el.tagName==='INPUT') el.value=r[1+i]||'';
+    else for(let o of el.options) if(o.value===r[2+i]){o.selected=true;break;}
+  });
   aefDupCheck();
 }
-
 async function aefDupCheck(){
   const name=(document.getElementById('aef-name')?.value||'').trim().toLowerCase();
   const date=document.getElementById('aef-date')?.value||'';
   const ses=document.getElementById('aef-ses')?.value||'';
-  const warn=document.getElementById('aef-dup-warn');
-  if(!warn) return;
+  const warn=document.getElementById('aef-dup-warn'); if(!warn) return;
   if(!name||!date){ warn.classList.add('hidden'); return; }
   try{
     const extData=await loadSheet('ExternalEntryDB');
@@ -945,7 +1942,6 @@ async function aefDupCheck(){
     warn.classList.toggle('hidden',!dup);
   } catch(e){ warn.classList.add('hidden'); }
 }
-
 async function submitExtEntry(){
   const moyr=document.getElementById('aef-moyr')?.value||'';
   const date=document.getElementById('aef-date')?.value||'';
@@ -955,9 +1951,7 @@ async function submitExtEntry(){
   const desig=document.getElementById('aef-desig')?.value||'';
   const dept=document.getElementById('aef-dept')?.value||'';
   const col=document.getElementById('aef-col')?.value||'';
-  if(!moyr||!date||!ses||!role||!name||!desig||!dept||!col){
-    showToast('Please fill all required fields','error'); return;
-  }
+  if(!moyr||!date||!ses||!role||!name||!desig||!dept||!col){ showToast('Please fill all required fields','error'); return; }
   const btn=document.getElementById('aef-submit-btn');
   btn.disabled=true; btn.textContent='Submitting…';
   try{
@@ -979,16 +1973,12 @@ async function submitExtEntry(){
 async function renderCerts(){
   const c=document.getElementById('content');
   try{
-    const [intD,extD,moyrD,colD,deptD,sesD]=await Promise.all([
-      loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB'),
-      loadSheet('MOYREXDB'),loadSheet('CollegeDB'),loadSheet('DepartmentDB'),loadSheet('SessionDB')
-    ]);
+    const [intD,extD,moyrD,colD,deptD,sesD]=await Promise.all([loadSheet('DataEntryDB'),loadSheet('ExternalEntryDB'),loadSheet('MOYREXDB'),loadSheet('CollegeDB'),loadSheet('DepartmentDB'),loadSheet('SessionDB')]);
     const intR=(intD.rows||[]).map(r=>({...r,_src:'DataEntryDB'}));
     const extR=(extD.rows||[]).map(r=>({...r,_src:'ExternalEntryDB'}));
     const all=[...intR,...extR];
     window._allCertRows=all;
     const uniqDates=[...new Set(all.map(r=>r[2]).filter(Boolean))].sort();
-
     c.innerHTML=`
     <div class="pg-h"><div class="pg-hL"><div class="pg-t">📜 Certificates</div>
       <div class="pg-s">2 per page · Date filter required for Word export</div>
@@ -998,34 +1988,27 @@ async function renderCerts(){
       <div class="cb"><div class="fgrid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
         <div class="form-g"><label class="form-l">📅 Date <span class="req">*</span></label>
           <select class="form-c" id="cf-date" onchange="filterCerts()">
-            <option value="">-- All Dates --</option>
-            ${uniqDates.map(d=>`<option>${d}</option>`).join('')}
+            <option value="">-- All Dates --</option>${uniqDates.map(d=>`<option>${d}</option>`).join('')}
           </select></div>
         <div class="form-g"><label class="form-l">Exam Period</label>
           <select class="form-c" id="cf-moyr" onchange="filterCerts()">
-            <option value="">All</option>
-            ${(moyrD.rows||[]).map(r=>`<option>${r[0]}</option>`).join('')}
+            <option value="">All</option>${(moyrD.rows||[]).map(r=>`<option>${r[0]}</option>`).join('')}
           </select></div>
         <div class="form-g"><label class="form-l">Department</label>
           <select class="form-c" id="cf-dept" onchange="filterCerts()">
-            <option value="">All Depts</option>
-            ${(deptD.rows||[]).map(r=>`<option>${r[0]}</option>`).join('')}
+            <option value="">All Depts</option>${(deptD.rows||[]).map(r=>`<option>${r[0]}</option>`).join('')}
           </select></div>
         <div class="form-g"><label class="form-l">College</label>
           <select class="form-c" id="cf-col" onchange="filterCerts()">
-            <option value="">All Colleges</option>
-            ${(colD.rows||[]).map(r=>`<option>${r[0]}</option>`).join('')}
+            <option value="">All Colleges</option>${(colD.rows||[]).map(r=>`<option>${r[0]}</option>`).join('')}
           </select></div>
         <div class="form-g"><label class="form-l">Session</label>
           <select class="form-c" id="cf-ses" onchange="filterCerts()">
-            <option value="">All Sessions</option>
-            ${(sesD.rows||[]).map(r=>`<option>${r[0]}</option>`).join('')}
+            <option value="">All Sessions</option>${(sesD.rows||[]).map(r=>`<option>${r[0]}</option>`).join('')}
           </select></div>
         <div class="form-g"><label class="form-l">Source</label>
           <select class="form-c" id="cf-src" onchange="filterCerts()">
-            <option value="All">All</option>
-            <option value="Internal">Internal</option>
-            <option value="External">External</option>
+            <option value="All">All</option><option value="Internal">Internal</option><option value="External">External</option>
           </select></div>
       </div></div>
     </div>
@@ -1095,79 +2078,26 @@ function printAllCerts(){
   if(rows.length>100&&!confirm(`Print ${rows.length} certificates (${Math.ceil(rows.length/2)} pages)?`)) return;
   doPrintCerts(rows);
 }
-
 function doPrintCerts(rows){
   if(!rows||!rows.length){ showToast('Nothing to print','error'); return; }
   const pages=[];
   for(let i=0;i<rows.length;i+=2){
-    const r1=rows[i],r2=rows[i+1]||null;
-    const isLast=(i+2>=rows.length);
-    pages.push(`<div class="pg" ${isLast?'':'style="page-break-after:always"'}>
-      ${buildPrintCertHTML(r1,i+1)}
-      <div class="cert-divider"></div>
-      ${r2?buildPrintCertHTML(r2,i+2):'<div class="cert-empty"></div>'}
-    </div>`);
+    const r1=rows[i],r2=rows[i+1]||null,isLast=(i+2>=rows.length);
+    pages.push(`<div class="pg" ${isLast?'':'style="page-break-after:always"'}>${buildPrintCertHTML(r1,i+1)}<div class="cert-divider"></div>${r2?buildPrintCertHTML(r2,i+2):'<div class="cert-empty"></div>'}</div>`);
   }
   const w=window.open('','_blank');
-  w.document.write(`<!DOCTYPE html><html><head>
-  <meta charset="UTF-8"><title>Certificates — KCET</title>
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Certificates — KCET</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Times New Roman',Times,serif;background:#fff}
-    .pg{width:210mm;min-height:297mm;padding:8mm 16mm;display:flex;flex-direction:column;background:#fff}
-    .cert{flex:1;display:flex;flex-direction:column;padding:10px 0}
-    .cert-divider{border-top:1px dashed #ccc;margin:8px 0}
-    .cert-empty{flex:1}
-    .stripe{height:4px;background:linear-gradient(90deg,#061429,#0d2d6b 35%,#2e80d8 65%,#b8891a);margin-bottom:12px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-    .hdr{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1.5px solid #0d2d6b;margin-bottom:10px}
-    .logo{height:44px;object-fit:contain}
-    .col-info{text-align:right}
-    .cn{font-family:'Times New Roman',serif;font-size:12px;font-weight:700;color:#061429}
-    .cs{font-size:9px;color:#64748b;margin-top:2px;line-height:1.4}
-    .ref-r{display:flex;justify-content:flex-end;margin-bottom:6px}
-    .ref{font-size:11px;color:#334155;border:1px solid #dbeafe;padding:3px 10px;border-radius:4px;font-family:'Times New Roman',serif}
-    .ttl-r{text-align:center;margin:12px 0 16px}
-    .ttl{font-family:'Times New Roman',serif;font-size:16px;font-weight:700;color:#061429;letter-spacing:2.5px;text-transform:uppercase;border-bottom:2px solid #061429;display:inline-block;padding-bottom:4px}
-    .body{font-family:'Times New Roman',serif;font-size:12px;color:#334155;line-height:2;text-align:justify;text-indent:40px}
-    .body strong{color:#061429;font-weight:700}
-    .ftr{display:flex;justify-content:flex-end;margin-top:24px}
-    .sign{text-align:center;min-width:180px}
-    .sl{border-top:1.5px solid #1e293b;margin-bottom:6px}
-    .sn{font-family:'Times New Roman',serif;font-size:12px;font-weight:700;color:#061429}
-    .st{font-family:'Times New Roman',serif;font-size:10px;color:#64748b;margin-top:2px}
-    @media print{body{margin:0}.pg{page-break-after:always}.pg:last-child{page-break-after:avoid}}
-  </style></head><body>${pages.join('')}
-  <script>window.onload=()=>setTimeout(()=>window.print(),700);<\/script>
-  </body></html>`);
+  <style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Times New Roman',Times,serif;background:#fff}.pg{width:210mm;min-height:297mm;padding:8mm 16mm;display:flex;flex-direction:column;background:#fff}.cert{flex:1;display:flex;flex-direction:column;padding:10px 0}.cert-divider{border-top:1px dashed #ccc;margin:8px 0}.cert-empty{flex:1}.stripe{height:4px;background:linear-gradient(90deg,#061429,#0d2d6b 35%,#2e80d8 65%,#b8891a);margin-bottom:12px;print-color-adjust:exact;-webkit-print-color-adjust:exact}.hdr{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1.5px solid #0d2d6b;margin-bottom:10px}.ref-r{display:flex;justify-content:flex-end;margin-bottom:6px}.ref{font-size:11px;color:#334155;border:1px solid #dbeafe;padding:3px 10px;border-radius:4px}.ttl-r{text-align:center;margin:12px 0 16px}.ttl{font-size:16px;font-weight:700;color:#061429;letter-spacing:2.5px;text-transform:uppercase;border-bottom:2px solid #061429;display:inline-block;padding-bottom:4px}.body{font-size:12px;color:#334155;line-height:2;text-align:justify;text-indent:40px}.body strong{color:#061429;font-weight:700}.ftr{display:flex;justify-content:flex-end;margin-top:24px}.sign{text-align:center;min-width:180px}.sl{border-top:1.5px solid #1e293b;margin-bottom:6px}.sn{font-size:12px;font-weight:700;color:#061429}.st{font-size:10px;color:#64748b;margin-top:2px}@media print{body{margin:0}.pg{page-break-after:always}.pg:last-child{page-break-after:avoid}}</style></head><body>${pages.join('')}<script>window.onload=()=>setTimeout(()=>window.print(),700);<\/script></body></html>`);
   w.document.close();
 }
-
 function buildPrintCertHTML(r,certNum){
   const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
   const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
-  return `<div class="cert">
-    <div class="stripe"></div>
-    <div class="hdr" style="justify-content:center">
-      <img src="logo.png" style="height:85px;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div style="display:none;flex-direction:column;align-items:center">
-        <div style="font-family:'Times New Roman',serif;font-size:18px;font-weight:700;color:#061429">KCET</div>
-        <div style="font-size:10px;color:#64748b">Kamaraj College of Engineering &amp; Technology</div>
-      </div>
-    </div>
-    <div class="ref-r"><div class="ref">Ref. No. : <strong>${id}</strong></div></div>
-    <div class="ttl-r"><div class="ttl">Attendance Certificate</div></div>
-    <div class="body">This is to certify that <strong>${name}</strong>, <strong>${desig}</strong>,
-      ${dept}, ${col}, has acted as <strong>${roll}</strong>, ${moyr} at
-      Kamaraj College of Engineering &amp; Technology (Autonomous) on
-      <strong>${date}</strong> <strong>${ses}</strong>.</div>
-    <div class="ftr"><div class="sign"><div class="sl"></div><div class="sn">Dr. S Gandhi</div><div class="st">CoE</div></div></div>
-  </div>`;
+  return `<div class="cert"><div class="stripe"></div><div class="hdr" style="justify-content:center"><img src="logo.png" style="height:85px;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;align-items:center"><div style="font-size:18px;font-weight:700;color:#061429">KCET</div><div style="font-size:10px;color:#64748b">Kamaraj College of Engineering &amp; Technology</div></div></div><div class="ref-r"><div class="ref">Ref. No. : <strong>${id}</strong></div></div><div class="ttl-r"><div class="ttl">Attendance Certificate</div></div><div class="body">This is to certify that <strong>${name}</strong>, <strong>${desig}</strong>, ${dept}, ${col}, has acted as <strong>${roll}</strong>, ${moyr} at Kamaraj College of Engineering &amp; Technology (Autonomous) on <strong>${date}</strong> <strong>${ses}</strong>.</div><div class="ftr"><div class="sign"><div class="sl"></div><div class="sn">Dr. S Gandhi</div><div class="st">CoE</div></div></div></div>`;
 }
 
-// ══════════════════════════════════════════════════════════════
-// WORD DOCUMENT GENERATION
-// ══════════════════════════════════════════════════════════════
+// ── Word / Certificate export (from original) ──────────────────
 function downloadOneWord(idx){ doDownloadWord([(window._filtCerts||[])[idx]]); }
 function downloadWordCerts(){
   const rows=window._filtCerts||[];
@@ -1176,7 +2106,6 @@ function downloadWordCerts(){
   if(!rows.length){ showToast('No entries to export','error'); return; }
   doDownloadWord(rows);
 }
-
 async function doDownloadWord(rows){
   if(!rows||!rows.length){ showToast('No entries','error'); return; }
   const btn=document.getElementById('word-btn');
@@ -1184,87 +2113,22 @@ async function doDownloadWord(rows){
   showToast(`Generating Word for ${rows.length} certificate(s)…`,'info');
   try{
     if(typeof JSZip==='undefined'){
-      await new Promise((res,rej)=>{
-        const s=document.createElement('script');
-        s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-        s.onload=res; s.onerror=()=>rej(new Error('Failed to load JSZip'));
-        document.head.appendChild(s);
-      });
+      await new Promise((res,rej)=>{ const s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload=res; s.onerror=()=>rej(new Error('Failed to load JSZip')); document.head.appendChild(s); });
     }
-
-    // ── Fetch logo.png and convert to base64 ──────────────────
     let logoB64='';
-    try{
-      const imgRes=await fetch('logo.png');
-      if(imgRes.ok){
-        const imgBlob=await imgRes.blob();
-        logoB64=await new Promise(res=>{
-          const reader=new FileReader();
-          reader.onload=e=>res(e.target.result.split(',')[1]);
-          reader.readAsDataURL(imgBlob);
-        });
-      }
-    } catch(e){ logoB64=''; }
+    try{ const imgRes=await fetch('logo.png'); if(imgRes.ok){ const imgBlob=await imgRes.blob(); logoB64=await new Promise(res=>{ const reader=new FileReader(); reader.onload=e=>res(e.target.result.split(',')[1]); reader.readAsDataURL(imgBlob); }); } } catch(e){ logoB64=''; }
     const hasLogo=!!logoB64;
-
     const zip=new JSZip();
-
-    zip.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
-  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
-  <Default Extension="xml" ContentType="application/xml"/>
-  ${hasLogo?'<Default Extension="png" ContentType="image/png"/>':''}
-  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
-  <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
-  <Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/>
-</Types>`);
-
-    zip.folder('_rels').file('.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
-</Relationships>`);
-
+    zip.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>${hasLogo?'<Default Extension="png" ContentType="image/png"/>':''}<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/></Types>`);
+    zip.folder('_rels').file('.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
     const wf=zip.folder('word');
-
-    // Add logo to media folder if available
-    if(hasLogo){
-      const lb=Uint8Array.from(atob(logoB64),c=>c.charCodeAt(0));
-      wf.folder('media').file('logo.png',lb,{binary:true});
-    }
-
-    wf.folder('_rels').file('document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
-  <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/>
-  ${hasLogo?'<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/>':''}
-</Relationships>`);
-
+    if(hasLogo){ const lb=Uint8Array.from(atob(logoB64),c=>c.charCodeAt(0)); wf.folder('media').file('logo.png',lb,{binary:true}); }
+    wf.folder('_rels').file('document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/>${hasLogo?'<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/>':''}</Relationships>`);
     wf.file('settings.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:defaultTabStop w:val="720"/></w:settings>`);
     wf.file('styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:style w:type="paragraph" w:styleId="Normal" w:default="1"><w:name w:val="Normal"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:style></w:styles>`);
-
     const bp=[];
-    for(let i=0;i<rows.length;i+=2){
-      const r1=rows[i],r2=rows[i+1]||null,isLast=(i+2>=rows.length);
-      bp.push(buildCertXmlBlock(r1,hasLogo));
-      if(r2){ bp.push(buildHorizontalRule()); bp.push(buildCertXmlBlock(r2,hasLogo)); }
-      if(!isLast) bp.push(`<w:p><w:r><w:br w:type="page"/></w:r></w:p>`);
-    }
-
-    wf.file('document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
-  xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
-  xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
-  xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"
-  xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
-<w:body>
-${bp.join('\n')}
-<w:sectPr>
-  <w:pgSz w:w="11906" w:h="16838"/>
-  <w:pgMar w:top="720" w:right="900" w:bottom="720" w:left="900"/>
-</w:sectPr>
-</w:body>
-</w:document>`);
-
+    for(let i=0;i<rows.length;i+=2){ const r1=rows[i],r2=rows[i+1]||null,isLast=(i+2>=rows.length); bp.push(buildCertXmlBlock(r1,hasLogo)); if(r2){ bp.push(buildHorizontalRule()); bp.push(buildCertXmlBlock(r2,hasLogo)); } if(!isLast) bp.push(`<w:p><w:r><w:br w:type="page"/></w:r></w:p>`); }
+    wf.file('document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${bp.join('\n')}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="720" w:right="900" w:bottom="720" w:left="900"/></w:sectPr></w:body></w:document>`);
     const blob=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
@@ -1275,239 +2139,21 @@ ${bp.join('\n')}
   } catch(e){ console.error(e); showToast('Error generating Word: '+e.message,'error'); }
   if(btn){ btn.disabled=false; btn.textContent='📄 Word (.docx)'; }
 }
-
 function xmlE(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;'); }
-
-function wRun(text,bold,sz,underline){
-  sz=sz||24;
-  const b=bold?'<w:b/><w:bCs/>':'';
-  const u=underline?'<w:u w:val="single"/>':'';
-  return `<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/>${b}${u}</w:rPr><w:t xml:space="preserve">${xmlE(text)}</w:t></w:r>`;
-}
-
-function wPara(content,jc,after){
-  jc=jc||'left'; after=after===undefined?160:after;
-  return `<w:p><w:pPr><w:jc w:val="${jc}"/><w:spacing w:after="${after}"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr></w:pPr>${content}</w:p>`;
-}
-
-function buildHorizontalRule(){
-  return `<w:p><w:pPr><w:pBdr><w:bottom w:val="dashed" w:sz="6" w:space="1" w:color="AAAAAA"/></w:pBdr><w:spacing w:after="120"/></w:pPr></w:p>`;
-}
-
-// ─────────────────────────────────────────────────────────────
-// buildCertXmlBlock — logo.png centered at top (full width),
-//   then navy divider, ref no, title, body, signature.
-//   No text header — the college letterhead is baked into logo.png
-// ─────────────────────────────────────────────────────────────
+function wRun(text,bold,sz,underline){ sz=sz||24; return `<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/>${bold?'<w:b/><w:bCs/>':''}${underline?'<w:u w:val="single"/>':''}</w:rPr><w:t xml:space="preserve">${xmlE(text)}</w:t></w:r>`; }
+function wPara(content,jc,after){ jc=jc||'left'; after=after===undefined?160:after; return `<w:p><w:pPr><w:jc w:val="${jc}"/><w:spacing w:after="${after}"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr></w:pPr>${content}</w:p>`; }
+function buildHorizontalRule(){ return `<w:p><w:pPr><w:pBdr><w:bottom w:val="dashed" w:sz="6" w:space="1" w:color="AAAAAA"/></w:pBdr><w:spacing w:after="120"/></w:pPr></w:p>`; }
 function buildCertXmlBlock(r,hasLogo){
   const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
   const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
-
-  // ── Logo centered, full usable width (9906 dxa ≈ 17.5 cm) ──
-  // cx=6350000 EMU ≈ 17.5 cm  cy=1905000 EMU ≈ 5.3 cm (adjust if logo is shorter)
-  const logoPara=hasLogo
-    ?`<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:after="80"/></w:pPr>
-  <w:r><w:rPr><w:noProof/></w:rPr><w:drawing>
-    <wp:inline distT="0" distB="0" distL="0" distR="0">
-      <wp:extent cx="4200000" cy="1200000"/>
-      <wp:effectExtent l="0" t="0" r="0" b="0"/>
-      <wp:docPr id="1" name="CollegeLogo"/>
-      <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
-        <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
-          <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
-            <pic:nvPicPr>
-              <pic:cNvPr id="1" name="logo.png"/>
-              <pic:cNvPicPr><a:picLocks noChangeAspect="1"/></pic:cNvPicPr>
-            </pic:nvPicPr>
-            <pic:blipFill>
-              <a:blip r:embed="rId3"/>
-              <a:stretch><a:fillRect/></a:stretch>
-            </pic:blipFill>
-            <pic:spPr>
-              <a:xfrm><a:off x="0" y="0"/><a:ext cx="6350000" cy="1905000"/></a:xfrm>
-              <a:prstGeom prst="rect"><a:avLst/></a:prstGeom>
-            </pic:spPr>
-          </pic:pic>
-        </a:graphicData>
-      </a:graphic>
-    </wp:inline>
-  </w:drawing></w:r></w:p>`
-    // Fallback if logo.png missing: bold centered KCET + college name
-    :`${wPara(`<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="48"/><w:szCs w:val="48"/><w:color w:val="061429"/></w:rPr><w:t>KCET</w:t></w:r>`,'center',20)}
-${wPara(wRun('Kamaraj College of Engineering & Technology (Autonomous)',true,24),'center',10)}
-${wPara(wRun('An Autonomous Institution \u00B7 Affiliated to Anna University, Chennai',false,18),'center',0)}
-${wPara(wRun('S.P.G.C. Nagar, K.Vellakulam \u2013 625 701 (Near Virudhunagar)',false,18),'center',80)}`;
-
-  // ── Navy divider line ──
+  const logoPara=hasLogo?`<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:after="80"/></w:pPr><w:r><w:rPr><w:noProof/></w:rPr><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="635000" cy="190500"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:docPr id="1" name="CollegeLogo"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="1" name="logo.png"/><pic:cNvPicPr><a:picLocks noChangeAspect="1"/></pic:cNvPicPr></pic:nvPicPr><pic:blipFill><a:blip r:embed="rId3"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="6350000" cy="1905000"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`:
+    `${wPara(`<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="48"/><w:szCs w:val="48"/><w:color w:val="061429"/></w:rPr><w:t>KCET</w:t></w:r>`,'center',20)}${wPara(wRun('Kamaraj College of Engineering & Technology (Autonomous)',true,24),'center',10)}${wPara(wRun('An Autonomous Institution · Affiliated to Anna University, Chennai',false,18),'center',0)}${wPara(wRun('S.P.G.C. Nagar, K.Vellakulam – 625 701 (Near Virudhunagar)',false,18),'center',80)}`;
   const divider=`<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="12" w:space="1" w:color="0d2d6b"/></w:pBdr><w:spacing w:after="80"/></w:pPr></w:p>`;
-
   const refPara=wPara(wRun(`Ref. No. : ${id}`,false,22),'right',60);
   const titlePara=wPara(wRun('ATTENDANCE CERTIFICATE',true,28,true),'center',200);
   const tab='\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
-  const bodyPara=`<w:p><w:pPr><w:jc w:val="both"/><w:spacing w:line="480" w:lineRule="auto" w:after="120"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr></w:pPr>
-  ${wRun(tab+'This is to certify that ',false,24)}${wRun(name+', ',true,24)}${wRun(desig+', ',true,24)}
-  ${wRun(dept+', '+col+', ',false,24)}${wRun('has acted as ',false,24)}${wRun(roll+', ',true,24)}
-  ${wRun(moyr+' at Kamaraj College of Engineering & Technology (Autonomous) on ',false,24)}
-  ${wRun(date+' ',true,24)}${wRun(ses+'.',true,24)}</w:p>`;
-
-  const sp1=wPara('','left',120);
-  const sp2=wPara('','left',120);
-  const sigName=wPara(wRun('Dr. S Gandhi',true,24),'right',40);
-  const sigRole=wPara(wRun('Controller of Examinations',false,20),'right',0);
-
-  return [logoPara,divider,refPara,titlePara,bodyPara,sp1,sp2,sigName,sigRole].join('\n');
-}
-
-// ══════════════════════════════════════════════════════════════
-// PDF GENERATION  (uses jsPDF — loaded on demand)
-// ══════════════════════════════════════════════════════════════
-function downloadOnePdf(idx){ doDownloadPdf([(window._filtCerts||[])[idx]]); }
-function downloadPdfCerts(){
-  const rows=window._filtCerts||[];
-  const dateF=document.getElementById('cf-date')?.value||'';
-  if(!dateF){ showToast('⚠️ Please select a Date filter first','warning'); return; }
-  if(!rows.length){ showToast('No entries to export','error'); return; }
-  doDownloadPdf(rows);
-}
-
-async function doDownloadPdf(rows){
-  if(!rows||!rows.length){ showToast('No entries','error'); return; }
-  const btn=document.getElementById('pdf-btn');
-  if(btn){ btn.disabled=true; btn.textContent='⏳ Generating…'; }
-  showToast(`Generating PDF for ${rows.length} certificate(s)…`,'info');
-  try{
-    // Load jsPDF on demand
-    if(typeof window.jspdf==='undefined'){
-      await new Promise((res,rej)=>{
-        const s=document.createElement('script');
-        s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-        s.onload=res; s.onerror=()=>rej(new Error('Failed to load jsPDF'));
-        document.head.appendChild(s);
-      });
-    }
-    const { jsPDF } = window.jspdf;
-
-    // Fetch logo as data URL for PDF
-    let logoDataUrl='';
-    try{
-      const imgRes=await fetch('logo.png');
-      if(imgRes.ok){
-        const imgBlob=await imgRes.blob();
-        logoDataUrl=await new Promise(res=>{
-          const reader=new FileReader();
-          reader.onload=e=>res(e.target.result);
-          reader.readAsDataURL(imgBlob);
-        });
-      }
-    } catch(e){ logoDataUrl=''; }
-
-    const doc=new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
-    const PW=210, PH=297, ML=15, MR=15, MT=10, usableW=PW-ML-MR;
-    const certH=(PH-MT*2-8)/2; // 2 certs per page with divider gap
-
-    for(let i=0;i<rows.length;i++){
-      const r=rows[i];
-      const pageIdx=Math.floor(i/2);
-      const slotIdx=i%2;
-      if(i>0&&slotIdx===0) doc.addPage();
-
-      const yBase=MT+slotIdx*(certH+8);
-      drawPdfCert(doc,r,ML,yBase,usableW,certH,logoDataUrl);
-
-      // Dashed divider between two certs on same page
-      if(slotIdx===0&&rows[i+1]){
-        const dy=MT+certH+4;
-        doc.setDrawColor(180,180,180);
-        doc.setLineDashPattern([3,3],0);
-        doc.line(ML,dy,PW-MR,dy);
-        doc.setLineDashPattern([],0);
-      }
-    }
-
-    const dateTag=rows[0]?.[2]||new Date().toISOString().slice(0,10);
-    doc.save(`KCET_Certificates_${dateTag}.pdf`);
-    showToast(`✅ PDF downloaded! (${rows.length} certs)`,'success');
-  } catch(e){ console.error(e); showToast('Error generating PDF: '+e.message,'error'); }
-  if(btn){ btn.disabled=false; btn.textContent='📕 PDF'; }
-}
-
-function drawPdfCert(doc,r,x,y,w,h,logoDataUrl){
-  const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
-  const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
-  let cy=y+4;
-
-  // ── Logo or text centered ──
-  if(logoDataUrl){
-    const lw=30,lh=22;
-    doc.addImage(logoDataUrl,'PNG',x+(w-lw)/2,cy,lw,lh);
-    cy+=lh+3;
-  } else {
-    doc.setFont('times','bold');
-    doc.setFontSize(20);
-    doc.setTextColor(6,20,41);
-    doc.text('KCET',x+w/2,cy+6,{align:'center'});
-    cy+=10;
-  }
-
-  // ── College name ──
-  doc.setFont('times','bold');
-  doc.setFontSize(11);
-  doc.setTextColor(6,20,41);
-  doc.text('Kamaraj College of Engineering & Technology (Autonomous)',x+w/2,cy,{align:'center'});
-  cy+=5;
-
-  // ── Address lines ──
-  doc.setFont('times','normal');
-  doc.setFontSize(8);
-  doc.setTextColor(71,85,105);
-  doc.text('An Autonomous Institution \u00B7 Affiliated to Anna University, Chennai',x+w/2,cy,{align:'center'});
-  cy+=4;
-  doc.text('S.P.G.C. Nagar, K.Vellakulam \u2013 625 701 (Near Virudhunagar)',x+w/2,cy,{align:'center'});
-  cy+=5;
-
-  // ── Blue divider line ──
-  doc.setDrawColor(13,45,107);
-  doc.setLineWidth(0.5);
-  doc.line(x,cy,x+w,cy);
-  cy+=5;
-
-  // ── Ref No (right aligned) ──
-  doc.setFont('times','normal');
-  doc.setFontSize(9);
-  doc.setTextColor(51,65,85);
-  doc.text(`Ref. No. : ${id}`,x+w,cy,{align:'right'});
-  cy+=8;
-
-  // ── Title ──
-  doc.setFont('times','bold');
-  doc.setFontSize(13);
-  doc.setTextColor(6,20,41);
-  doc.text('ATTENDANCE CERTIFICATE',x+w/2,cy,{align:'center'});
-  // underline
-  const tw=doc.getTextWidth('ATTENDANCE CERTIFICATE');
-  doc.setLineWidth(0.3);
-  doc.line(x+w/2-tw/2,cy+0.8,x+w/2+tw/2,cy+0.8);
-  cy+=12;
-
-  // ── Body text (justified, wrapped) ──
-  doc.setFont('times','normal');
-  doc.setFontSize(11);
-  doc.setTextColor(51,65,85);
-  const bodyText=`      This is to certify that ${name}, ${desig}, ${dept}, ${col}, has acted as ${roll}, ${moyr} at Kamaraj College of Engineering & Technology (Autonomous) on ${date} ${ses}.`;
-  const lines=doc.splitTextToSize(bodyText,w);
-  doc.text(lines,x,cy);
-  cy+=lines.length*7+10;
-
-  // ── Signature ──
-  doc.setFont('times','bold');
-  doc.setFontSize(11);
-  doc.setTextColor(6,20,41);
-  doc.text('Dr. S Gandhi',x+w,cy,{align:'right'});
-  cy+=5;
-  doc.setFont('times','normal');
-  doc.setFontSize(9);
-  doc.setTextColor(100,116,139);
-  doc.text('Controller of Examinations',x+w,cy,{align:'right'});
+  const bodyPara=`<w:p><w:pPr><w:jc w:val="both"/><w:spacing w:line="480" w:lineRule="auto" w:after="120"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr></w:pPr>${wRun(tab+'This is to certify that ',false,24)}${wRun(name+', ',true,24)}${wRun(desig+', ',true,24)}${wRun(dept+', '+col+', ',false,24)}${wRun('has acted as ',false,24)}${wRun(roll+', ',true,24)}${wRun(moyr+' at Kamaraj College of Engineering & Technology (Autonomous) on ',false,24)}${wRun(date+' ',true,24)}${wRun(ses+'.',true,24)}</w:p>`;
+  return [logoPara,divider,refPara,titlePara,bodyPara,wPara('','left',120),wPara('','left',120),wPara(wRun('Dr. S Gandhi',true,24),'right',40),wPara(wRun('Controller of Examinations',false,20),'right',0)].join('\n');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1520,12 +2166,8 @@ async function renderDB(sheet){
     <div class="pg-h"><div class="pg-hL"><div class="pg-t">${def.icon} ${def.label}</div><div class="pg-s">Manage ${def.label} records</div></div>
     <button class="btn btn-primary btn-sm" onclick="addRec('${sheet}')">+ Add New</button></div>
     <div class="card">
-      <div class="ch">
-        <div class="ct" id="dbc-count">Records</div>
-        <div class="search-bar" style="width:200px">
-          <span>🔍</span><input id="db-search" placeholder="Search…" oninput="filterDBTable('${sheet}')">
-        </div>
-      </div>
+      <div class="ch"><div class="ct" id="dbc-count">Records</div>
+        <div class="search-bar" style="width:200px"><span>🔍</span><input id="db-search" placeholder="Search…" oninput="filterDBTable('${sheet}')"></div></div>
       <div class="tw" id="dbt"><div style="display:flex;justify-content:center;padding:40px"><div class="spin"></div></div></div>
     </div>`;
   const data=await loadSheet(sheet);
@@ -1536,21 +2178,12 @@ function renderDBTable(sheet,data){
   window[`_db_${sheet}`]=rows;
   document.getElementById('dbc-count').textContent=`${rows.length} Records`;
   const el=document.getElementById('dbt'); if(!el) return;
-  el.innerHTML=`<table>
-    <thead><tr><th>#</th>${def.cols.map(c=>`<th>${c}</th>`).join('')}<th>Actions</th></tr></thead>
-    <tbody id="dbt-body">${renderDBRows(sheet,rows)}</tbody></table>`;
+  el.innerHTML=`<table><thead><tr><th>#</th>${def.cols.map(c=>`<th>${c}</th>`).join('')}<th>Actions</th></tr></thead><tbody id="dbt-body">${renderDBRows(sheet,rows)}</tbody></table>`;
 }
 function renderDBRows(sheet,rows){
   const def=DB_DEFS[sheet];
   if(!rows.length) return `<tr><td colspan="${def.cols.length+2}" class="no-data">No records. Click "+ Add New".</td></tr>`;
-  return rows.map((r,i)=>`<tr>
-    <td><span class="badge b-gray">${i+1}</span></td>
-    ${def.indices.map(ci=>`<td style="font-weight:500">${r[ci]||'—'}</td>`).join('')}
-    <td><div style="display:flex;gap:5px">
-      <button class="btn btn-outline btn-xs" onclick="editRec('${sheet}',${i})">✏️</button>
-      <button class="btn btn-danger btn-xs" onclick="delRec('${sheet}',${i})">🗑️</button>
-    </div></td>
-  </tr>`).join('');
+  return rows.map((r,i)=>`<tr><td><span class="badge b-gray">${i+1}</span></td>${def.indices.map(ci=>`<td style="font-weight:500">${r[ci]||'—'}</td>`).join('')}<td><div style="display:flex;gap:5px"><button class="btn btn-outline btn-xs" onclick="editRec('${sheet}',${i})">✏️</button><button class="btn btn-danger btn-xs" onclick="delRec('${sheet}',${i})">🗑️</button></div></td></tr>`).join('');
 }
 function filterDBTable(sheet){
   const q=(document.getElementById('db-search')?.value||'').toLowerCase();
@@ -1559,21 +2192,11 @@ function filterDBTable(sheet){
 }
 function addRec(sheet){
   const def=DB_DEFS[sheet];
-  openMo(`➕ Add to ${def.label}`,
-    `<div style="display:flex;flex-direction:column;gap:14px">${def.cols.map((col,i)=>`
-      <div class="form-g"><label class="form-l">${col}</label>
-      <input class="form-c" id="mf${i}" placeholder="Enter ${col}"></div>`).join('')}</div>`,
-    `<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button>
-     <button class="btn btn-primary btn-sm" onclick="saveAdd('${sheet}')">💾 Save</button>`);
+  openMo(`➕ Add to ${def.label}`,`<div style="display:flex;flex-direction:column;gap:14px">${def.cols.map((col,i)=>`<div class="form-g"><label class="form-l">${col}</label><input class="form-c" id="mf${i}" placeholder="Enter ${col}"></div>`).join('')}</div>`,`<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button><button class="btn btn-primary btn-sm" onclick="saveAdd('${sheet}')">💾 Save</button>`);
 }
 function editRec(sheet,idx){
   const def=DB_DEFS[sheet],row=(_cache[sheet]?.rows||[])[idx]; if(!row) return;
-  openMo(`✏️ Edit ${def.label}`,
-    `<div style="display:flex;flex-direction:column;gap:14px">${def.cols.map((col,i)=>`
-      <div class="form-g"><label class="form-l">${col}</label>
-      <input class="form-c" id="mf${i}" value="${String(row[def.indices[i]]||'').replace(/"/g,'&quot;')}"></div>`).join('')}</div>`,
-    `<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button>
-     <button class="btn btn-primary btn-sm" onclick="saveEdit('${sheet}',${idx})">💾 Update</button>`);
+  openMo(`✏️ Edit ${def.label}`,`<div style="display:flex;flex-direction:column;gap:14px">${def.cols.map((col,i)=>`<div class="form-g"><label class="form-l">${col}</label><input class="form-c" id="mf${i}" value="${String(row[def.indices[i]]||'').replace(/"/g,'&quot;')}"></div>`).join('')}</div>`,`<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button><button class="btn btn-primary btn-sm" onclick="saveEdit('${sheet}',${idx})">💾 Update</button>`);
 }
 async function saveAdd(sheet){
   const def=DB_DEFS[sheet];
@@ -1581,11 +2204,9 @@ async function saveAdd(sheet){
   if(vals.some(v=>!v)){ showToast('Please fill all fields','error'); return; }
   const data=await loadSheet(sheet);
   let row;
-  if(sheet==='FacultyDB'){ const sno=(data.rows?.length||0)+1; row=[sno,...vals]; }
-  else row=vals;
+  if(sheet==='FacultyDB'){ const sno=(data.rows?.length||0)+1; row=[sno,...vals]; } else row=vals;
   const res=await gasPost({action:'addRow',sheet,row});
-  if(res.success){ clearCache(sheet);closeMo();showToast('Record added!','success');await renderDB(sheet); }
-  else showToast(res.message||'Error','error');
+  if(res.success){ clearCache(sheet);closeMo();showToast('Record added!','success');await renderDB(sheet); } else showToast(res.message||'Error','error');
 }
 async function saveEdit(sheet,idx){
   const def=DB_DEFS[sheet];
@@ -1594,14 +2215,12 @@ async function saveEdit(sheet,idx){
   const existing=[...(_cache[sheet]?.rows||[])[idx]];
   def.indices.forEach((ci,i)=>{ existing[ci]=vals[i]; });
   const res=await gasPost({action:'updateRow',sheet,rowIndex:idx,row:existing});
-  if(res.success){ clearCache(sheet);closeMo();showToast('Updated!','success');await renderDB(sheet); }
-  else showToast(res.message||'Error','error');
+  if(res.success){ clearCache(sheet);closeMo();showToast('Updated!','success');await renderDB(sheet); } else showToast(res.message||'Error','error');
 }
 async function delRec(sheet,idx){
   if(!confirm('Delete this record permanently?')) return;
   const res=await gasPost({action:'deleteRow',sheet,rowIndex:idx});
-  if(res.success){ clearCache(sheet);showToast('Deleted','info');await renderDB(sheet); }
-  else showToast(res.message||'Error','error');
+  if(res.success){ clearCache(sheet);showToast('Deleted','info');await renderDB(sheet); } else showToast(res.message||'Error','error');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1613,66 +2232,32 @@ async function renderUsers(){
   c.innerHTML=`
     <div class="pg-h"><div class="pg-hL"><div class="pg-t">👥 User Management</div><div class="pg-s">Manage Admin and Faculty accounts</div></div>
     <button class="btn btn-primary btn-sm" onclick="addUser()">+ Add User</button></div>
-    <div class="card">
-      <div class="ch"><div class="ct">${rows.length} User Accounts</div></div>
+    <div class="card"><div class="ch"><div class="ct">${rows.length} User Accounts</div></div>
       <div class="tw"><table>
         <thead><tr><th>#</th><th>Username</th><th>Role</th><th>Actions</th></tr></thead>
         <tbody>${!rows.length?'<tr><td colspan="4" class="no-data">No users</td></tr>':
-          rows.map((r,i)=>`<tr>
-            <td><span class="badge b-gray">${i+1}</span></td>
-            <td><strong>${r[0]||'—'}</strong></td>
-            <td><span class="badge ${String(r[2]||'').toLowerCase()==='admin'?'b-gold':'b-blue'}">${r[2]||'—'}</span></td>
-            <td><div style="display:flex;gap:6px">
-              <button class="btn btn-outline btn-xs" onclick="editUser(${i})">✏️ Edit</button>
-              <button class="btn btn-danger btn-xs" onclick="delUserRow(${i})">🗑️</button>
-            </div></td>
-          </tr>`).join('')}
+          rows.map((r,i)=>`<tr><td><span class="badge b-gray">${i+1}</span></td><td><strong>${r[0]||'—'}</strong></td><td><span class="badge ${String(r[2]||'').toLowerCase()==='admin'?'b-gold':'b-blue'}">${r[2]||'—'}</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-outline btn-xs" onclick="editUser(${i})">✏️ Edit</button><button class="btn btn-danger btn-xs" onclick="delUserRow(${i})">🗑️</button></div></td></tr>`).join('')}
         </tbody></table></div></div>`;
 }
 function addUser(){
-  openMo('➕ Add User',
-    `<div style="display:flex;flex-direction:column;gap:14px">
-      <div class="form-g"><label class="form-l">Username</label><input class="form-c" id="mf0" placeholder="username"></div>
-      <div class="form-g"><label class="form-l">Password</label><input class="form-c" id="mf1" type="password" placeholder="password"></div>
-      <div class="form-g"><label class="form-l">Role</label>
-        <select class="form-c" id="mf2"><option value="Faculty">Faculty</option><option value="Admin">Admin</option></select></div>
-    </div>`,
-    `<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button>
-     <button class="btn btn-primary btn-sm" onclick="saveUser()">💾 Save</button>`);
+  openMo('➕ Add User',`<div style="display:flex;flex-direction:column;gap:14px"><div class="form-g"><label class="form-l">Username</label><input class="form-c" id="mf0" placeholder="username"></div><div class="form-g"><label class="form-l">Password</label><input class="form-c" id="mf1" type="password" placeholder="password"></div><div class="form-g"><label class="form-l">Role</label><select class="form-c" id="mf2"><option value="Faculty">Faculty</option><option value="Admin">Admin</option></select></div></div>`,`<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button><button class="btn btn-primary btn-sm" onclick="saveUser()">💾 Save</button>`);
 }
 function editUser(idx){
   const r=(_cache['UserDB']?.rows||[])[idx]; if(!r) return;
-  openMo('✏️ Edit User',
-    `<div style="display:flex;flex-direction:column;gap:14px">
-      <div class="form-g"><label class="form-l">Username</label><input class="form-c" id="mf0" value="${r[0]||''}"></div>
-      <div class="form-g"><label class="form-l">New Password</label><input class="form-c" id="mf1" type="password" value="${r[1]||''}"></div>
-      <div class="form-g"><label class="form-l">Role</label>
-        <select class="form-c" id="mf2">
-          <option value="Faculty" ${String(r[2]||'').toLowerCase()==='faculty'?'selected':''}>Faculty</option>
-          <option value="Admin" ${String(r[2]||'').toLowerCase()==='admin'?'selected':''}>Admin</option>
-        </select></div>
-    </div>`,
-    `<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button>
-     <button class="btn btn-primary btn-sm" onclick="updateUser(${idx})">💾 Update</button>`);
+  openMo('✏️ Edit User',`<div style="display:flex;flex-direction:column;gap:14px"><div class="form-g"><label class="form-l">Username</label><input class="form-c" id="mf0" value="${r[0]||''}"></div><div class="form-g"><label class="form-l">New Password</label><input class="form-c" id="mf1" type="password" value="${r[1]||''}"></div><div class="form-g"><label class="form-l">Role</label><select class="form-c" id="mf2"><option value="Faculty" ${String(r[2]||'').toLowerCase()==='faculty'?'selected':''}>Faculty</option><option value="Admin" ${String(r[2]||'').toLowerCase()==='admin'?'selected':''}>Admin</option></select></div></div>`,`<button class="btn btn-outline btn-sm" onclick="closeMo()">Cancel</button><button class="btn btn-primary btn-sm" onclick="updateUser(${idx})">💾 Update</button>`);
 }
 async function saveUser(){
-  const u=document.getElementById('mf0').value.trim();
-  const p=document.getElementById('mf1').value.trim();
-  const r=document.getElementById('mf2').value;
+  const u=document.getElementById('mf0').value.trim(),p=document.getElementById('mf1').value.trim(),r=document.getElementById('mf2').value;
   if(!u||!p){ showToast('Fill all fields','error'); return; }
   const res=await gasPost({action:'addRow',sheet:'UserDB',row:[u,p,r]});
-  if(res.success){ clearCache('UserDB');closeMo();showToast('User added!','success');await renderUsers(); }
-  else showToast(res.message||'Error','error');
+  if(res.success){ clearCache('UserDB');closeMo();showToast('User added!','success');await renderUsers(); } else showToast(res.message||'Error','error');
 }
 async function updateUser(idx){
-  const u=document.getElementById('mf0').value.trim();
-  const p=document.getElementById('mf1').value.trim();
-  const r=document.getElementById('mf2').value;
+  const u=document.getElementById('mf0').value.trim(),p=document.getElementById('mf1').value.trim(),r=document.getElementById('mf2').value;
   const existing=[...(_cache['UserDB']?.rows||[])[idx]];
   existing[0]=u; if(p) existing[1]=p; existing[2]=r;
   const res=await gasPost({action:'updateRow',sheet:'UserDB',rowIndex:idx,row:existing});
-  if(res.success){ clearCache('UserDB');closeMo();showToast('Updated!','success');await renderUsers(); }
-  else showToast(res.message||'Error','error');
+  if(res.success){ clearCache('UserDB');closeMo();showToast('Updated!','success');await renderUsers(); } else showToast(res.message||'Error','error');
 }
 async function delUserRow(idx){
   const u=(_cache['UserDB']?.rows||[])[idx]?.[0]||'';
@@ -1680,8 +2265,7 @@ async function delUserRow(idx){
   if(sess&&u.toLowerCase()===String(sess.username||'').toLowerCase()){ showToast('Cannot delete own account','error'); return; }
   if(!confirm('Delete this user?')) return;
   const res=await gasPost({action:'deleteRow',sheet:'UserDB',rowIndex:idx});
-  if(res.success){ clearCache('UserDB');showToast('Deleted','info');await renderUsers(); }
-  else showToast(res.message||'Error','error');
+  if(res.success){ clearCache('UserDB');showToast('Deleted','info');await renderUsers(); } else showToast(res.message||'Error','error');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1692,76 +2276,32 @@ function renderGas(){
   c.innerHTML=`
     <div class="pg-h"><div class="pg-hL"><div class="pg-t">⚙️ GAS Configuration</div><div class="pg-s">Backend connection and sheet reference</div></div>
     <button class="btn btn-gold btn-sm" onclick="testGas()">🔌 Test</button></div>
-
     <div style="background:linear-gradient(135deg,var(--navy),var(--royal));border-radius:var(--r);padding:16px 20px;margin-bottom:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
       <div style="width:10px;height:10px;border-radius:50%;background:#34d399;box-shadow:0 0 0 4px rgba(52,211,153,.2);flex-shrink:0"></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:3px">Google Apps Script — Active</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.45);word-break:break-all;font-family:monospace">${GAS_URL.substring(0,55)}…</div>
-      </div>
+      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:3px">Google Apps Script — Active</div><div style="font-size:10px;color:rgba(255,255,255,.45);word-break:break-all;font-family:monospace">${GAS_URL.substring(0,55)}…</div></div>
       <button class="btn btn-gold btn-sm" onclick="testGas()">🔌 Test</button>
     </div>
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="dash-grid-halves">
-      <div class="card">
-        <div class="ch"><div class="ct">📋 Sheet Reference</div></div>
+      <div class="card"><div class="ch"><div class="ct">📋 Sheet Reference</div></div>
         <div class="cb" style="padding:10px 16px">
-          ${[
-            ['DataEntryDB','S.No · M&Y · Date · Num · Session · Roll · Name · Desig · Dept · College · ID · Verified'],
-            ['ExternalEntryDB','S.No · M&Y · Date · Num · Session · Roll · Name · Desig · Dept · College · ID · Verified'],
-            ['FacultyDB','S.No · Name · Designation · Department · College'],
-            ['UserDB','Username · Password · Role'],
-            ['DesignationDB','Designation'],
-            ['DepartmentDB','Department Name'],
-            ['MOYREXDB','Month & Year of Exam'],
-            ['RollDB','Role / Duty'],
-            ['CollegeDB','College Name'],
-            ['SessionDB','Session'],
-          ].map(([s,cols])=>`
-            <div style="padding:7px 0;border-bottom:1px solid var(--g100);display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap">
-              <span style="background:var(--pale);color:var(--royal);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;white-space:nowrap">${s}</span>
-              <span style="font-size:11px;color:var(--g500);line-height:1.5">${cols}</span>
-            </div>`).join('')}
+          ${[['DataEntryDB','S.No · M&Y · Date · Num · Session · Roll · Name · Desig · Dept · College · ID · Verified'],['ExternalEntryDB','S.No · M&Y · Date · Num · Session · Roll · Name · Desig · Dept · College · ID · Verified'],['FacultyDB','S.No · Name · Designation · Department · College'],['UserDB','Username · Password · Role'],['DesignationDB','Designation'],['DepartmentDB','Department Name'],['MOYREXDB','Month & Year of Exam'],['RollDB','Role / Duty'],['CollegeDB','College Name'],['SessionDB','Session']].map(([s,cols])=>`<div style="padding:7px 0;border-bottom:1px solid var(--g100);display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap"><span style="background:var(--pale);color:var(--royal);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;white-space:nowrap">${s}</span><span style="font-size:11px;color:var(--g500);line-height:1.5">${cols}</span></div>`).join('')}
         </div>
       </div>
-      <div class="card">
-        <div class="ch"><div class="ct">🔌 Connection Test</div></div>
-        <div class="cb" id="gas-test-panel">
-          <div style="text-align:center;padding:20px;color:var(--g400)">
-            <div style="font-size:36px;margin-bottom:10px">🔌</div>
-            <button class="btn btn-primary" onclick="testGas()">Run Test</button>
-          </div>
-        </div>
+      <div class="card"><div class="ch"><div class="ct">🔌 Connection Test</div></div>
+        <div class="cb" id="gas-test-panel"><div style="text-align:center;padding:20px;color:var(--g400)"><div style="font-size:36px;margin-bottom:10px">🔌</div><button class="btn btn-primary" onclick="testGas()">Run Test</button></div></div>
       </div>
     </div>`;
 }
-
 async function testGas(){
   const panel=document.getElementById('gas-test-panel');
   if(panel) panel.innerHTML=`<div style="text-align:center;padding:30px"><div class="spin spin-lg" style="margin:0 auto 12px"></div><div style="font-size:13px;color:var(--g400)">Testing…</div></div>`;
   const sheets=['DataEntryDB','ExternalEntryDB','FacultyDB','UserDB','DesignationDB','DepartmentDB','MOYREXDB','RollDB','CollegeDB','SessionDB'];
   const results=[];
-  for(const sh of sheets){
-    try{ const res=await gasPost({action:'getAll',sheet:sh}); results.push({sh,ok:res.success,count:res.rows?.length??0,err:res.message||''}); }
-    catch(e){ results.push({sh,ok:false,count:0,err:e.message}); }
-  }
+  for(const sh of sheets){ try{ const res=await gasPost({action:'getAll',sheet:sh}); results.push({sh,ok:res.success,count:res.rows?.length??0,err:res.message||''}); } catch(e){ results.push({sh,ok:false,count:0,err:e.message}); } }
   const allOk=results.every(r=>r.ok);
   showToast(allOk?'✅ All sheets connected!':'⚠️ Some issues — check GAS Settings',allOk?'success':'warning');
-  if(panel) panel.innerHTML=`<div style="padding:4px 0">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:${allOk?'rgba(5,150,105,.06)':'rgba(217,119,6,.06)'};border-radius:10px">
-      <span>${allOk?'✅':'⚠️'}</span>
-      <div><div style="font-size:13px;font-weight:700;color:${allOk?'var(--success)':'var(--warn)'}">${allOk?'All OK':'Issues detected'}</div>
-      <div style="font-size:11px;color:var(--g400)">${results.filter(r=>r.ok).length}/${sheets.length} OK</div></div>
-    </div>
-    ${results.map(r=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--g100)">
-      <span>${r.ok?'✅':'❌'}</span>
-      <span style="font-size:12px;font-weight:600;color:var(--g700);flex:1">${r.sh}</span>
-      <span class="badge ${r.ok?'b-green':'b-red'}">${r.ok?r.count+' rows':r.err.slice(0,20)}</span>
-    </div>`).join('')}
-  </div>`;
+  if(panel) panel.innerHTML=`<div style="padding:4px 0"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:${allOk?'rgba(5,150,105,.06)':'rgba(217,119,6,.06)'};border-radius:10px"><span>${allOk?'✅':'⚠️'}</span><div><div style="font-size:13px;font-weight:700;color:${allOk?'var(--success)':'var(--warn)'}">${allOk?'All OK':'Issues detected'}</div><div style="font-size:11px;color:var(--g400)">${results.filter(r=>r.ok).length}/${sheets.length} OK</div></div></div>${results.map(r=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--g100)"><span>${r.ok?'✅':'❌'}</span><span style="font-size:12px;font-weight:600;color:var(--g700);flex:1">${r.sh}</span><span class="badge ${r.ok?'b-green':'b-red'}">${r.ok?r.count+' rows':r.err.slice(0,20)}</span></div>`).join('')}</div>`;
 }
 </script>
 </body>
 </html>
-
-
