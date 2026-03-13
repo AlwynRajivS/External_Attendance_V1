@@ -72,7 +72,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(
 .tb-avatar{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-l));display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
 .tb-uname{font-size:12px;font-weight:700;color:var(--navy)}
 .tb-urole{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
-/* Hamburger */
 .hamburger{display:none;background:none;border:1.5px solid var(--g200);border-radius:8px;padding:5px 7px;cursor:pointer;flex-direction:column;gap:4px;flex-shrink:0;-webkit-tap-highlight-color:transparent}
 .ham-line{width:17px;height:2px;background:var(--g600);border-radius:2px;display:block;transition:all .25s}
 .hamburger.open .ham-line:nth-child(1){transform:translateY(6px) rotate(45deg)}
@@ -89,7 +88,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--g50);color:var(
 .sb-item:hover{background:var(--g50);color:var(--g800)}
 .sb-item.active{background:linear-gradient(90deg,var(--ghost),rgba(240,247,255,.3));color:var(--blue);border-left-color:var(--blue);font-weight:700}
 .sb-icon{font-size:15px;width:22px;text-align:center;flex-shrink:0}
-/* Sidebar overlay */
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250;backdrop-filter:blur(2px)}
 .sidebar-overlay.open{display:block}
 
@@ -217,13 +215,9 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
 
 @media(max-width:768px){
   :root{--topbar-h:58px;--sidebar-w:270px}
-
-  /* Topbar */
   .hamburger{display:flex}
   .tb-user .tb-uname,.tb-user .tb-urole{display:none}
   .tb-brand-sub{display:none}
-
-  /* Sidebar as drawer */
   .sidebar{
     position:fixed;top:var(--topbar-h);left:0;bottom:0;
     height:calc(100vh - var(--topbar-h));
@@ -231,34 +225,20 @@ td{padding:9px 11px;color:var(--g700);vertical-align:middle}
     box-shadow:4px 0 24px rgba(10,31,68,.15)
   }
   .sidebar.open{transform:translateX(0)}
-
-  /* Content */
   .content{padding:14px 12px 60px}
   .pg-t{font-size:20px}
-
-  /* Stats 2-col on mobile */
   .stat-row{grid-template-columns:1fr 1fr}
   .stat-n{font-size:26px}
-
-  /* Toasts bottom on mobile */
   #tc{top:auto;bottom:16px;right:10px;left:10px}
   .toast{max-width:100%;min-width:unset}
-
-  /* Tables */
   table{font-size:12px}
   th{font-size:9px;padding:8px 8px}
   td{padding:8px 8px}
-
-  /* Form grids stack */
   .fgrid{grid-template-columns:1fr}
-
-  /* Buttons */
   .btn-group{gap:6px}
   .pg-h{flex-direction:column;align-items:flex-start}
   .pg-h .btn-group{width:100%}
   .pg-h .btn-group .btn{flex:1;justify-content:center}
-
-  /* Dashboard two-col grid → single col */
   .dash-grid-2{grid-template-columns:1fr!important}
   .dash-grid-halves{grid-template-columns:1fr!important}
 }
@@ -1169,7 +1149,11 @@ function buildPrintCertHTML(r,certNum){
   return `<div class="cert">
     <div class="stripe"></div>
     <div class="hdr" style="justify-content:center">
-      <img src="logo.png" style="height:85px;object-fit:contain">
+      <img src="logo.png" style="height:85px;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:none;flex-direction:column;align-items:center">
+        <div style="font-family:'Times New Roman',serif;font-size:18px;font-weight:700;color:#061429">KCET</div>
+        <div style="font-size:10px;color:#64748b">Kamaraj College of Engineering &amp; Technology</div>
+      </div>
     </div>
     <div class="ref-r"><div class="ref">Ref. No. : <strong>${id}</strong></div></div>
     <div class="ttl-r"><div class="ttl">Attendance Certificate</div></div>
@@ -1207,45 +1191,54 @@ async function doDownloadWord(rows){
         document.head.appendChild(s);
       });
     }
+
+    // ── Fetch logo.png and convert to base64 ──────────────────
     let logoB64='';
     try{
       const imgRes=await fetch('logo.png');
       if(imgRes.ok){
         const imgBlob=await imgRes.blob();
-        const reader=new FileReader();
-        logoB64=await new Promise(res=>{ reader.onload=e=>res(e.target.result.split(',')[1]); reader.readAsDataURL(imgBlob); });
+        logoB64=await new Promise(res=>{
+          const reader=new FileReader();
+          reader.onload=e=>res(e.target.result.split(',')[1]);
+          reader.readAsDataURL(imgBlob);
+        });
       }
     } catch(e){ logoB64=''; }
+    const hasLogo=!!logoB64;
 
     const zip=new JSZip();
-    const hasLogo=!!logoB64;
-    const logoRel=hasLogo?`<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/>`:'';
-    const logoCT=hasLogo?`<Default Extension="png" ContentType="image/png"/>`:'';
 
     zip.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
   <Default Extension="xml" ContentType="application/xml"/>
-  ${logoCT}
+  ${hasLogo?'<Default Extension="png" ContentType="image/png"/>':''}
   <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
   <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
   <Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/>
 </Types>`);
+
     zip.folder('_rels').file('.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
 </Relationships>`);
+
     const wf=zip.folder('word');
-    wf.folder('_rels').file('document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
-  <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/>
-  ${logoRel}
-</Relationships>`);
+
+    // Add logo to media folder if available
     if(hasLogo){
       const lb=Uint8Array.from(atob(logoB64),c=>c.charCodeAt(0));
       wf.folder('media').file('logo.png',lb,{binary:true});
     }
+
+    wf.folder('_rels').file('document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+  <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/>
+  ${hasLogo?'<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/>':''}
+</Relationships>`);
+
     wf.file('settings.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:defaultTabStop w:val="720"/></w:settings>`);
     wf.file('styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:style w:type="paragraph" w:styleId="Normal" w:default="1"><w:name w:val="Normal"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:style></w:styles>`);
 
@@ -1256,6 +1249,7 @@ async function doDownloadWord(rows){
       if(r2){ bp.push(buildHorizontalRule()); bp.push(buildCertXmlBlock(r2,hasLogo)); }
       if(!isLast) bp.push(`<w:p><w:r><w:br w:type="page"/></w:r></w:p>`);
     }
+
     wf.file('document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
   xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
@@ -1283,54 +1277,70 @@ ${bp.join('\n')}
 }
 
 function xmlE(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;'); }
+
 function wRun(text,bold,sz,underline){
-  sz=sz||24; const b=bold?'<w:b/><w:bCs/>':''; const u=underline?'<w:u w:val="single"/>':'';
+  sz=sz||24;
+  const b=bold?'<w:b/><w:bCs/>':'';
+  const u=underline?'<w:u w:val="single"/>':'';
   return `<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/>${b}${u}</w:rPr><w:t xml:space="preserve">${xmlE(text)}</w:t></w:r>`;
 }
+
 function wPara(content,jc,after){
   jc=jc||'left'; after=after===undefined?160:after;
   return `<w:p><w:pPr><w:jc w:val="${jc}"/><w:spacing w:after="${after}"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr></w:pPr>${content}</w:p>`;
 }
+
 function buildHorizontalRule(){
   return `<w:p><w:pPr><w:pBdr><w:bottom w:val="dashed" w:sz="6" w:space="1" w:color="AAAAAA"/></w:pBdr><w:spacing w:after="120"/></w:pPr></w:p>`;
 }
-function buildLogoXml(hasLogo){
-  if(!hasLogo) return '';
-  return `<w:r><w:rPr><w:noProof/></w:rPr><w:drawing>
-  <wp:inline distT="0" distB="0" distL="0" distR="0">
-    <wp:extent cx="1270000" cy="558800"/>
-    <wp:effectExtent l="0" t="0" r="0" b="0"/>
-    <wp:docPr id="1" name="Logo"/>
-    <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
-      <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
-        <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
-          <pic:nvPicPr><pic:cNvPr id="1" name="logo.png"/><pic:cNvPicPr/></pic:nvPicPr>
-          <pic:blipFill><a:blip r:embed="rId3"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>
-          <pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="1270000" cy="558800"/></a:xfrm>
-            <a:prstGeom prst="rect"><a:avLst/></a:prstGeom>
-          </pic:spPr>
-        </pic:pic>
-      </a:graphicData>
-    </a:graphic>
-  </wp:inline>
-</w:drawing></w:r>`;
-}
+
+// ─────────────────────────────────────────────────────────────
+// buildCertXmlBlock — logo.png centered at top (full width),
+//   then navy divider, ref no, title, body, signature.
+//   No text header — the college letterhead is baked into logo.png
+// ─────────────────────────────────────────────────────────────
 function buildCertXmlBlock(r,hasLogo){
   const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
   const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
-  const logoCell=hasLogo
-    ?`<w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:bottom w:val="single" w:sz="6" w:color="0d2d6b"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:after="60"/></w:pPr>${buildLogoXml(hasLogo)}</w:p></w:tc>`
-    :`<w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:bottom w:val="single" w:sz="6" w:color="0d2d6b"/></w:tcBorders></w:tcPr>${wPara(wRun('KCET',true,24),'left',60)}</w:tc>`;
-  const colInfoCell=`<w:tc><w:tcPr><w:tcW w:w="8106" w:type="dxa"/><w:tcBorders><w:bottom w:val="single" w:sz="6" w:color="0d2d6b"/></w:tcBorders></w:tcPr>
-    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="40"/></w:pPr>${wRun('Kamaraj College of Engineering & Technology (Autonomous)',true,24)}</w:p>
-    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="0"/></w:pPr>${wRun('An Autonomous Institution · Affiliated to Anna University, Chennai',false,18)}</w:p>
-    <w:p><w:pPr><w:jc w:val="right"/><w:spacing w:after="60"/></w:pPr>${wRun('S.P.G.C. Nagar, K.Vellakulam – 625 701 (Near Virudhunagar)',false,18)}</w:p>
-  </w:tc>`;
-  const headerTable=`<w:tbl>
-  <w:tblPr><w:tblW w:w="9906" w:type="dxa"/><w:tblBorders><w:insideH w:val="none"/><w:insideV w:val="none"/><w:top w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tblBorders>
-  <w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="80" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr>
-  <w:tblGrid><w:gridCol w:w="1800"/><w:gridCol w:w="8106"/></w:tblGrid>
-  <w:tr>${logoCell}${colInfoCell}</w:tr></w:tbl>`;
+
+  // ── Logo centered, full usable width (9906 dxa ≈ 17.5 cm) ──
+  // cx=6350000 EMU ≈ 17.5 cm  cy=1905000 EMU ≈ 5.3 cm (adjust if logo is shorter)
+  const logoPara=hasLogo
+    ?`<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:after="80"/></w:pPr>
+  <w:r><w:rPr><w:noProof/></w:rPr><w:drawing>
+    <wp:inline distT="0" distB="0" distL="0" distR="0">
+      <wp:extent cx="6350000" cy="1905000"/>
+      <wp:effectExtent l="0" t="0" r="0" b="0"/>
+      <wp:docPr id="1" name="CollegeLogo"/>
+      <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+        <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+          <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+            <pic:nvPicPr>
+              <pic:cNvPr id="1" name="logo.png"/>
+              <pic:cNvPicPr><a:picLocks noChangeAspect="1"/></pic:cNvPicPr>
+            </pic:nvPicPr>
+            <pic:blipFill>
+              <a:blip r:embed="rId3"/>
+              <a:stretch><a:fillRect/></a:stretch>
+            </pic:blipFill>
+            <pic:spPr>
+              <a:xfrm><a:off x="0" y="0"/><a:ext cx="6350000" cy="1905000"/></a:xfrm>
+              <a:prstGeom prst="rect"><a:avLst/></a:prstGeom>
+            </pic:spPr>
+          </pic:pic>
+        </a:graphicData>
+      </a:graphic>
+    </wp:inline>
+  </w:drawing></w:r></w:p>`
+    // Fallback if logo.png missing: bold centered KCET + college name
+    :`${wPara(`<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="48"/><w:szCs w:val="48"/><w:color w:val="061429"/></w:rPr><w:t>KCET</w:t></w:r>`,'center',20)}
+${wPara(wRun('Kamaraj College of Engineering & Technology (Autonomous)',true,24),'center',10)}
+${wPara(wRun('An Autonomous Institution \u00B7 Affiliated to Anna University, Chennai',false,18),'center',0)}
+${wPara(wRun('S.P.G.C. Nagar, K.Vellakulam \u2013 625 701 (Near Virudhunagar)',false,18),'center',80)}`;
+
+  // ── Navy divider line ──
+  const divider=`<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="12" w:space="1" w:color="0d2d6b"/></w:pBdr><w:spacing w:after="80"/></w:pPr></w:p>`;
+
   const refPara=wPara(wRun(`Ref. No. : ${id}`,false,22),'right',60);
   const titlePara=wPara(wRun('ATTENDANCE CERTIFICATE',true,28,true),'center',200);
   const tab='\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
@@ -1339,10 +1349,165 @@ function buildCertXmlBlock(r,hasLogo){
   ${wRun(dept+', '+col+', ',false,24)}${wRun('has acted as ',false,24)}${wRun(roll+', ',true,24)}
   ${wRun(moyr+' at Kamaraj College of Engineering & Technology (Autonomous) on ',false,24)}
   ${wRun(date+' ',true,24)}${wRun(ses+'.',true,24)}</w:p>`;
-  const sp1=wPara('','left',120),sp2=wPara('','left',120);
+
+  const sp1=wPara('','left',120);
+  const sp2=wPara('','left',120);
   const sigName=wPara(wRun('Dr. S Gandhi',true,24),'right',40);
   const sigRole=wPara(wRun('Controller of Examinations',false,20),'right',0);
-  return [headerTable,refPara,titlePara,bodyPara,sp1,sp2,sigName,sigRole].join('\n');
+
+  return [logoPara,divider,refPara,titlePara,bodyPara,sp1,sp2,sigName,sigRole].join('\n');
+}
+
+// ══════════════════════════════════════════════════════════════
+// PDF GENERATION  (uses jsPDF — loaded on demand)
+// ══════════════════════════════════════════════════════════════
+function downloadOnePdf(idx){ doDownloadPdf([(window._filtCerts||[])[idx]]); }
+function downloadPdfCerts(){
+  const rows=window._filtCerts||[];
+  const dateF=document.getElementById('cf-date')?.value||'';
+  if(!dateF){ showToast('⚠️ Please select a Date filter first','warning'); return; }
+  if(!rows.length){ showToast('No entries to export','error'); return; }
+  doDownloadPdf(rows);
+}
+
+async function doDownloadPdf(rows){
+  if(!rows||!rows.length){ showToast('No entries','error'); return; }
+  const btn=document.getElementById('pdf-btn');
+  if(btn){ btn.disabled=true; btn.textContent='⏳ Generating…'; }
+  showToast(`Generating PDF for ${rows.length} certificate(s)…`,'info');
+  try{
+    // Load jsPDF on demand
+    if(typeof window.jspdf==='undefined'){
+      await new Promise((res,rej)=>{
+        const s=document.createElement('script');
+        s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+        s.onload=res; s.onerror=()=>rej(new Error('Failed to load jsPDF'));
+        document.head.appendChild(s);
+      });
+    }
+    const { jsPDF } = window.jspdf;
+
+    // Fetch logo as data URL for PDF
+    let logoDataUrl='';
+    try{
+      const imgRes=await fetch('logo.png');
+      if(imgRes.ok){
+        const imgBlob=await imgRes.blob();
+        logoDataUrl=await new Promise(res=>{
+          const reader=new FileReader();
+          reader.onload=e=>res(e.target.result);
+          reader.readAsDataURL(imgBlob);
+        });
+      }
+    } catch(e){ logoDataUrl=''; }
+
+    const doc=new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+    const PW=210, PH=297, ML=15, MR=15, MT=10, usableW=PW-ML-MR;
+    const certH=(PH-MT*2-8)/2; // 2 certs per page with divider gap
+
+    for(let i=0;i<rows.length;i++){
+      const r=rows[i];
+      const pageIdx=Math.floor(i/2);
+      const slotIdx=i%2;
+      if(i>0&&slotIdx===0) doc.addPage();
+
+      const yBase=MT+slotIdx*(certH+8);
+      drawPdfCert(doc,r,ML,yBase,usableW,certH,logoDataUrl);
+
+      // Dashed divider between two certs on same page
+      if(slotIdx===0&&rows[i+1]){
+        const dy=MT+certH+4;
+        doc.setDrawColor(180,180,180);
+        doc.setLineDashPattern([3,3],0);
+        doc.line(ML,dy,PW-MR,dy);
+        doc.setLineDashPattern([],0);
+      }
+    }
+
+    const dateTag=rows[0]?.[2]||new Date().toISOString().slice(0,10);
+    doc.save(`KCET_Certificates_${dateTag}.pdf`);
+    showToast(`✅ PDF downloaded! (${rows.length} certs)`,'success');
+  } catch(e){ console.error(e); showToast('Error generating PDF: '+e.message,'error'); }
+  if(btn){ btn.disabled=false; btn.textContent='📕 PDF'; }
+}
+
+function drawPdfCert(doc,r,x,y,w,h,logoDataUrl){
+  const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
+  const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
+  let cy=y+4;
+
+  // ── Logo or text centered ──
+  if(logoDataUrl){
+    const lw=30,lh=22;
+    doc.addImage(logoDataUrl,'PNG',x+(w-lw)/2,cy,lw,lh);
+    cy+=lh+3;
+  } else {
+    doc.setFont('times','bold');
+    doc.setFontSize(20);
+    doc.setTextColor(6,20,41);
+    doc.text('KCET',x+w/2,cy+6,{align:'center'});
+    cy+=10;
+  }
+
+  // ── College name ──
+  doc.setFont('times','bold');
+  doc.setFontSize(11);
+  doc.setTextColor(6,20,41);
+  doc.text('Kamaraj College of Engineering & Technology (Autonomous)',x+w/2,cy,{align:'center'});
+  cy+=5;
+
+  // ── Address lines ──
+  doc.setFont('times','normal');
+  doc.setFontSize(8);
+  doc.setTextColor(71,85,105);
+  doc.text('An Autonomous Institution \u00B7 Affiliated to Anna University, Chennai',x+w/2,cy,{align:'center'});
+  cy+=4;
+  doc.text('S.P.G.C. Nagar, K.Vellakulam \u2013 625 701 (Near Virudhunagar)',x+w/2,cy,{align:'center'});
+  cy+=5;
+
+  // ── Blue divider line ──
+  doc.setDrawColor(13,45,107);
+  doc.setLineWidth(0.5);
+  doc.line(x,cy,x+w,cy);
+  cy+=5;
+
+  // ── Ref No (right aligned) ──
+  doc.setFont('times','normal');
+  doc.setFontSize(9);
+  doc.setTextColor(51,65,85);
+  doc.text(`Ref. No. : ${id}`,x+w,cy,{align:'right'});
+  cy+=8;
+
+  // ── Title ──
+  doc.setFont('times','bold');
+  doc.setFontSize(13);
+  doc.setTextColor(6,20,41);
+  doc.text('ATTENDANCE CERTIFICATE',x+w/2,cy,{align:'center'});
+  // underline
+  const tw=doc.getTextWidth('ATTENDANCE CERTIFICATE');
+  doc.setLineWidth(0.3);
+  doc.line(x+w/2-tw/2,cy+0.8,x+w/2+tw/2,cy+0.8);
+  cy+=12;
+
+  // ── Body text (justified, wrapped) ──
+  doc.setFont('times','normal');
+  doc.setFontSize(11);
+  doc.setTextColor(51,65,85);
+  const bodyText=`      This is to certify that ${name}, ${desig}, ${dept}, ${col}, has acted as ${roll}, ${moyr} at Kamaraj College of Engineering & Technology (Autonomous) on ${date} ${ses}.`;
+  const lines=doc.splitTextToSize(bodyText,w);
+  doc.text(lines,x,cy);
+  cy+=lines.length*7+10;
+
+  // ── Signature ──
+  doc.setFont('times','bold');
+  doc.setFontSize(11);
+  doc.setTextColor(6,20,41);
+  doc.text('Dr. S Gandhi',x+w,cy,{align:'right'});
+  cy+=5;
+  doc.setFont('times','normal');
+  doc.setFontSize(9);
+  doc.setTextColor(100,116,139);
+  doc.text('Controller of Examinations',x+w,cy,{align:'right'});
 }
 
 // ══════════════════════════════════════════════════════════════
