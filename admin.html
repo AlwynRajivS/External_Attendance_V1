@@ -2094,7 +2094,7 @@ function doPrintCerts(rows){
 function buildPrintCertHTML(r,certNum){
   const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
   const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
-  return `<div class="cert"><div class="stripe"></div><div class="hdr" style="justify-content:center"><img src="logo.png" style="height:85px;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;align-items:center"><div style="font-size:18px;font-weight:700;color:#061429">KCET</div><div style="font-size:14px;color:#64748b">Kamaraj College of Engineering &amp; Technology</div></div></div><div class="ref-r"><div class="ref">Ref. No. : <strong>${id}</strong></div></div><div class="ttl-r"><div class="ttl">Attendance Certificate</div></div><div class="body">This is to certify that <strong>${name}</strong>, <strong>${desig}</strong>, ${dept}, ${col}, has acted as <strong>${roll}</strong>, ${moyr} at Kamaraj College of Engineering &amp; Technology (Autonomous) on <strong>${date}</strong> <strong>${ses}</strong>.</div><div class="ftr"><div class="sign"><div class="sl"></div><div class="sn">Dr. S Gandhi</div><div class="st">CoE</div></div></div></div>`;
+  return `<div class="cert"><div class="stripe"></div><div class="hdr" style="justify-content:center"><img src="logo.png" style="height:85px;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;align-items:center"><div style="font-size:18px;font-weight:700;color:#061429">KCET</div><div style="font-size:10px;color:#64748b">Kamaraj College of Engineering &amp; Technology</div></div></div><div class="ref-r"><div class="ref">Ref. No. : <strong>${id}</strong></div></div><div class="ttl-r"><div class="ttl">Attendance Certificate</div></div><div class="body">This is to certify that <strong>${name}</strong>, <strong>${desig}</strong>, ${dept}, ${col}, has acted as <strong>${roll}</strong>, ${moyr} at Kamaraj College of Engineering &amp; Technology (Autonomous) on <strong>${date}</strong> <strong>${ses}</strong>.</div><div class="ftr"><div class="sign"><div class="sl"></div><div class="sn">Dr. S Gandhi</div><div class="st">CoE</div></div></div></div>`;
 }
 
 // ── Word / Certificate export (from original) ──────────────────
@@ -2146,66 +2146,13 @@ function buildHorizontalRule(){ return `<w:p><w:pPr><w:pBdr><w:bottom w:val="das
 function buildCertXmlBlock(r,hasLogo){
   const moyr=r[1]||'_____',date=r[2]||'_____',ses=r[4]||'_____',roll=r[5]||'_____';
   const name=r[6]||'_____',desig=r[7]||'_____',dept=r[8]||'_____',col=r[9]||'_____',id=r[10]||'—';
-  const logoPara=hasLogo?`<w:p>
-<w:pPr>
-<w:jc w:val="center"/>
-<w:spacing w:after="80"/>
-</w:pPr>
-<w:r>
-<w:rPr><w:noProof/></w:rPr>
-<w:drawing>
-<wp:inline distT="0" distB="0" distL="0" distR="0">
-
-<!-- Increased Logo Size -->
-<wp:extent cx="1200000" cy="2400000"/>
-
-<wp:effectExtent l="0" t="0" r="0" b="0"/>
-<wp:docPr id="1" name="CollegeLogo"/>
-
-<a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
-<a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
-
-<pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
-
-<pic:nvPicPr>
-<pic:cNvPr id="1" name="logo.png"/>
-<pic:cNvPicPr>
-<a:picLocks noChangeAspect="1"/>
-</pic:cNvPicPr>
-</pic:nvPicPr>
-
-<pic:blipFill>
-<a:blip r:embed="rId3"/>
-<a:stretch><a:fillRect/></a:stretch>
-</pic:blipFill>
-
-<pic:spPr>
-<a:xfrm>
-<a:off x="0" y="0"/>
-
-<!-- Increased Logo Size -->
-<wp:extent cx="1200000" cy="2400000"/>
-
-</a:xfrm>
-<a:prstGeom prst="rect">
-<a:avLst/>
-</a:prstGeom>
-</pic:spPr>
-
-</pic:pic>
-</a:graphicData>
-</a:graphic>
-
-</wp:inline>
-</w:drawing>
-</w:r>
-</w:p>`:
-`${wPara(`<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="48"/><w:szCs w:val="48"/><w:color w:val="061429"/></w:rPr><w:t>KCET</w:t></w:r>`,'center',20)}${wPara(wRun('Kamaraj College of Engineering & Technology (Autonomous)',true,24),'center',10)}${wPara(wRun('An Autonomous Institution · Affiliated to Anna University, Chennai',false,18),'center',0)}${wPara(wRun('S.P.G.C. Nagar, K.Vellakulam – 625 701 (Near Virudhunagar)',false,18),'center',80)}`;
+  const logoPara=hasLogo?`<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:after="80"/></w:pPr><w:r><w:rPr><w:noProof/></w:rPr><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="635000" cy="190500"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:docPr id="1" name="CollegeLogo"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="1" name="logo.png"/><pic:cNvPicPr><a:picLocks noChangeAspect="1"/></pic:cNvPicPr></pic:nvPicPr><pic:blipFill><a:blip r:embed="rId3"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="6350000" cy="1905000"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`:
+    `${wPara(`<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="48"/><w:szCs w:val="48"/><w:color w:val="061429"/></w:rPr><w:t>KCET</w:t></w:r>`,'center',20)}${wPara(wRun('Kamaraj College of Engineering & Technology (Autonomous)',true,24),'center',10)}${wPara(wRun('An Autonomous Institution · Affiliated to Anna University, Chennai',false,18),'center',0)}${wPara(wRun('S.P.G.C. Nagar, K.Vellakulam – 625 701 (Near Virudhunagar)',false,18),'center',80)}`;
   const divider=`<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="12" w:space="1" w:color="0d2d6b"/></w:pBdr><w:spacing w:after="80"/></w:pPr></w:p>`;
   const refPara=wPara(wRun(`Ref. No. : ${id}`,false,22),'right',60);
   const titlePara=wPara(wRun('ATTENDANCE CERTIFICATE',true,28,true),'center',200);
   const tab='\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
-  const bodyPara=`<w:p><w:pPr><w:jc w:val="both"/><w:spacing w:line="480" w:lineRule="auto" w:after="120"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="28"/></w:rPr></w:pPr>${wRun(tab+'This is to certify that ',false,28)}${wRun(name+', ',true,28)}${wRun(desig+', ',true,28)}${wRun(dept+', '+col+', ',false,28)}${wRun('has acted as ',false,28)}${wRun(roll+', ',true,28)}${wRun(moyr+' at Kamaraj College of Engineering & Technology (Autonomous) on ',false,28)}${wRun(date+' ',true,28)}${wRun(ses+'.',true,28)}</w:p>`;
+  const bodyPara=`<w:p><w:pPr><w:jc w:val="both"/><w:spacing w:line="480" w:lineRule="auto" w:after="120"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="24"/></w:rPr></w:pPr>${wRun(tab+'This is to certify that ',false,24)}${wRun(name+', ',true,24)}${wRun(desig+', ',true,24)}${wRun(dept+', '+col+', ',false,24)}${wRun('has acted as ',false,24)}${wRun(roll+', ',true,24)}${wRun(moyr+' at Kamaraj College of Engineering & Technology (Autonomous) on ',false,24)}${wRun(date+' ',true,24)}${wRun(ses+'.',true,24)}</w:p>`;
   return [logoPara,divider,refPara,titlePara,bodyPara,wPara('','left',120),wPara('','left',120),wPara(wRun('Dr. S Gandhi',true,24),'right',40),wPara(wRun('Controller of Examinations',false,20),'right',0)].join('\n');
 }
 
