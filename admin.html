@@ -2152,7 +2152,7 @@ function buildCertXmlBlock(r,hasLogo){
   const refPara=wPara(wRun(`Ref. No. : ${id}`,false,22),'right',60);
   const titlePara=wPara(wRun('ATTENDANCE CERTIFICATE',true,28,true),'center',200);
   const tab='\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
-  const bodyPara=`<w:p><w:pPr><w:jc w:val="both"/><w:spacing w:line="480" w:lineRule="auto" w:after="120"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="28"/></w:rPr></w:pPr>${wRun(tab+'This is to certify that ',false,24)}${wRun(name+', ',true,24)}${wRun(desig+', ',true,24)}${wRun(dept+', '+col+', ',false,24)}${wRun('has acted as ',false,24)}${wRun(roll+', ',true,24)}${wRun(moyr+' at Kamaraj College of Engineering & Technology (Autonomous) on ',false,24)}${wRun(date+' ',true,24)}${wRun(ses+'.',true,24)}</w:p>`;
+  const bodyPara=`<w:p><w:pPr><w:jc w:val="both"/><w:spacing w:line="480" w:lineRule="auto" w:after="120"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="28"/></w:rPr></w:pPr>${wRun(tab+'This is to certify that ',false,28)}${wRun(name+', ',true,28)}${wRun(desig+', ',true,28)}${wRun(dept+', '+col+', ',false,28)}${wRun('has acted as ',false,28)}${wRun(roll+', ',true,28)}${wRun(moyr+' at Kamaraj College of Engineering & Technology (Autonomous) on ',false,28)}${wRun(date+' ',true,28)}${wRun(ses+'.',true,28)}</w:p>`;
   return [logoPara,divider,refPara,titlePara,bodyPara,wPara('','left',120),wPara('','left',120),wPara(wRun('Dr. S Gandhi',true,24),'right',40),wPara(wRun('Controller of Examinations',false,20),'right',0)].join('\n');
 }
 
